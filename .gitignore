@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+run_state.json
+last_signals.csv
+error.log
+models/*.pkl
