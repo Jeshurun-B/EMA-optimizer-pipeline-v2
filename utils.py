@@ -17,7 +17,7 @@ from config import (
 )
 
 
-# ── API CALL COUNTER ──────────────────────────────────────────────────────────
+# ── API CALL COUNTER ───────────────────────────────────────Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser───────────────────
 # Tracks total Binance requests made in this process run.
 # Module-level so it's shared across all files that import utils.
 # We check this before every fetch to avoid hitting rate limits mid-run.
