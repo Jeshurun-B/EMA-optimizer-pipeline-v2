@@ -1,0 +1,43 @@
+# .github/workflows/pipeline.yml
+# ─────────────────────────────────────────────────────────────────────────────
+# PURPOSE: Run the pipeline automatically every 4 hours.
+# SCHEDULE: cron runs at minute 0 of every 4th hour (UTC).
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: EMA Pipeline
+
+on:
+  schedule:
+    # Runs at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC every day
+    - cron: "0 */4 * * *"
+  # Allows you to trigger manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
+          TELEGRAM_BOT_TOKEN:  ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:    ${{ secrets.TELEGRAM_CHAT_ID }}
+          BINANCE_BASE_URL:    "https://data-api.binance.vision"
+          RUNTIME_LIMIT_MINUTES: "5"
+          API_CALL_LIMIT:      "200"
+          CANDLE_LIMIT:        "300"
+        run: python runner.py

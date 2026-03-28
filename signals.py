@@ -1,83 +1,108 @@
 # signals.py
 # ─────────────────────────────────────────────────────────────────────────────
-# PURPOSE: Detect EMA crossovers and assemble the final signal record.
-# RULE: Takes the feature dictionary from features.py. If a crossover is 
-#       detected, returns a fully populated dict ready for the database.
-#       If no crossover, returns None.
+# PURPOSE: Detect EMA crossovers. Returns a complete signal record or None.
+# RULE: No API calls. No DB calls. Pure logic only.
 # ─────────────────────────────────────────────────────────────────────────────
 
 from datetime import datetime, timezone
 import pandas as pd
-from utils import get_prev_signal
 from config import ADX_THRESHOLD
+from utils import get_prev_signal, update_prev_signal, log_error
 
-def detect_signal(features: dict, symbol: str) -> dict | None:
+# These are the feature keys that should NOT be stored in the database.
+# They are needed for crossover detection but have no matching DB column.
+_PRIVATE_KEYS = {"_ema_fast_prev", "_ema_slow_prev"}
+
+
+def detect_signal(features: dict, symbol: str) -> dict:
     """
-    Checks for a 9/15 EMA crossover using the computed features.
-    
-    Args:
-        features: The dictionary returned by features.compute_features()
-        symbol: The coin pair (e.g., "BTCUSDT")
-        
-    Returns:
-        A dictionary formatted for the Supabase 'signals' table, or None.
+    Check if the latest candle produced a valid 9/15 EMA crossover signal.
+
+    Uses the private keys _ema_fast_prev and _ema_slow_prev from features.py
+    to compare current vs previous EMA values — the only reliable way to
+    detect a crossover without reconstructing history.
+
+    Returns a complete dict ready for Supabase, or None if no signal.
     """
     if not features:
         return None
 
-    # 1. Extract the values needed for detection
-    ema_fast = features["ema_fast_ltf"]
-    ema_slow = features["ema_slow_ltf"]
-    adx_latest = features["adx_ltf"]
-    
-    # To detect a cross, we need to know what the EMA was on the previous candle.
-    # We can calculate the previous EMA by reversing the slope percentage.
-    # slope = (latest - prev) / prev  =>  prev = latest / (1 + slope)
-    ema_fast_prev = ema_fast / (1 + (features["ema_fast_slope"] / 100.0))
-    ema_slow_prev = ema_slow / (1 + (features["ema_slow_slope"] / 100.0))
+    try:
+        # Extract current and previous EMA values
+        ema_fast      = features.get("ema_fast_ltf")
+        ema_slow      = features.get("ema_slow_ltf")
+        ema_fast_prev = features.get("_ema_fast_prev")
+        ema_slow_prev = features.get("_ema_slow_prev")
+        adx_latest    = features.get("adx_ltf")
+        htf_4h_bias   = features.get("htf_4h_bias")
+        price         = features.get("price")
 
-    # 2. Define Crossover Conditions
-    # LONG: Fast was below Slow, now Fast is above Slow
-    ltf_cross_up = (ema_fast_prev < ema_slow_prev) and (ema_fast >= ema_slow)
-    
-    # SHORT: Fast was above Slow, now Fast is below Slow
-    ltf_cross_down = (ema_fast_prev > ema_slow_prev) and (ema_fast <= ema_slow)
+        # Guard — can't detect crossover without these values
+        if any(v is None for v in [ema_fast, ema_slow, ema_fast_prev, ema_slow_prev, price]):
+            return None
 
-    # Filter: Only accept signals if ADX indicates a trending market
-    adx_ok = adx_latest >= ADX_THRESHOLD
+        # ── CROSSOVER DETECTION ───────────────────────────────────────────────
+        # LONG: fast was below slow, now above — bullish crossover
+        cross_up   = (ema_fast_prev < ema_slow_prev) and (ema_fast >= ema_slow)
+        # SHORT: fast was above slow, now below — bearish crossover
+        cross_down = (ema_fast_prev > ema_slow_prev) and (ema_fast <= ema_slow)
 
-    is_long = ltf_cross_up and adx_ok
-    is_short = ltf_cross_down and adx_ok
+        if not cross_up and not cross_down:
+            return None  # No crossover this candle
 
-    if not (is_long or is_short):
-        return None  # No valid signal detected
+        # ── FILTERS ───────────────────────────────────────────────────────────
+        # ADX filter: only trade in trending markets (ADX >= 25)
+        if adx_latest is None or adx_latest < ADX_THRESHOLD:
+            return None
 
-    # 3. Calculate Gap Hours from the Previous Signal Cache
-    prev_record = get_prev_signal(symbol)
-    prev_signal_type = prev_record.get("signal") if prev_record else None
-    prev_time_str = prev_record.get("checked_at_utc") if prev_record else None
-    
-    signal_gap_hours = 0.0
-    if prev_time_str:
-        try:
-            prev_ts = pd.to_datetime(prev_time_str, utc=True)
-            now_ts = pd.Timestamp.utcnow()
-            delta = now_ts - prev_ts
-            signal_gap_hours = delta.total_seconds() / 3600.0
-        except Exception:
-            pass # Keep it at 0.0 if parsing fails
+        # HTF filter: only take signals that agree with the 4h trend
+        # LONG signal needs bullish 4h, SHORT signal needs bearish 4h
+        if cross_up   and not htf_4h_bias:
+            return None  # LONG against bearish 4h — skip
+        if cross_down and htf_4h_bias:
+            return None  # SHORT against bullish 4h — skip
 
-    # 4. Assemble the final record for Supabase
-    signal_record = {
-        "checked_at_utc": datetime.now(timezone.utc).isoformat(),
-        "symbol": symbol,
-        "signal": "LONG" if is_long else "SHORT",
-        "status": "pending",
-        "prev_signal": prev_signal_type,
-        "signal_gap_hours": round(signal_gap_hours, 2)
-    }
-    
-    # Merge the technical features into the final record
-    signal_record.update(features)
+        # ── DIRECTION ─────────────────────────────────────────────────────────
+        signal_direction = "LONG" if cross_up else "SHORT"
 
-    return signal_record
+        # ── PREVIOUS SIGNAL METADATA ──────────────────────────────────────────
+        prev = get_prev_signal(symbol)
+        prev_signal_type  = prev.get("signal") if prev else None
+        signal_gap_hours  = None
+
+        if prev and prev.get("checked_at_utc"):
+            try:
+                prev_ts      = pd.to_datetime(prev["checked_at_utc"], utc=True)
+                now_ts       = pd.Timestamp.utcnow()
+                signal_gap_hours = (now_ts - prev_ts).total_seconds() / 3600.0
+            except Exception:
+                signal_gap_hours = None
+
+        # ── BUILD RECORD ──────────────────────────────────────────────────────
+        checked_at_utc = datetime.now(timezone.utc).isoformat()
+
+        record = {
+            "checked_at_utc":   checked_at_utc,
+            "symbol":           symbol,
+            "signal":           signal_direction,
+            "status":           "pending",
+            "prev_signal":      prev_signal_type,
+            "signal_gap_hours": round(signal_gap_hours, 2) if signal_gap_hours else None,
+        }
+
+        # Copy all feature keys EXCEPT private keys and 'price' (handled above)
+        for key, value in features.items():
+            if key not in _PRIVATE_KEYS:
+                record[key] = value
+
+        # ── UPDATE PREV SIGNAL CACHE ──────────────────────────────────────────
+        update_prev_signal(symbol, {
+            "signal":         signal_direction,
+            "checked_at_utc": checked_at_utc
+        })
+
+        return record
+
+    except Exception as e:
+        log_error(f"detect_signal error for {symbol}: {repr(e)}")
+        return None
