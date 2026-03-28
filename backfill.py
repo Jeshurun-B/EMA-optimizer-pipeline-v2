@@ -124,8 +124,8 @@ def run_backfill(days_back: int = 180):
             continue
 
         window_size = 300  # candles needed to warm up indicators
-        step        = 4    # check every 4th candle (hourly on 15m)
-
+        
+        step = 1    # check every candle — catches all crossovers
         print(f"  Processing {len(df_15m)} candles (window={window_size}, step={step})...")
 
         for end_idx in range(window_size, len(df_15m), step):
