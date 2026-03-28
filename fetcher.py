@@ -11,7 +11,7 @@ import requests
 import pandas as pd
 from config import FEAR_GREED_URL, REQUEST_TIMEOUT
 from utils import fetch_binance_klines, log_error
-
+from config import BINANCE_BASE_URL, REQUEST_TIMEOUT
 
 # ── FETCH CANDLES ─────────────────────────────────────────────────────────────
 
@@ -102,3 +102,44 @@ def fetch_fear_greed() -> int:
         # TODO: return None — the pipeline will use None as the fear_greed_index
         # and the model will handle missing values during preprocessing
         return None
+def fetch_forward_candles(symbol: str, interval: str, start_time_ms: int, limit: int = 100) -> pd.DataFrame:
+    """
+    Fetches candles starting from a specific historical timestamp moving forward.
+    This is critical for labeling — we need to see what happened AFTER the signal.
+    """
+    url = f"{BINANCE_BASE_URL}/api/v3/klines"
+    
+    # We pass 'startTime' instead of 'endTime' to paginate forward into the future
+    params = {
+        "symbol": symbol, 
+        "interval": interval, 
+        "startTime": start_time_ms, 
+        "limit": limit
+    }
+    
+    try:
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        raw_data = resp.json()
+        
+        if not raw_data:
+            return pd.DataFrame()
+            
+        df = pd.DataFrame(raw_data, columns=[
+            "open_time", "open", "high", "low", "close", "volume", 
+            "close_time", "quote_asset_volume", "trades", 
+            "taker_buy_base", "taker_buy_quote", "ignore"
+        ])
+        
+        # Convert timestamp to a proper datetime object for easy sorting
+        df["timestamp"] = pd.to_datetime(df["open_time"], unit="ms", utc=True)
+        
+        # Ensure our pricing data is strictly numeric so we can do math on it
+        for col in ["open", "high", "low", "close"]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+            
+        return df[["timestamp", "open", "high", "low", "close"]]
+        
+    except Exception as e:
+        log_error(f"fetch_forward_candles error for {symbol}: {repr(e)}")
+        return pd.DataFrame()
