@@ -12,6 +12,15 @@ from dotenv import load_dotenv
 # Loads your .env file when running locally.
 # On GitHub Actions, secrets are injected as real env vars — load_dotenv() is harmless there.
 load_dotenv()
+# load_dotenv() reads the .env file when running locally.
+# On GitHub Actions, secrets are real environment variables so this is not needed.
+# We wrap it in a try/except so the pipeline doesn't crash if python-dotenv
+# is not installed in the GitHub Actions environment.
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 
 # ── BINANCE API ───────────────────────────────────────────────────────────────
