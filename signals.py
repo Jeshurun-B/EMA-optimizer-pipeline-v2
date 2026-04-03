@@ -67,10 +67,10 @@ def detect_signal(features: dict, symbol: str) -> dict:
         # changed from one candle to the next.
 
         # LONG: fast was below slow, now at or above — upward cross
-        cross_up = (ema_fast_prev < ema_slow_prev) and (ema_fast >= ema_slow)
+        cross_up = (ema_fast_prev < ema_slow_prev) and (ema_fast > ema_slow)
 
         # SHORT: fast was above slow, now at or below — downward cross
-        cross_down = (ema_fast_prev > ema_slow_prev) and (ema_fast <= ema_slow)
+        cross_down = (ema_fast_prev > ema_slow_prev) and (ema_fast < ema_slow)
 
         # No crossover detected — return None, move to next candle
         if not cross_up and not cross_down:

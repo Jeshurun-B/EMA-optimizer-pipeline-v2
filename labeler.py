@@ -14,6 +14,7 @@ from utils import log_error, api_limit_reached
 
 
 def label_pending_signals():
+    
     """
     Fetch all pending signals, compute outcome labels, update Supabase.
 

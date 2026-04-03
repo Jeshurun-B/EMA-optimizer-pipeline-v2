@@ -86,7 +86,7 @@ def fetch_historical_klines(symbol: str, interval: str, days_back: int) -> pd.Da
     return combined
 
 
-def run_backfill(days_back: int = 180):
+def run_backfill(days_back: int = 3):
     """
     Main backfill function. Fetches historical data for all coins,
     slides a window through the data, detects signals, and inserts to Supabase.

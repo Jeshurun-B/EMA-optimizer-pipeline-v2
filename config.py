@@ -82,7 +82,7 @@ ADX_LEN = int(os.getenv("ADX_LEN") or 14)
 # TODO: add ADX_THRESHOLD — minimum ADX value to consider market trending
 #       load from env, default 25.0, cast to float
 #       NOTE: old code used 0.0 — we changed to 25.0 because below 25 = choppy market
-ADX_THRESHOLD = float(os.getenv("ADX_THRESHOLD") or 25.0)
+ADX_THRESHOLD = float(os.getenv("ADX_THRESHOLD") or 0.0)
 
 
 # ── TRADE MANAGEMENT ──────────────────────────────────────────────────────────
