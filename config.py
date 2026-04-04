@@ -7,11 +7,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 import os
-from dotenv import load_dotenv
 
 # Loads your .env file when running locally.
 # On GitHub Actions, secrets are injected as real env vars — load_dotenv() is harmless there.
-load_dotenv()
+
 # load_dotenv() reads the .env file when running locally.
 # On GitHub Actions, secrets are real environment variables so this is not needed.
 # We wrap it in a try/except so the pipeline doesn't crash if python-dotenv
@@ -145,3 +144,4 @@ RUN_STATE_FILE = os.getenv("RUN_STATE_FILE") or "run_state.json"
 
 # Error log file path
 LOG_FILE = os.getenv("LOG_FILE") or "error.log"
+look_back_days = 3 # Default days back if no existing data for a coin

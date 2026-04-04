@@ -4,6 +4,9 @@
 # RULE: Every function returns a simple type. Never raises to caller.
 # ─────────────────────────────────────────────────────────────────────────────
 
+
+from time import time
+
 import requests
 import pandas as pd
 from config import FEAR_GREED_URL, REQUEST_TIMEOUT, BINANCE_BASE_URL
@@ -38,51 +41,52 @@ def fetch_forward_candles(
     symbol: str,
     interval: str,
     start_time_ms: int,
-    limit: int = 200
+    limit: int = 500
 ) -> pd.DataFrame:
     """
     Fetch candles starting from a specific timestamp going forward in time.
-    Used by labeler.py to see what happened AFTER a signal fired.
-
-    Args:
-        symbol:        coin pair e.g. "BTCUSDT"
-        interval:      candle size e.g. "15m"
-        start_time_ms: UNIX timestamp in milliseconds — fetch candles from here
-        limit:         how many candles to fetch after start_time
-
-    Returns:
-        DataFrame with columns: timestamp, open, high, low, close, volume
-        Returns empty DataFrame on failure.
+    Includes a retry mechanism for handling Binance API timeouts gracefully.
     """
-    try:
-        _inc_api_call()
-        resp = requests.get(
-            f"{BINANCE_BASE_URL}/api/v3/klines",
-            params={
-                "symbol":    symbol,
-                "interval":  interval,
-                "startTime": start_time_ms,
-                "limit":     limit,
-            },
-            timeout=REQUEST_TIMEOUT
-        )
-        resp.raise_for_status()
-        raw = resp.json()
+    url = f"{BINANCE_BASE_URL}/api/v3/klines"
+    params = {
+        "symbol":    symbol,
+        "interval":  interval,
+        "startTime": start_time_ms,
+        "limit":     limit,
+    }
+    
+    max_retries = 3
+    
+    for attempt in range(max_retries):
+        try:
+            _inc_api_call()
+            # We override the 10s default with 15s to give Binance more breathing room
+            resp = requests.get(url, params=params, timeout=15)
+            resp.raise_for_status()
+            raw = resp.json()
 
-        if not raw:
-            return pd.DataFrame(columns=["timestamp", "open", "high", "low", "close", "volume"])
+            if not raw:
+                return pd.DataFrame(columns=["timestamp", "open", "high", "low", "close", "volume"])
 
-        df = pd.DataFrame(raw, columns=[
-            "open_time", "open", "high", "low", "close", "volume",
-            "close_time", "quote_asset_volume", "num_trades",
-            "taker_base_vol", "taker_quote_vol", "ignore"
-        ])
-        df["timestamp"] = pd.to_datetime(df["open_time"], unit="ms", utc=True)
-        for col in ["open", "high", "low", "close", "volume"]:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+            df = pd.DataFrame(raw, columns=[
+                "open_time", "open", "high", "low", "close", "volume",
+                "close_time", "quote_asset_volume", "num_trades",
+                "taker_base_vol", "taker_quote_vol", "ignore"
+            ])
+            df["timestamp"] = pd.to_datetime(df["open_time"], unit="ms", utc=True)
+            for col in ["open", "high", "low", "close", "volume"]:
+                df[col] = pd.to_numeric(df[col], errors="coerce")
 
-        return df[["timestamp", "open", "high", "low", "close", "volume"]].reset_index(drop=True)
+            return df[["timestamp", "open", "high", "low", "close", "volume"]].reset_index(drop=True)
 
-    except Exception as e:
-        log_error(f"fetch_forward_candles error for {symbol}: {repr(e)}")
-        return pd.DataFrame(columns=["timestamp", "open", "high", "low", "close", "volume"])
+        except requests.exceptions.ReadTimeout:
+            # If Binance times out, wait 2 seconds and try again
+            print(f"    ⚠️ Timeout on {symbol} (Attempt {attempt + 1}/{max_retries}). Retrying in 2s...")
+            time.sleep(2)
+            
+        except Exception as e:
+            log_error(f"fetch_forward_candles error for {symbol}: {repr(e)}")
+            break
+            
+    # If all retries fail, return empty DataFrame safely
+    return pd.DataFrame(columns=["timestamp", "open", "high", "low", "close", "volume"])

@@ -1,19 +1,50 @@
 # backfill.py
 # ─────────────────────────────────────────────────────────────────────────────
 # PURPOSE: One-time historical data collection — builds the ML training dataset.
-# RUN ONCE: After this completes successfully, you don't need to run it again.
-#           runner.py handles ongoing collection going forward.
+# SMART RESUME: Checks Supabase for the last stored signal per coin and only
+#               fetches data from that point forward. Safe to re-run anytime.
 # ─────────────────────────────────────────────────────────────────────────────
 
 import time
 import requests
 import pandas as pd
 from datetime import datetime, timezone, timedelta
-from config import COINS, BINANCE_BASE_URL, REQUEST_TIMEOUT, EMA_FAST, EMA_SLOW
+from config import COINS, BINANCE_BASE_URL, REQUEST_TIMEOUT, EMA_FAST, EMA_SLOW , look_back_days
 from features import compute_features
 from signals import detect_signal
-from db import insert_signal
+from db import insert_signal, supabase, TABLE
 from utils import log_error, _inc_api_call
+ # Default days back if no existing data for a coin
+
+def get_last_signal_date(symbol: str) -> datetime:
+    """
+    Query Supabase for the most recent checked_at_utc for this symbol.
+    If no data exists, default to 180 days ago.
+    Returns a datetime object.
+    
+    This allows backfill to resume from where it left off instead of
+    re-processing months of data that's already stored.
+    """
+    try:
+        response = (
+            supabase.table(TABLE)
+            .select("checked_at_utc")
+            .eq("symbol", symbol)
+            .order("checked_at_utc", desc=True)
+            .limit(1)
+            .execute()
+        )
+        if response.data:
+            last_date = pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
+            print(f"  ✓ Resuming {symbol} from {last_date.date()}")
+            return last_date.to_pydatetime()
+    except Exception as e:
+        log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
+    
+    # No data found — go back 180 days (6 months)
+    fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
+    print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
+    return fallback
 
 
 def fetch_historical_klines(symbol: str, interval: str, days_back: int) -> pd.DataFrame:
@@ -86,10 +117,15 @@ def fetch_historical_klines(symbol: str, interval: str, days_back: int) -> pd.Da
     return combined
 
 
-def run_backfill(days_back: int = 3):
+def run_backfill(default_days_back: int = look_back_days):
     """
     Main backfill function. Fetches historical data for all coins,
     slides a window through the data, detects signals, and inserts to Supabase.
+
+    SMART RESUME LOGIC:
+        For each coin, checks Supabase for the most recent signal.
+        Only fetches data from that date forward.
+        If no data exists for a coin, goes back default_days_back (180 days).
 
     The time machine approach:
         We slide a 300-candle window through the full 15m history.
@@ -98,33 +134,36 @@ def run_backfill(days_back: int = 3):
         This prevents lookahead bias in historical signals.
 
     Step size:
-        We check every 4 candles (= every hour on 15m) rather than every candle.
-        A crossover that happened between checks will still be caught.
-        This reduces a 6-month backfill from ~17,000 iterations to ~4,250 per coin.
+        We check every candle (step=1) to catch all crossovers.
+        A crossover that happened between checks would be missed otherwise.
     """
-    print(f"Starting backfill — {days_back} days back for {len(COINS)} coins\n")
+    print(f"Starting smart backfill for {len(COINS)} coins")
+    print(f"Default lookback: {default_days_back} days (used when no existing data)\n")
     total_signals = 0
-
-    # Fetch BTC 4h history once — used for btc_bias feature on all coins
-    print("Fetching BTC 4h master history...")
-    btc_4h_master = fetch_historical_klines("BTCUSDT", "4h", days_back)
 
     for symbol in COINS:
         print(f"\n{'='*50}")
         print(f"Backfilling {symbol}...")
         coin_signals = 0
 
-        # Fetch full history for all three timeframes
-        df_15m = fetch_historical_klines(symbol, "15m", days_back)
-        df_4h  = fetch_historical_klines(symbol, "4h",  days_back)
-        df_1d  = fetch_historical_klines(symbol, "1d",  days_back)
+        # SMART RESUME: Get the last signal date for THIS coin specifically
+        start_datetime = get_last_signal_date(symbol)
+        days_back_for_coin = (datetime.now(timezone.utc) - start_datetime).days + 1  # +1 for safety
+
+        # Also fetch BTC 4h data for the same time period (needed for btc_bias feature)
+        print(f"Fetching BTC 4h history ({days_back_for_coin} days)...")
+        btc_4h_master = fetch_historical_klines("BTCUSDT", "4h", days_back_for_coin)
+
+        # Fetch full history for all three timeframes for this coin
+        df_15m = fetch_historical_klines(symbol, "15m", days_back_for_coin)
+        df_4h  = fetch_historical_klines(symbol, "4h",  days_back_for_coin)
+        df_1d  = fetch_historical_klines(symbol, "1d",  days_back_for_coin)
 
         if df_15m.empty or df_4h.empty or df_1d.empty:
-            print(f"  Missing data for {symbol} — skipping")
+            print(f"  ⚠️  Missing data for {symbol} — skipping")
             continue
 
         window_size = 300  # candles needed to warm up indicators
-        
         step = 1    # check every candle — catches all crossovers
         print(f"  Processing {len(df_15m)} candles (window={window_size}, step={step})...")
 
@@ -135,6 +174,7 @@ def run_backfill(days_back: int = 3):
             current_time = ltf_window["timestamp"].iloc[-1]
 
             # Slice HTF data to only what was available at current_time
+            # This prevents lookahead bias — we only use data that existed at that moment
             htf_4h_window = df_4h[df_4h["timestamp"] <= current_time].tail(200).reset_index(drop=True)
             htf_1d_window = df_1d[df_1d["timestamp"] <= current_time].tail(100).reset_index(drop=True)
             btc_4h_window = btc_4h_master[btc_4h_master["timestamp"] <= current_time].tail(50)
@@ -172,11 +212,12 @@ def run_backfill(days_back: int = 3):
                 coin_signals  += 1
                 total_signals += 1
                 if coin_signals % 10 == 0:
-                    print(f"  {symbol}: {coin_signals} signals so far...")
+                    print(f"    {symbol}: {coin_signals} signals so far...")
 
-        print(f"  {symbol} done — {coin_signals} signals found")
+        print(f"  ✓ {symbol} done — {coin_signals} signals found")
 
-    print(f"\nBackfill complete — {total_signals} total signals inserted")
+    print(f"\n{'='*50}")
+    print(f"Backfill complete — {total_signals} total signals inserted")
     print("Check Supabase for the rows. Run labeler.py next to label them.")
 
 

@@ -43,10 +43,6 @@ def api_limit_reached() -> bool:
     Return True if we have reached or exceeded the allowed API call limit.
     Called before every fetch — if True, skip the fetch and save state.
     """
-    # TODO: return True if API_CALLS >= API_CALL_LIMIT
-    # if API_CALLS >= API_CALL_LIMIT:
-    #     return True
-    # return False
     # TODO: wrap in try/except — return False if anything errors
     # This is a safety measure — we don't want   a bug in the counter to stop the pipeline from running.:
     try:
@@ -207,10 +203,6 @@ def save_run_state(state: dict) -> None:
     Called before any graceful exit so the next run can resume.
     Never raises.
     """
-    # TODO: open RUN_STATE_FILE in write mode ("w")
-    with open(RUN_STATE_FILE, "w") as f:
-        # TODO: json.dump(state, f) to write the dict as JSON
-        json.dump(state, f)
 
     # TODO: wrap in try/except — on failure log the error
     try:
@@ -238,21 +230,16 @@ def get_prev_signal(symbol: str) -> dict:
     # TODO: if LAST_SIGNALS_FILE doesn't exist, return None
     if not os.path.exists(LAST_SIGNALS_FILE):
         return None
-    # TODO: read the CSV into a DataFrame
-    df = pd.read_csv(LAST_SIGNALS_FILE)
-
-    # TODO: filter rows where the symbol column matches (compare uppercase to uppercase)
-    df = df[df["symbol"].str.upper() == symbol.upper()]
-    # TODO: if DataFrame is empty after filtering, return None
-    if df.empty:
-        return None
-    # TODO: take the last row: df.iloc[-1].to_dict()
-    last_row = df.iloc[-1].to_dict()
-    # TODO: return only the 3 keys: symbol, signal, checked_at_utc
     
-    ## i don't know what to do here
-    # TODO: wrap everything in try/except — on failure log error and return None
     try:
+        df = pd.read_csv(LAST_SIGNALS_FILE)
+        df = df[df["symbol"].str.upper() == symbol.upper()]
+        
+        if df.empty:
+            return None
+        
+        last_row = df.iloc[-1].to_dict()
+        
         return {
             "symbol": last_row["symbol"],
             "signal": last_row["signal"],
