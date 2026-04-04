@@ -1,28 +1,20 @@
 # labeler.py
 # ─────────────────────────────────────────────────────────────────────────────
-# PURPOSE: Label pending signals with trade outcome data.
-#          Fetches post-signal candles and computes MAE, MFE, trade_quality.
-# RULE: Only processes rows where status='pending'. Never re-labels analyzed rows.
+# PURPOSE: Label pending signals using exact Database Timestamps.
+#          Calculates MAE (Pain), MFE (Profit), AND the exact time in hours 
+#          it took to reach those extreme points.
 # ─────────────────────────────────────────────────────────────────────────────
 
 import time
 import pandas as pd
-from config import RR_TARGET_MULTIPLE, RR_STOP_MULTIPLE
-from db import fetch_pending, update_signal_labels
+from db import fetch_pending, update_signal_labels, fetch_next_signal_time
 from fetcher import fetch_forward_candles
 from utils import log_error, api_limit_reached
 
-
 def label_pending_signals():
-    
     """
-    Fetch all pending signals, compute outcome labels, update Supabase.
-
-    For each pending signal:
-        1. Fetch 200 candles after the signal time (= ~50 hours on 15m)
-        2. Simulate the trade candle by candle
-        3. Record MAE, MFE, trade_quality, expected_move_pct
-        4. Update the row in Supabase and set status=analyzed
+    Fetch pending signals, find their exit timestamp, and compute outcome labels
+    including the time taken to reach maximum excursions.
     """
     pending = fetch_pending()
 
@@ -30,112 +22,117 @@ def label_pending_signals():
         print("No pending signals to label.")
         return
 
-    print(f"Labeling {len(pending)} pending signals...\n")
+    print(f"Labeling {len(pending)} pending signals using Time-Window logic...\n")
     labeled = 0
+    skipped = 0
     failed  = 0
 
     for row in pending:
+        # 1. API Safety Check
         if api_limit_reached():
-            print(f"API limit reached — stopping at {labeled} labeled")
+            print(f"API limit reached — stopping early.")
             break
 
-        signal_id     = row.get("id")
-        symbol        = row.get("symbol")
-        signal_dir    = str(row.get("signal", "LONG")).upper()
-        entry_price   = float(row.get("price") or 0)
-        atr_stop_dist = float(row.get("atr_stop_distance") or 0)
-        checked_at    = row.get("checked_at_utc")
+        # 2. Extract Data from Database Row
+        signal_id   = row.get("id")
+        symbol      = row.get("symbol")
+        signal_dir  = str(row.get("signal", "LONG")).upper()
+        entry_price = float(row.get("price") or 0)
+        start_time  = row.get("checked_at_utc")
 
-        if not signal_id or not symbol or not checked_at:
+        if not signal_id or not symbol or not start_time or entry_price <= 0:
             continue
 
-        if atr_stop_dist <= 0 or entry_price <= 0:
-            # Can't compute R:R without these — mark as analyzed with quality=0
-            update_signal_labels(signal_id, {
-                "trade_quality": 0,
-                "status": "analyzed"
-            })
+        # 3. Ask the DB: When is the exact moment this trade ended?
+        end_time_str = fetch_next_signal_time(symbol, start_time)
+
+        # If there is no "next signal", the trade is still live in the market.
+        if not end_time_str:
+            skipped += 1
+            print(f"  ⏳ Trade {symbol} id={signal_id} is still open. Waiting for next signal.")
             continue
 
-        # Convert signal time to milliseconds for Binance startTime parameter
-        try:
-            start_ms = int(pd.to_datetime(checked_at).timestamp() * 1000)
-        except Exception:
-            continue
+        # 4. Convert timestamps for Binance and Pandas
+        start_time_dt = pd.to_datetime(start_time, utc=True)
+        end_time_dt   = pd.to_datetime(end_time_str, utc=True)
+        start_ms      = int(start_time_dt.timestamp() * 1000)
 
-        # Fetch post-signal candles
-        candles = fetch_forward_candles(symbol, "15m", start_ms, limit=200)
+        # 5. Fetch a large chunk of future candles (Limit=500 -> ~5 days on 15m)
+        candles = fetch_forward_candles(symbol, "15m", start_ms, limit=500)
 
         if candles.empty:
-            print(f"  No post-signal candles for {symbol} id={signal_id} — skipping")
             continue
 
-        # Calculate target and stop price levels
+        # 6. SLICE THE DATA: Keep only the candles between Entry and Exit
+        wave_candles = candles[candles["timestamp"] <= end_time_dt]
+
+        if wave_candles.empty:
+            continue
+
+        # 7. VECTORIZED MATH: Find the extremes AND when they happened
+        # .idxmax() and .idxmin() return the index of the row where the extreme occurred
+        idx_high = wave_candles["high"].idxmax()
+        idx_low  = wave_candles["low"].idxmin()
+
+        highest_price = float(wave_candles.loc[idx_high, "high"])
+        lowest_price  = float(wave_candles.loc[idx_low, "low"])
+
+        highest_time = wave_candles.loc[idx_high, "timestamp"]
+        lowest_time  = wave_candles.loc[idx_low, "timestamp"]
+
+        # 8. Calculate exactly how many hours it took to hit those prices
+        hours_to_high = (highest_time - start_time_dt).total_seconds() / 3600.0
+        hours_to_low  = (lowest_time - start_time_dt).total_seconds() / 3600.0
+
+        # Prevent negative zero times if the extreme happened on the entry candle itself
+        hours_to_high = max(0.0, hours_to_high)
+        hours_to_low  = max(0.0, hours_to_low)
+
+        # 9. Map Excursions and Time based on Trade Direction
         if signal_dir == "LONG":
-            target_price = entry_price + (atr_stop_dist * RR_TARGET_MULTIPLE)
-            stop_price   = entry_price - (atr_stop_dist * RR_STOP_MULTIPLE)
-        else:
-            target_price = entry_price - (atr_stop_dist * RR_TARGET_MULTIPLE)
-            stop_price   = entry_price + (atr_stop_dist * RR_STOP_MULTIPLE)
+            max_adverse   = max(0.0, entry_price - lowest_price)
+            max_favorable = max(0.0, highest_price - entry_price)
+            # For LONG: High is Favorable, Low is Adverse
+            time_to_mfe_hrs = hours_to_high
+            time_to_mae_hrs = hours_to_low
+        else: # SHORT
+            max_adverse   = max(0.0, highest_price - entry_price)
+            max_favorable = max(0.0, entry_price - lowest_price)
+            # For SHORT: Low is Favorable, High is Adverse
+            time_to_mfe_hrs = hours_to_low
+            time_to_mae_hrs = hours_to_high
 
-        # Iterate candle by candle to find which level was hit first
-        max_adverse   = 0.0
-        max_favorable = 0.0
-        trade_quality = 0  # default: bad trade
-
-        for _, candle in candles.iterrows():
-            high = float(candle["high"])
-            low  = float(candle["low"])
-
-            if signal_dir == "LONG":
-                adverse   = max(0.0, entry_price - low)
-                favorable = max(0.0, high - entry_price)
-
-                if high >= target_price:
-                    trade_quality = 1
-                    break
-                if low <= stop_price:
-                    trade_quality = 0
-                    break
-            else:
-                adverse   = max(0.0, high - entry_price)
-                favorable = max(0.0, entry_price - low)
-
-                if low <= target_price:
-                    trade_quality = 1
-                    break
-                if high >= stop_price:
-                    trade_quality = 0
-                    break
-
-            max_adverse   = max(max_adverse, adverse)
-            max_favorable = max(max_favorable, favorable)
-
-        # Convert absolute price moves to percentages
-        mae_pct           = max_adverse   / entry_price * 100 if entry_price > 0 else 0.0
-        mfe_pct           = max_favorable / entry_price * 100 if entry_price > 0 else 0.0
+        # 10. Convert to Percentages
+        mae_pct           = (max_adverse / entry_price) * 100.0 if entry_price > 0 else 0.0
+        mfe_pct           = (max_favorable / entry_price) * 100.0 if entry_price > 0 else 0.0
         expected_move_pct = mfe_pct
 
+        # 11. Define Trade Quality (1 = Profit > Pain)
+        trade_quality = 1 if mfe_pct > mae_pct else 0
+
+        # 12. Prepare payload for Supabase
         updates = {
             "max_adverse_excursion":   round(mae_pct, 6),
             "max_favorable_excursion": round(mfe_pct, 6),
             "expected_move_pct":       round(expected_move_pct, 6),
+            "time_to_mae_hrs":         round(time_to_mae_hrs, 2), # NEW
+            "time_to_mfe_hrs":         round(time_to_mfe_hrs, 2), # NEW
             "trade_quality":           trade_quality,
             "status":                  "analyzed",
         }
 
+        # 13. Execute Database Update
         ok = update_signal_labels(signal_id, updates)
         if ok:
             labeled += 1
-            print(f"  Labeled {symbol} id={signal_id}: quality={trade_quality} MFE={round(mfe_pct,2)}%")
+            print(f"  🏷️ Labeled {symbol} id={signal_id}: Q={trade_quality} | MFE={round(mfe_pct,2)}% ({round(time_to_mfe_hrs, 1)}h) | MAE={round(mae_pct,2)}% ({round(time_to_mae_hrs, 1)}h)")
         else:
             failed += 1
             log_error(f"Failed to update labels for signal id={signal_id}")
 
-        time.sleep(0.1)  # Be gentle with Binance API
+        time.sleep(0.1)  # Rate limit safety
 
-    print(f"\nLabeling complete — {labeled} labeled, {failed} failed")
-
+    print(f"\nLabeling complete — {labeled} labeled, {skipped} still open, {failed} failed")
 
 if __name__ == "__main__":
     label_pending_signals()

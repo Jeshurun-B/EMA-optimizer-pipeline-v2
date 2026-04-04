@@ -241,4 +241,50 @@ def fetch_all_labeled() -> pd.DataFrame:
         #
         # TODO: return empty DataFrame — same columns as the signals table
         return pd.DataFrame()
+
+
+# ── FETCH NEXT SIGNAL TIME (Used by Labeler) ──────────────────────────────────
+
+def fetch_next_signal_time(symbol: str, current_time_utc: str) -> str | None:
+    """
+    Finds the exact timestamp of the NEXT signal that fired for a specific coin.
+    
+    Why this exists: 
+    Instead of making the labeler manually fetch 400 future candles and 
+    recalculate the EMAs to find when a trade ends, it's 1000x faster to just 
+    ask the database: "When was the next time you recorded a crossover for this coin?"
+    
+    Args:
+        symbol: The coin we are checking (e.g., "BTCUSDT")
+        current_time_utc: The exact timestamp of our entry signal.
         
+    Returns:
+        The ISO string timestamp of the next signal, or None if the trade 
+        is still open (meaning no opposite signal has fired yet).
+    """
+    try:
+        # 1. Query the Supabase 'signals' table
+        # 2. Filter for the exact coin we are analyzing (.eq)
+        # 3. Filter for timestamps STRICTLY GREATER THAN our entry time (.gt)
+        # 4. Sort them chronologically, oldest first (.order desc=False)
+        # 5. Grab only the very first one it finds (.limit 1)
+        response = supabase.table(TABLE).select("checked_at_utc") \
+            .eq("symbol", symbol) \
+            .gt("checked_at_utc", current_time_utc) \
+            .order("checked_at_utc", desc=False) \
+            .limit(1) \
+            .execute()
+            
+        # If the query found a future signal, return its timestamp
+        if response.data:
+            return response.data[0]["checked_at_utc"]
+            
+        # If response.data is empty, it means no signal has fired since our entry.
+        # The trade is still live.
+        return None 
+        
+    except Exception as e:
+        # If the database connection fails, log it and return None 
+        # so the pipeline doesn't crash.
+        log_error(f"fetch_next_signal_time error: {repr(e)}")
+        return None
