@@ -115,7 +115,7 @@ HTF_1D_INTERVAL = os.getenv("HTF_1D_INTERVAL", "1d")
 
 COINS = [
     coin.strip().strip('"')  # Remove whitespace and quotes from each coin
-    for coin in os.getenv("COINS", "XRPUSDT").split(",")
+    for coin in os.getenv("COINS", "XRPUSDT,BTCUSDT,SOLUSDT,ETHUSDT,DOGEUSDT").split(",")
 ]
 
 
@@ -447,4 +447,4 @@ LOG_FILE = os.getenv("LOG_FILE") or "error.log"
 # Initial setup recommendation:
 #   - First run: set to 180 (6 months of history)
 #   - After that: set to 3 (only fetch new data since last run)
-look_back_days = int(os.getenv("LOOK_BACK_DAYS") or 3)
+look_back_days = int(os.getenv("LOOK_BACK_DAYS") or 180)
