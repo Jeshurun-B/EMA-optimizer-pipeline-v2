@@ -1,290 +1,417 @@
 # db.py
-# ─────────────────────────────────────────────────────────────────────────────
+# ═════════════════════════════════════════════════════════════════════════════
 # PURPOSE: All database operations. The ONLY file that talks to Supabase.
-# RULE: No other file imports supabase directly — everything goes through here.
-#       Every function returns a simple type (bool, list, DataFrame).
-#       Every function handles its own exceptions — never raises to caller.
-# ─────────────────────────────────────────────────────────────────────────────
+#
+# PHILOSOPHY:
+#   - Single Responsibility: No other file imports supabase directly
+#   - Simple Returns: Every function returns bool, list, or DataFrame (never complex types)
+#   - Never Crash: Every function handles its own exceptions, never raises to caller
+#   - Graceful Degradation: Database errors are logged but don't stop the pipeline
+#
+# FUNCTIONS:
+#   - insert_signal()         → Insert one signal row
+#   - fetch_pending()         → Get all pending signals for labeler
+#   - update_signal_labels()  → Update a signal with outcome data
+#   - fetch_all_labeled()     → Get all analyzed signals for training
+#   - fetch_next_signal_time()→ Find when next signal fired (for labeler)
+# ═════════════════════════════════════════════════════════════════════════════
 
 import pandas as pd
 from supabase import create_client, Client
 from config import SUPABASE_URL, SUPABASE_KEY
 from utils import log_error
 
-# ── CLIENT SETUP ──────────────────────────────────────────────────────────────
-# We create ONE Supabase client here at the top of the file.
-# Every function below reuses this same client — we don't create a new one
-# inside each function because that would be slow and wasteful.
-#
-# create_client() takes two arguments:
-#   - SUPABASE_URL: your project URL e.g. "https://xxxx.supabase.co"
-#   - SUPABASE_KEY: your publishable API key
-#
-# If either of these is None (missing from .env), this line will crash loudly
-# when the file is imported — which is correct behaviour. Nothing works without
-# a database connection, so we want to fail immediately and clearly.
-#
-# TODO: 
+
+# ══════════════════════════════════════════════════════════════════════════════
+#                              CLIENT SETUP
+# ══════════════════════════════════════════════════════════════════════════════
+# 
+# We create ONE Supabase client at module load time.
+# Every function below reuses this same client instance.
+# 
+# Why one client?
+#   - Connection pooling (reusing connections is faster)
+#   - Authenticates once, not on every request
+#   - Less memory overhead
+# 
+# If SUPABASE_URL or SUPABASE_KEY is None (missing from .env):
+#   - This line crashes IMMEDIATELY when the file is imported
+#   - This is CORRECT behavior (fail fast, fail loud)
+#   - Nothing works without a database, so we want to know right away
+# ══════════════════════════════════════════════════════════════════════════════
+
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# This is the name of our table in Supabase.
-# We store it as a constant so if we ever rename the table,
-# we only need to change it in one place.
+# Table name constant — change here to rename table globally
 TABLE = "signals"
 
 
-# ── INSERT SIGNAL ─────────────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+#                              INSERT SIGNAL
+# ══════════════════════════════════════════════════════════════════════════════
 
 def insert_signal(record: dict) -> bool:
     """
-    Insert one signal row into the signals table in Supabase.
-
-    'record' is a Python dictionary where:
-        - keys   = column names in the signals table
-        - values = the data to store for this signal
-
-    Example of what record looks like:
-        {
+    Insert one signal row into the Supabase signals table.
+    
+    This is called by runner.py every time a crossover is detected.
+    
+    Args:
+        record: Dictionary where keys = column names, values = data
+                Must include: symbol, signal, checked_at_utc, status, price
+                Plus all 35 feature columns
+    
+    Returns:
+        True  → Row inserted successfully
+        False → Insert failed (duplicate, network error, schema mismatch, etc)
+    
+    Example:
+        signal = {
             "symbol": "BTCUSDT",
             "signal": "LONG",
+            "checked_at_utc": "2026-04-04T10:30:00+00:00",
             "price": 65000.0,
             "adx_ltf": 32.5,
-            "rsi_ltf": 61.0,
-            "status": "pending",
-            ... all other columns
+            ... all other features
         }
-
-    Returns:
-        True  — row was inserted successfully
-        False — something went wrong (logged automatically)
-
-    Why we use try/except:
-        If Supabase is down, or the record has a duplicate (same symbol +
-        same timestamp), or a column name is wrong — it will raise an error.
-        We catch that here and return False so the pipeline can continue
-        scanning other coins instead of crashing entirely.
+        success = insert_signal(signal)
+        if success:
+            print("✅ Signal saved")
+        else:
+            print("❌ Insert failed (see error.log)")
+    
+    Error Cases (all return False):
+        - Duplicate: (symbol, checked_at_utc) already exists in table
+        - Network timeout: Supabase unreachable
+        - Schema mismatch: record has columns that don't exist in table
+        - Bad data type: e.g., string in a float column
+        - RLS violation: Row Level Security policy blocked insert (shouldn't happen — RLS disabled)
+    
+    Why return False instead of raising?
+        One coin's insert failing shouldn't crash the entire pipeline.
+        We log the error and move to the next coin.
     """
     try:
-        # This is the Supabase pattern for inserting a row.
-        # .table(TABLE)  — tells Supabase which table to use
-        # .insert(record) — the dict of data to insert as one row
-        # .execute()      — actually sends the request to Supabase
-        #
-        # TODO: write the insert call using the pattern above
+        # ── SUPABASE INSERT PATTERN ───────────────────────────────────────────
+        # 
+        # .table(TABLE)     → Select which table to work with
+        # .insert(record)   → Insert this dict as one row
+        # .execute()        → Actually send the request to Supabase
+        # 
+        # What happens under the hood:
+        #   1. Supabase converts dict → SQL INSERT statement
+        #   2. PostgreSQL validates schema and constraints
+        #   3. If UNIQUE constraint violated → exception raised
+        #   4. If successful → new row written, ID auto-generated
+        # ──────────────────────────────────────────────────────────────────────
+        
         supabase.table(TABLE).insert(record).execute()
-
-        # TODO: return True to tell the caller the insert worked
-        return True
-        pass
-
+        return True  # Success
+    
     except Exception as e:
-        # If anything went wrong, log it so we can see what failed.
-        # We include the symbol so we know which coin caused the issue.
-        # Then return False so the pipeline keeps running.
-        #
-        # TODO: log the error — use this pattern:
+        # ── ERROR HANDLING ────────────────────────────────────────────────────
+        # 
+        # Common errors:
+        #   - UniqueViolation: (symbol, checked_at_utc) duplicate
+        #   - ConnectionError: Network timeout
+        #   - SchemaError: Column doesn't exist in table
+        # 
+        # We log the error with symbol for debugging context.
+        # Then return False so caller knows insert failed.
+        # ──────────────────────────────────────────────────────────────────────
+        
         log_error(f"insert_signal failed for {record.get('symbol')}: {repr(e)}")
-        #
-        #TODO: return False
         return False
-        pass
 
 
-# ── FETCH PENDING ─────────────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+#                              FETCH PENDING SIGNALS
+# ══════════════════════════════════════════════════════════════════════════════
 
 def fetch_pending() -> list:
     """
-    Get all signals from Supabase where status = 'pending'.
-
-    'pending' means the signal was detected and stored, but we haven't yet
-    checked what happened to the price afterwards (no labels computed yet).
-    labeler.py calls this function to find signals that need to be labeled.
-
+    Get all signals where status = 'pending' from Supabase.
+    
+    'pending' = signal detected and stored, but NOT YET LABELED.
+    labeler.py calls this to find signals that need outcome analysis.
+    
     Returns:
-        A list of dicts — each dict is one row from the database.
-        Example: [{"id": 1, "symbol": "BTCUSDT", "signal": "LONG", ...}, ...]
-
-        Returns [] (empty list) if there are no pending signals or if
-        something goes wrong. Never raises an exception.
-
-    Why list of dicts instead of DataFrame:
+        list of dicts — each dict is one pending signal row
+        [] (empty list) — if no pending signals OR if error occurred
+    
+    Example:
+        pending = fetch_pending()
+        if pending:
+            print(f"Found {len(pending)} signals to label")
+            for signal in pending:
+                print(f"  {signal['symbol']} {signal['signal']} at {signal['checked_at_utc']}")
+        else:
+            print("No pending signals")
+    
+    Why list of dicts (not DataFrame)?
         labeler.py processes one signal at a time in a loop.
-        Iterating over a list of dicts is simpler than iterating DataFrame rows.
-        fetch_all_labeled() returns a DataFrame because train.py needs to do
-        maths across all rows at once — different use case.
+        for signal in pending: ...
+        Iterating dicts is simpler than DataFrame.iterrows()
+    
+    Status values:
+        'pending'  → Not yet labeled
+        'analyzed' → Labeled with outcome data
     """
     try:
-        # Supabase query pattern:
-        # .table(TABLE)          — which table
-        # .select("*")           — select all columns (* means everything)
-        # .eq("status","pending")— WHERE status = 'pending'
-        # .execute()             — send the request
-        #
-        # The response object has a .data attribute.
-        # response.data is a list of dicts — one dict per matching row.
-        #
-        # TODO: write the query using the pattern above
+        # ── SUPABASE SELECT WITH FILTER ───────────────────────────────────────
+        # 
+        # .table(TABLE)           → Which table
+        # .select("*")            → All columns (* = everything)
+        # .eq("status", "pending")→ WHERE status = 'pending'
+        # .execute()              → Send request
+        # 
+        # Response structure:
+        #   response.data = [
+        #       {"id": 1, "symbol": "BTCUSDT", "signal": "LONG", ...},
+        #       {"id": 2, "symbol": "ETHUSDT", "signal": "SHORT", ...},
+        #   ]
+        # ──────────────────────────────────────────────────────────────────────
+        
         response = supabase.table(TABLE).select("*").eq("status", "pending").execute()
-        #
-        # TODO: return response.data
-        return response.data
-
+        return response.data  # List of dicts
+    
     except Exception as e:
-        # TODO: log the error
         log_error(f"fetch_pending failed: {repr(e)}")
-        #
-        # TODO: return empty list so labeler.py gets [] and skips gracefully
-        # return []
-        return []
+        return []  # Return empty list (safe fallback)
 
 
-# ── UPDATE SIGNAL LABELS ──────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+#                              UPDATE SIGNAL LABELS
+# ══════════════════════════════════════════════════════════════════════════════
 
 def update_signal_labels(signal_id: int, updates: dict) -> bool:
     """
-    Update specific columns on one signal row, identified by its id.
-
-    Called by labeler.py after it has computed the outcome of a trade signal.
-    For example, after checking what the price did after the signal fired,
-    labeler.py calls this to save:
-        - max_adverse_excursion  (how far price went against us)
-        - max_favorable_excursion (how far price went in our favour)
-        - trade_quality          (1 = good trade, 0 = bad trade)
-        - expected_move_pct      (actual % move achieved)
-        - status                 (set to "analyzed" so we don't process it again)
-
+    Update specific columns on one signal row by its ID.
+    
+    Called by labeler.py after computing trade outcome.
+    Updates the row with:
+        - max_price_after, min_price_after
+        - max_move_up_pct, max_move_down_pct
+        - time_of_max_price, time_of_min_price
+        - candles_to_max_price, candles_to_min_price
+        - status = "analyzed"
+    
     Args:
-        signal_id: the integer 'id' of the row to update (primary key)
-        updates:   dict of column names and their new values
-                   e.g. {"trade_quality": 1, "status": "analyzed"}
-
+        signal_id: Primary key (integer ID of the row)
+        updates:   Dict of {column_name: new_value}
+    
     Returns:
-        True  — update was successful
-        False — something went wrong (logged automatically)
-
-    Why we identify rows by id and not by symbol+timestamp:
-        'id' is the primary key — guaranteed unique.
-        Using symbol+timestamp would be more complex and slightly slower.
+        True  → Update successful
+        False → Update failed (row not found, network error, etc)
+    
+    Example:
+        updates = {
+            "max_price_after": 65300.0,
+            "min_price_after": 64800.0,
+            "max_move_up_pct": 0.46,
+            "max_move_down_pct": 0.31,
+            "status": "analyzed"
+        }
+        success = update_signal_labels(42, updates)
+    
+    Why identify by ID (not symbol + timestamp)?
+        - ID is primary key (guaranteed unique)
+        - Faster lookup (indexed)
+        - Simpler query (one column match vs two)
     """
     try:
-        # Supabase update pattern:
-        # .table(TABLE)            — which table
-        # .update(updates)         — dict of columns to change and their new values
-        # .eq("id", signal_id)     — WHERE id = signal_id (only update this one row)
-        # .execute()               — send the request
-        #
-        # TODO: write the update call using the pattern above
+        # ── SUPABASE UPDATE PATTERN ───────────────────────────────────────────
+        # 
+        # .table(TABLE)             → Which table
+        # .update(updates)          → Set these columns to new values
+        # .eq("id", signal_id)      → WHERE id = signal_id
+        # .execute()                → Send request
+        # 
+        # What happens:
+        #   1. Supabase finds row with this ID
+        #   2. Updates ONLY the columns in updates dict
+        #   3. Other columns unchanged
+        #   4. If ID not found → no error, just no rows updated
+        # ──────────────────────────────────────────────────────────────────────
+        
         supabase.table(TABLE).update(updates).eq("id", signal_id).execute()
-        #
-        # TODO: return True
         return True
-
+    
     except Exception as e:
-        # TODO: log the error — include signal_id so we know which row failed
         log_error(f"update_signal_labels failed for id={signal_id}: {repr(e)}")
-        #
-        # TODO: return False
         return False
 
 
-# ── FETCH ALL LABELED ─────────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+#                              FETCH ALL LABELED SIGNALS
+# ══════════════════════════════════════════════════════════════════════════════
 
 def fetch_all_labeled() -> pd.DataFrame:
     """
     Get ALL signals where status = 'analyzed' as a pandas DataFrame.
-
-    'analyzed' means the signal has been fully labeled — it has trade_quality,
-    MAE, MFE, and expected_move_pct filled in. These are the rows we use
-    to train our ML models.
-
-    This function is called by train.py running on Google Colab to pull
-    the complete labeled dataset for model training.
-
+    
+    'analyzed' = signal has been labeled with outcome data (trade results).
+    These are the rows used for ML model training.
+    
+    Called by train.py (runs on Google Colab) to download full dataset.
+    
     Returns:
-        pandas DataFrame with all analyzed signals, sorted oldest first.
-        Returns empty DataFrame if no labeled signals exist or on failure.
-
-    Why we sort by time (oldest first):
-        Our train/test split is time-based — we train on old data and test
-        on recent data. The data MUST be in chronological order before we
-        split it. If it's shuffled, we accidentally train on future data
-        which makes the model look better than it really is (lookahead bias).
+        DataFrame with all analyzed signals, sorted chronologically (oldest first)
+        Empty DataFrame if no labeled signals exist OR on error
+    
+    Why sort by time (oldest first)?
+        ML train/test split is TIME-BASED (not random shuffle).
+        We train on old data, test on recent data.
+        Data MUST be in chronological order before split.
+        If shuffled → lookahead bias (train on future, test on past).
+    
+    Example:
+        df = fetch_all_labeled()
+        if not df.empty:
+            print(f"Downloaded {len(df)} labeled signals")
+            print(f"Date range: {df['checked_at_utc'].min()} to {df['checked_at_utc'].max()}")
+        else:
+            print("No labeled data yet — run labeler.py first")
+    
+    Columns in DataFrame:
+        - id, symbol, signal, checked_at_utc, price
+        - All 35 feature columns
+        - max_price_after, min_price_after, max_move_up_pct, max_move_down_pct
+        - time_of_max_price, time_of_min_price
+        - candles_to_max_price, candles_to_min_price
+        - status (will be "analyzed" for all rows)
     """
     try:
-        # TODO: query Supabase for all rows where status = "analyzed"
-        # Same pattern as fetch_pending but with "analyzed" instead of "pending"
-        response = supabase.table(TABLE).select("*").eq("status","analyzed").execute()
-
-        # TODO: convert response.data (list of dicts) into a pandas DataFrame
+        # ── FETCH ALL ANALYZED SIGNALS ────────────────────────────────────────
+        
+        response = supabase.table(TABLE).select("*").eq("status", "analyzed").execute()
         df = pd.DataFrame(response.data)
-
-        # TODO: if the DataFrame is empty (no labeled signals yet), return it as-is
+        
+        # ── HANDLE EMPTY RESULT ───────────────────────────────────────────────
+        # 
+        # If no signals analyzed yet → response.data = []
+        # pd.DataFrame([]) creates empty DataFrame with no columns
+        # We return it as-is (caller checks df.empty)
+        # ──────────────────────────────────────────────────────────────────────
+        
         if df.empty:
-            return df
-
-        # TODO: convert the checked_at_utc column from string to proper datetime
-        #This is needed so we can sort by time correctly
+            return df  # Empty DataFrame (no data to sort)
+        
+        # ── CONVERT TIMESTAMP COLUMN ──────────────────────────────────────────
+        # 
+        # checked_at_utc comes from DB as string: "2026-04-04T10:30:00+00:00"
+        # We convert to pandas datetime for:
+        #   - Proper sorting (chronological order)
+        #   - Time-based train/test split
+        #   - Feature engineering (hour, day of week)
+        # 
+        # utc=True makes it timezone-aware (avoids timezone bugs later)
+        # ──────────────────────────────────────────────────────────────────────
+        
         df["checked_at_utc"] = pd.to_datetime(df["checked_at_utc"], utc=True)
-
-        #TODO: sort the DataFrame by checked_at_utc ascending (oldest row first)
+        
+        # ── SORT CHRONOLOGICALLY ──────────────────────────────────────────────
+        # 
+        # ascending=True → oldest rows first
+        # This is CRITICAL for time-based train/test split
+        # ──────────────────────────────────────────────────────────────────────
+        
         df = df.sort_values("checked_at_utc", ascending=True)
-
-        #TODO: reset the index so rows are numbered 0, 1, 2, 3... after sorting
+        
+        # ── RESET INDEX ───────────────────────────────────────────────────────
+        # 
+        # After sorting, row indices are out of order (might be 5, 2, 8, 1, ...)
+        # Reset to 0, 1, 2, 3, ... for clean DataFrame
+        # drop=True → don't keep old index as a new column
+        # ──────────────────────────────────────────────────────────────────────
+        
         df = df.reset_index(drop=True)
-
-        # TODO: return the DataFrame
+        
         return df
-
+    
     except Exception as e:
-        # TODO: log the error
         log_error(f"fetch_all_labeled failed: {repr(e)}")
-        #
-        # TODO: return empty DataFrame — same columns as the signals table
-        return pd.DataFrame()
+        return pd.DataFrame()  # Return empty DataFrame on error
 
 
-# ── FETCH NEXT SIGNAL TIME (Used by Labeler) ──────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+#                              FETCH NEXT SIGNAL TIME
+# ══════════════════════════════════════════════════════════════════════════════
 
 def fetch_next_signal_time(symbol: str, current_time_utc: str) -> str | None:
     """
-    Finds the exact timestamp of the NEXT signal that fired for a specific coin.
+    Find the timestamp of the NEXT signal that fired for a specific coin.
     
-    Why this exists: 
-    Instead of making the labeler manually fetch 400 future candles and 
-    recalculate the EMAs to find when a trade ends, it's 1000x faster to just 
-    ask the database: "When was the next time you recorded a crossover for this coin?"
+    WHY THIS EXISTS:
+        labeler.py needs to know: when did this trade END?
+        Trade ends when opposite signal fires (LONG ends when SHORT fires).
+        
+        Instead of fetching 400 future candles and recalculating EMAs,
+        we just ask the database: "When was the next crossover for this coin?"
+        
+        This is 1000x faster and uses the data we already collected.
     
     Args:
-        symbol: The coin we are checking (e.g., "BTCUSDT")
-        current_time_utc: The exact timestamp of our entry signal.
-        
+        symbol:           Coin pair (e.g., "BTCUSDT")
+        current_time_utc: ISO timestamp of entry signal (e.g., "2026-04-04T10:30:00+00:00")
+    
     Returns:
-        The ISO string timestamp of the next signal, or None if the trade 
-        is still open (meaning no opposite signal has fired yet).
+        str:  ISO timestamp of next signal (e.g., "2026-04-04T16:45:00+00:00")
+        None: No future signal found (trade still open)
+    
+    Example:
+        Entry signal: LONG at 10:30 AM
+        next_time = fetch_next_signal_time("BTCUSDT", "2026-04-04T10:30:00+00:00")
+        
+        if next_time:
+            print(f"Trade closed at {next_time}")
+            # Fetch candles from 10:30 to next_time, measure outcome
+        else:
+            print("Trade still open — skip labeling for now")
+    
+    Logic:
+        1. Filter for this exact symbol
+        2. Filter for timestamps AFTER current_time
+        3. Sort chronologically (oldest first)
+        4. Take first result (the very next signal)
     """
     try:
-        # 1. Query the Supabase 'signals' table
-        # 2. Filter for the exact coin we are analyzing (.eq)
-        # 3. Filter for timestamps STRICTLY GREATER THAN our entry time (.gt)
-        # 4. Sort them chronologically, oldest first (.order desc=False)
-        # 5. Grab only the very first one it finds (.limit 1)
-        response = supabase.table(TABLE).select("checked_at_utc") \
-            .eq("symbol", symbol) \
-            .gt("checked_at_utc", current_time_utc) \
-            .order("checked_at_utc", desc=False) \
-            .limit(1) \
+        # ── QUERY PATTERN ─────────────────────────────────────────────────────
+        # 
+        # .select("checked_at_utc")     → Only fetch timestamp column (faster)
+        # .eq("symbol", symbol)         → WHERE symbol = 'BTCUSDT'
+        # .gt("checked_at_utc", ...)    → WHERE checked_at_utc > current_time
+        # .order("checked_at_utc", ...)  → ORDER BY checked_at_utc ASC
+        # .limit(1)                     → LIMIT 1 (only first result)
+        # 
+        # gt = "greater than" (Supabase query filter)
+        # desc=False = ascending order (oldest first)
+        # ──────────────────────────────────────────────────────────────────────
+        
+        response = (
+            supabase.table(TABLE)
+            .select("checked_at_utc")
+            .eq("symbol", symbol)
+            .gt("checked_at_utc", current_time_utc)
+            .order("checked_at_utc", desc=False)
+            .limit(1)
             .execute()
-            
-        # If the query found a future signal, return its timestamp
+        )
+        
+        # ── HANDLE RESULT ─────────────────────────────────────────────────────
+        # 
+        # If query found a future signal:
+        #   response.data = [{"checked_at_utc": "2026-04-04T16:45:00+00:00"}]
+        # 
+        # If no future signal exists:
+        #   response.data = []
+        # ──────────────────────────────────────────────────────────────────────
+        
         if response.data:
             return response.data[0]["checked_at_utc"]
-            
-        # If response.data is empty, it means no signal has fired since our entry.
-        # The trade is still live.
-        return None 
         
+        return None  # No future signal found (trade still open)
+    
     except Exception as e:
-        # If the database connection fails, log it and return None 
-        # so the pipeline doesn't crash.
-        log_error(f"fetch_next_signal_time error: {repr(e)}")
-        return None
+        log_error(f"fetch_next_signal_time error for {symbol}: {repr(e)}")
+        return None  # Return None on error (safer than crashing)
