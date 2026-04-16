@@ -63,7 +63,7 @@ CANDLE_LIMIT = int(os.getenv("CANDLE_LIMIT") or 300)
 # 10 seconds is reasonable:
 #   - Fast enough to detect network issues quickly
 #   - Long enough to handle occasional Binance slowness
-REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT") or 10)
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT") or 20)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
