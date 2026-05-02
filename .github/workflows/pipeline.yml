@@ -21,7 +21,9 @@ on:
         options:
           - pipeline
           - backfill
+          - labeler
           - labeller
+          - backfill-and-labeller
 
 jobs:
   run-pipeline:
@@ -40,35 +42,45 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade pip && pip install -r requirements.txt
 
-      - name: Run pipeline
-        if: ${{ github.event_name == 'schedule' || inputs.task == 'pipeline' }}
+      - name: Run selected task
         env:
           SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
           BINANCE_BASE_URL:    "https://data-api.binance.vision"
-          RUNTIME_LIMIT_MINUTES: "5"
-          API_CALL_LIMIT:      "200"
-          CANDLE_LIMIT:        "300"
-        run: python runner.py
+          TASK:                ${{ github.event.inputs.task || 'pipeline' }}
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Requested task: ${TASK}"
 
-      - name: Run backfill
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.task == 'backfill' }}
-        env:
-          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
-          BINANCE_BASE_URL:    "https://data-api.binance.vision"
-          RUNTIME_LIMIT_MINUTES: "55"
-          API_CALL_LIMIT:      "2000"
-          CANDLE_LIMIT:        "1000"
-        run: python backfill.py
-
-      - name: Run labeller
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.task == 'labeller' }}
-        env:
-          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
-          BINANCE_BASE_URL:    "https://data-api.binance.vision"
-          RUNTIME_LIMIT_MINUTES: "55"
-          API_CALL_LIMIT:      "2000"
-          CANDLE_LIMIT:        "500"
-        run: python labeler.py
+          case "${TASK}" in
+            pipeline|"")
+              export RUNTIME_LIMIT_MINUTES="5"
+              export API_CALL_LIMIT="200"
+              export CANDLE_LIMIT="300"
+              python runner.py
+              ;;
+            backfill)
+              export RUNTIME_LIMIT_MINUTES="55"
+              export API_CALL_LIMIT="2000"
+              export CANDLE_LIMIT="1000"
+              python backfill.py
+              ;;
+            labeler|labeller)
+              export RUNTIME_LIMIT_MINUTES="55"
+              export API_CALL_LIMIT="2000"
+              export CANDLE_LIMIT="500"
+              python labeler.py
+              ;;
+            backfill-and-labeller)
+              export RUNTIME_LIMIT_MINUTES="55"
+              export API_CALL_LIMIT="2000"
+              export CANDLE_LIMIT="1000"
+              python backfill.py
+              export CANDLE_LIMIT="500"
+              python labeler.py
+              ;;
+            *)
+              echo "Unknown task: ${TASK}"
+              exit 1
+              ;;
+          esac
