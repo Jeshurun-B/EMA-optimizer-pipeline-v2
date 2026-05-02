@@ -324,7 +324,7 @@ def run_backfill(default_days_back: int = look_back_days):
         # ──────────────────────────────────────────────────────────────────────
         
         days_since_last = (datetime.now(timezone.utc) - start_datetime).days + 1
-        days_back_for_coin = max(days_since_last, 3)  # CRITICAL FIX
+        days_back_for_coin = max(days_since_last, 30)  # CRITICAL FIX
         
         # ── FETCH BTC 4H DATA ─────────────────────────────────────────────────
         # 

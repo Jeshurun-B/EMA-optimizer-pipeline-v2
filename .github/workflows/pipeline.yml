@@ -10,13 +10,23 @@ on:
   schedule:
     # Runs at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC every day
     - cron: "0 */4 * * *"
-  # Allows you to trigger manually from the Actions tab
+  # Allows you to trigger manually from the Actions tab or GitHub API/CLI
   workflow_dispatch:
+    inputs:
+      task:
+        description: "Which job should run?"
+        required: true
+        default: "pipeline"
+        type: choice
+        options:
+          - pipeline
+          - backfill
+          - labeller
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 60
 
     steps:
       - name: Checkout code
@@ -31,6 +41,7 @@ jobs:
         run: pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Run pipeline
+        if: ${{ github.event_name == 'schedule' || inputs.task == 'pipeline' }}
         env:
           SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
@@ -39,3 +50,25 @@ jobs:
           API_CALL_LIMIT:      "200"
           CANDLE_LIMIT:        "300"
         run: python runner.py
+
+      - name: Run backfill
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.task == 'backfill' }}
+        env:
+          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
+          BINANCE_BASE_URL:    "https://data-api.binance.vision"
+          RUNTIME_LIMIT_MINUTES: "55"
+          API_CALL_LIMIT:      "2000"
+          CANDLE_LIMIT:        "1000"
+        run: python backfill.py
+
+      - name: Run labeller
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.task == 'labeller' }}
+        env:
+          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
+          BINANCE_BASE_URL:    "https://data-api.binance.vision"
+          RUNTIME_LIMIT_MINUTES: "55"
+          API_CALL_LIMIT:      "2000"
+          CANDLE_LIMIT:        "500"
+        run: python labeler.py
