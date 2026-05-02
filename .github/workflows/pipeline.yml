@@ -1,20 +1,14 @@
 # .github/workflows/pipeline.yml
-# ─────────────────────────────────────────────────────────────────────────────
-# PURPOSE: Run the pipeline automatically every 4 hours.
-# SCHEDULE: cron runs at minute 0 of every 4th hour (UTC).
-# ─────────────────────────────────────────────────────────────────────────────
-
 name: EMA Pipeline
 
 on:
   schedule:
-    # Runs at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC every day
+    # Runs automatically every 4 hours[cite: 7]
     - cron: "0 */4 * * *"
-  # Allows you to trigger manually from the Actions tab or GitHub API/CLI
   workflow_dispatch:
     inputs:
       task:
-        description: "Which job should run?"
+        description: "Task to run"
         required: true
         default: "pipeline"
         type: choice
@@ -22,13 +16,12 @@ on:
           - pipeline
           - backfill
           - labeler
-          - labeller
           - backfill-and-labeller
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60 # Extended for heavy backfilling tasks[cite: 7]
 
     steps:
       - name: Checkout code
@@ -40,47 +33,36 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install --upgrade pip && pip install -r requirements.txt
-
-      - name: Run selected task
-        env:
-          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
-          BINANCE_BASE_URL:    "https://data-api.binance.vision"
-          TASK:                ${{ github.event.inputs.task || 'pipeline' }}
         run: |
-          echo "Event: ${{ github.event_name }}"
-          echo "Requested task: ${TASK}"
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
+      - name: Execute Task
+        env:
+          # Injected from GitHub Repository Secrets[cite: 2, 7]
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          COINS: ${{ secrets.COINS }}
+          TASK: ${{ github.event.inputs.task || 'pipeline' }}
+        run: |
           case "${TASK}" in
-            pipeline|"")
-              export RUNTIME_LIMIT_MINUTES="5"
-              export API_CALL_LIMIT="200"
-              export CANDLE_LIMIT="300"
-              python runner.py
-              ;;
             backfill)
-              export RUNTIME_LIMIT_MINUTES="55"
+              # High limits for historical processing[cite: 7]
               export API_CALL_LIMIT="2000"
               export CANDLE_LIMIT="1000"
               python backfill.py
               ;;
-            labeler|labeller)
-              export RUNTIME_LIMIT_MINUTES="55"
+            labeler)
               export API_CALL_LIMIT="2000"
-              export CANDLE_LIMIT="500"
               python labeler.py
               ;;
             backfill-and-labeller)
-              export RUNTIME_LIMIT_MINUTES="55"
-              export API_CALL_LIMIT="2000"
-              export CANDLE_LIMIT="1000"
+              # Sequential run for a full data refresh[cite: 7]
               python backfill.py
-              export CANDLE_LIMIT="500"
               python labeler.py
               ;;
-            *)
-              echo "Unknown task: ${TASK}"
-              exit 1
+            pipeline|*)
+              # Default 15m scanning mode[cite: 7]
+              python runner.py
               ;;
           esac

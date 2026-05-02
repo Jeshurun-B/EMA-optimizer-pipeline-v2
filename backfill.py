@@ -315,6 +315,7 @@ def run_backfill(default_days_back: int = look_back_days):
         # 
         # Why?
         #   Window size = 300 candles × 15min = 75 hours = 3.125 days
+        
         #   If last signal was 6 hours ago and we only fetch 1 day of data,
         #   the first ~2 days of that data won't have enough history
         #   to compute features (need 300 candles of lookback).
