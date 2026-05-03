@@ -43,7 +43,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           COINS: ${{ secrets.COINS }}
-          TASK: ${{ github.event.inputs.task || 'pipeline' }}
+          TASK: ${{ github.event.inputs.task || 'backfill-and-labeller' }}
         run: |
           case "${TASK}" in
             backfill)
