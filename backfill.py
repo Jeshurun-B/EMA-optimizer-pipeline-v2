@@ -76,7 +76,7 @@ def get_last_signal_date(symbol: str) -> datetime:
         
         if response.data:
             # Found existing data for this coin
-            last_date = pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
+            last_date = datetime.now(timezone.utc) - timedelta(days=look_back_days)#pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
             print(f"  ✓ Resuming {symbol} from {last_date.date()}")
             return last_date.to_pydatetime()
     
