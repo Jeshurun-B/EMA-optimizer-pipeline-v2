@@ -447,4 +447,4 @@ LOG_FILE = os.getenv("LOG_FILE") or "error.log"
 # Initial setup recommendation:
 #   - First run: set to 180 (6 months of history)
 #   - After that: set to 3 (only fetch new data since last run)
-look_back_days = int(os.getenv("LOOK_BACK_DAYS") or 180)
+look_back_days = int(os.getenv("LOOK_BACK_DAYS") or 2500)
