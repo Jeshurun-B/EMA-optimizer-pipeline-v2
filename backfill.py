@@ -64,30 +64,72 @@ def get_last_signal_date(symbol: str) -> datetime:
         # Output: Last BTCUSDT signal: 2026-04-03
         # → Only fetch data from April 3rd forward
     """
-    try:
-        response = (
-            supabase.table(TABLE)
-            .select("checked_at_utc")
-            .eq("symbol", symbol)
-            .order("checked_at_utc", desc=True)
-            .limit(1)
-            .execute()
-        )
+    # try:
+    #     response = (
+    #         supabase.table(TABLE)
+    #         .select("checked_at_utc")
+    #         .eq("symbol", symbol)
+    #         .order("checked_at_utc", desc=True)
+    #         .limit(1)
+    #         .execute()
+    #     )
         
-        if response.data:
-            # Found existing data for this coin
-            last_date = datetime.now(timezone.utc) - timedelta(days=look_back_days)#pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
-            print(f"  ✓ Resuming {symbol} from {last_date.date()}")
-            return last_date.to_pydatetime()
+    #     if response.data:
+    #         # Found existing data for this coin
+    #         last_date = datetime.now(timezone.utc) - timedelta(days=look_back_days)#pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
+    #         print(f"  ✓ Resuming {symbol} from {last_date.date()}")
+    #         return last_date.to_pydatetime()
     
+    # except Exception as e:
+    #     log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
+    
+    # # No data found — go back look_back_days (default 3 days)
+    # fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
+    # print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
+    # return fallback
+global _SIGNAL_DATE_CACHE
+    
+    try:
+        # 1. Lazy-load the cache on the very first function execution
+        if _SIGNAL_DATE_CACHE is None:
+            print(" ⚡ Initializing global signal date cache from Supabase...")
+            _SIGNAL_DATE_CACHE = {}
+            
+            # Fetch all rows ordered by newest first
+            response = (
+                supabase.table(TABLE)
+                .select("symbol, checked_at_utc")
+                .order("checked_at_utc", desc=True)
+                .execute()
+            )
+            
+            if response.data:
+                for row in response.data:
+                    sym = row["symbol"]
+                    # Since we ordered descending, the first time we see a symbol, 
+                    # it is guaranteed to be its most recent record.
+                    if sym not in _SIGNAL_DATE_CACHE:
+                        # Convert string to a timezone-aware python datetime
+                        parsed_dt = pd.to_datetime(row["checked_at_utc"], utc=True)
+                        # Ensure it's a native python datetime object if your ecosystem expects it
+                        _SIGNAL_DATE_CACHE[sym] = parsed_dt.to_pydatetime() if hasattr(parsed_dt, 'to_pydatetime') else parsed_dt
+
+        # 2. Extract timestamp from the cache
+        if symbol in _SIGNAL_DATE_CACHE:
+            last_date = _SIGNAL_DATE_CACHE[symbol]
+            print(f"  ✓ Resuming {symbol} from cache timestamp: {last_date.date()}")
+            return last_date
+
     except Exception as e:
         log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
-    
-    # No data found — go back look_back_days (default 3 days)
+        # If the database fetch fails entirely, fallback to empty cache so logic continues
+        if _SIGNAL_DATE_CACHE is None:
+            _SIGNAL_DATE_CACHE = {}
+
+    # 3. Fallback if no existing data found for this coin
     fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
     print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
     return fallback
-
 
 # ══════════════════════════════════════════════════════════════════════════════
 #                              FETCH HISTORICAL KLINES (PAGINATED)
