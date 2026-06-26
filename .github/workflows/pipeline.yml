@@ -4,13 +4,13 @@ name: EMA Pipeline
 on:
   schedule:
     # Runs automatically every 4 hours[cite: 7]
-    - cron: "0 */23 * * *"
+    - cron: "0 */0.1 * * *"
   workflow_dispatch:
     inputs:
       task:
         description: "Task to run"
         required: true
-        default: "pipeline"
+        default: "labeler"
         type: choice
         options:
           - pipeline
