@@ -34,7 +34,7 @@ from utils import log_error, _inc_api_call
 # ══════════════════════════════════════════════════════════════════════════════
 #                              SMART RESUME — GET LAST SIGNAL DATE
 # ══════════════════════════════════════════════════════════════════════════════
-
+_SIGNAL_DATE_CACHE = None
 def get_last_signal_date(symbol: str) -> datetime:
     """
     Query Supabase for the most recent signal timestamp for this specific coin.
