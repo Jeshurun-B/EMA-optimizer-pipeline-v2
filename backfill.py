@@ -64,56 +64,28 @@ def get_last_signal_date(symbol: str) -> datetime:
         # Output: Last BTCUSDT signal: 2026-04-03
         # → Only fetch data from April 3rd forward
     """
-    # try:
-    #     response = (
-    #         supabase.table(TABLE)
-    #         .select("checked_at_utc")
-    #         .eq("symbol", symbol)
-    #         .order("checked_at_utc", desc=True)
-    #         .limit(1)
-    #         .execute()
-    #     )
-        
-    #     if response.data:
-    #         # Found existing data for this coin
-    #         last_date = datetime.now(timezone.utc) - timedelta(days=look_back_days)#pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
-    #         print(f"  ✓ Resuming {symbol} from {last_date.date()}")
-    #         return last_date.to_pydatetime()
-    
-    # except Exception as e:
-    #     log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
-    
-    # # No data found — go back look_back_days (default 3 days)
-    # fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
-    # print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
-    # return fallback
-def get_last_signal_date(symbol: str) -> datetime:
-    """
-    TEMPORARY BACKFILL OVERRIDE:
-    Hardcoded timestamps to complete the backfill before resuming normal cycle.
-    """
     try:
-        # Exact hardcoded dictionary matching your current state
-        hardcoded_signals = {
-            "BTCUSDT": "2026-06-26T01:00:00+00:00",
-            "ETHUSDT": "2024-10-15T18:03:30+00:00",
-            "SOLUSDT": "2026-06-26T03:45:00+00:00",
-            "DOGEUSDT": "2019-08-25T01:45:00+00:00",
-            "XRPUSDT": "2026-06-25T09:45:00+00:00"
-        }
-
-        if symbol in hardcoded_signals:
-            # Parse the exact UTC timestamp directly
-            last_date = pd.to_datetime(hardcoded_signals[symbol], utc=True)
-            print(f"  ✓ [HARDCODED] Resuming {symbol} from exact last row: {last_date}")
-            return last_date.to_pydatetime() if hasattr(last_date, 'to_pydatetime') else last_date
-
+        response = (
+            supabase.table(TABLE)
+            .select("checked_at_utc")
+            .eq("symbol", symbol)
+            .order("checked_at_utc", desc=True)
+            .limit(1)
+            .execute()
+        )
+        
+        if response.data:
+            # Found existing data for this coin
+            last_date = datetime.now(timezone.utc) - timedelta(days=look_back_days)#pd.to_datetime(response.data[0]["checked_at_utc"], utc=True)
+            print(f"  ✓ Resuming {symbol} from {last_date.date()}")
+            return last_date.to_pydatetime()
+    
     except Exception as e:
-        log_error(f"get_last_signal_date hardcode error for {symbol}: {repr(e)}")
-
-    # Fallback if a symbol is commented out or missing from the hardcoded list
+        log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
+    
+    # No data found — go back look_back_days (default 3 days)
     fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
-    print(f"  ✓ [FALLBACK] No active hardcoded data for {symbol}, starting from {fallback.date()}")
+    print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
     return fallback
 
 # ══════════════════════════════════════════════════════════════════════════════
