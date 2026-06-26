@@ -96,7 +96,7 @@ def get_last_signal_date(symbol: str) -> datetime:
         # Exact hardcoded dictionary matching your current state
         hardcoded_signals = {
             "BTCUSDT": "2026-06-26T01:00:00+00:00",
-            "ETHUSDT": "2022-11-30T18:30:00+00:00",
+            "ETHUSDT": "2024-10-15T18:03:30+00:00",
             "SOLUSDT": "2026-06-26T03:45:00+00:00",
             "DOGEUSDT": "2019-08-25T01:45:00+00:00",
             "XRPUSDT": "2026-06-25T09:45:00+00:00"
