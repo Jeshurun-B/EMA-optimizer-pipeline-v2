@@ -87,7 +87,7 @@ def get_last_signal_date(symbol: str) -> datetime:
     # fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
     # print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
     # return fallback
-global _SIGNAL_DATE_CACHE
+    global _SIGNAL_DATE_CACHE
     
     try:
         # 1. Lazy-load the cache on the very first function execution
