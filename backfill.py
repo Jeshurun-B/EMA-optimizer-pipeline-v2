@@ -87,48 +87,33 @@ def get_last_signal_date(symbol: str) -> datetime:
     # fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
     # print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
     # return fallback
-    global _SIGNAL_DATE_CACHE
-    
+def get_last_signal_date(symbol: str) -> datetime:
+    """
+    TEMPORARY BACKFILL OVERRIDE:
+    Hardcoded timestamps to complete the backfill before resuming normal cycle.
+    """
     try:
-        # 1. Lazy-load the cache on the very first function execution
-        if _SIGNAL_DATE_CACHE is None:
-            print(" ⚡ Initializing global signal date cache from Supabase...")
-            _SIGNAL_DATE_CACHE = {}
-            
-            # Fetch all rows ordered by newest first
-            response = (
-                supabase.table(TABLE)
-                .select("symbol, checked_at_utc")
-                .order("checked_at_utc", desc=True)
-                .execute()
-            )
-            
-            if response.data:
-                for row in response.data:
-                    sym = row["symbol"]
-                    # Since we ordered descending, the first time we see a symbol, 
-                    # it is guaranteed to be its most recent record.
-                    if sym not in _SIGNAL_DATE_CACHE:
-                        # Convert string to a timezone-aware python datetime
-                        parsed_dt = pd.to_datetime(row["checked_at_utc"], utc=True)
-                        # Ensure it's a native python datetime object if your ecosystem expects it
-                        _SIGNAL_DATE_CACHE[sym] = parsed_dt.to_pydatetime() if hasattr(parsed_dt, 'to_pydatetime') else parsed_dt
+        # Exact hardcoded dictionary matching your current state
+        hardcoded_signals = {
+            "BTCUSDT": "2026-06-26T01:00:00+00:00",
+            "ETHUSDT": "2022-11-30T18:30:00+00:00",
+            "SOLUSDT": "2026-06-26T03:45:00+00:00",
+            "DOGEUSDT": "2026-06-25T18:30:00+00:00",
+            "XRPUSDT": "2026-06-25T09:45:00+00:00"
+        }
 
-        # 2. Extract timestamp from the cache
-        if symbol in _SIGNAL_DATE_CACHE:
-            last_date = _SIGNAL_DATE_CACHE[symbol]
-            print(f"  ✓ Resuming {symbol} from cache timestamp: {last_date.date()}")
-            return last_date
+        if symbol in hardcoded_signals:
+            # Parse the exact UTC timestamp directly
+            last_date = pd.to_datetime(hardcoded_signals[symbol], utc=True)
+            print(f"  ✓ [HARDCODED] Resuming {symbol} from exact last row: {last_date}")
+            return last_date.to_pydatetime() if hasattr(last_date, 'to_pydatetime') else last_date
 
     except Exception as e:
-        log_error(f"get_last_signal_date error for {symbol}: {repr(e)}")
-        # If the database fetch fails entirely, fallback to empty cache so logic continues
-        if _SIGNAL_DATE_CACHE is None:
-            _SIGNAL_DATE_CACHE = {}
+        log_error(f"get_last_signal_date hardcode error for {symbol}: {repr(e)}")
 
-    # 3. Fallback if no existing data found for this coin
+    # Fallback if a symbol is commented out or missing from the hardcoded list
     fallback = datetime.now(timezone.utc) - timedelta(days=look_back_days)
-    print(f"  ✓ No existing data for {symbol}, starting from {fallback.date()}")
+    print(f"  ✓ [FALLBACK] No active hardcoded data for {symbol}, starting from {fallback.date()}")
     return fallback
 
 # ══════════════════════════════════════════════════════════════════════════════
