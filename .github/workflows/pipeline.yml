@@ -4,7 +4,7 @@ name: EMA Pipeline
 on:
   schedule:
     # Runs automatically every 4 hours[cite: 7]
-    - cron: "*/5 * * * *"
+    - cron: '0 */23 * * *'
   workflow_dispatch:
     inputs:
       task:
@@ -21,7 +21,7 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 600 # Extended for heavy backfilling tasks[cite: 7]
+    timeout-minutes: 60 # Extended for heavy backfilling tasks[cite: 7]
 
     steps:
       - name: Checkout code
