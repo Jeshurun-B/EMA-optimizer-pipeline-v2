@@ -53,7 +53,7 @@ jobs:
               python backfill.py
               ;;
             labeler)
-              export API_CALL_LIMIT="2000"
+              export API_CALL_LIMIT="6000"
               python labeler.py
               ;;
             backfill-and-labeller)
