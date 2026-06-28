@@ -47,7 +47,7 @@ BINANCE_BASE_URL = os.getenv("BINANCE_BASE_URL", "https://data-api.binance.visio
 #   - Hitting the limit = temporary ban (1-60 minutes depending on severity)
 #   - 200 calls is safe for scanning 5 coins across 3 timeframes
 #   - The pipeline tracks calls and gracefully saves state before hitting limit
-API_CALL_LIMIT = int(os.getenv("API_CALL_LIMIT") or 600)
+API_CALL_LIMIT = int(os.getenv("API_CALL_LIMIT") or 6000)
 
 # Maximum candles we request per single API call.
 # Binance hard limit: 1000 candles per request
