@@ -4,7 +4,7 @@ name: EMA Pipeline
 on:
   schedule:
     # Runs automatically every 4 hours[cite: 7]
-    - cron: 0 */6 * * *
+    - cron: "0 3 * * *"
   workflow_dispatch:
     inputs:
       task:
@@ -21,7 +21,7 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 600 # Extended for heavy backfilling tasks[cite: 7]
+    timeout-minutes: 60 # Extended for heavy backfilling tasks[cite: 7]
 
     steps:
       - name: Checkout code
@@ -43,7 +43,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           COINS: ${{ secrets.COINS }}
-          TASK: ${{ github.event.inputs.task || 'labeller' }}
+          TASK: ${{ github.event.inputs.task ||'backfill-and-labeller' }}
         run: |
           case "${TASK}" in
             backfill)
@@ -53,7 +53,7 @@ jobs:
               python backfill.py
               ;;
             labeler)
-              export API_CALL_LIMIT="18000"
+              export API_CALL_LIMIT="2000"
               python labeler.py
               ;;
             backfill-and-labeller)
