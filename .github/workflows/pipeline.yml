@@ -10,7 +10,7 @@ on:
       task:
         description: "Task to run"
         required: true
-        default: "labeler"
+        default: "backfill-and-labeller"
         type: choice
         options:
           - pipeline
