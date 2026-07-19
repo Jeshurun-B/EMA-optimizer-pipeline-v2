@@ -1,0 +1,100 @@
+{
+  "('LONG', 'class_target_1')": {
+    "n_estimators": 200,
+    "max_depth": 25,
+    "min_samples_leaf": 20,
+    "class_weight": "balanced"
+  },
+  "('LONG', 'class_target_2')": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_leaf": 20,
+    "class_weight": null
+  },
+  "('LONG', 'class_target_3_corrected')": {
+    "n_estimators": 100,
+    "max_depth": 15,
+    "min_samples_leaf": 30,
+    "class_weight": "balanced"
+  },
+  "('LONG', 'class_target_bad')": {
+    "n_estimators": 100,
+    "max_depth": 20,
+    "min_samples_leaf": 30,
+    "class_weight": null
+  },
+  "('SHORT', 'class_target_1')": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_leaf": 20,
+    "class_weight": null
+  },
+  "('SHORT', 'class_target_2')": {
+    "n_estimators": 200,
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "class_weight": null
+  },
+  "('SHORT', 'class_target_3_corrected')": {
+    "n_estimators": 100,
+    "max_depth": 15,
+    "min_samples_leaf": 10,
+    "class_weight": null
+  },
+  "('SHORT', 'class_target_bad')": {
+    "n_estimators": 100,
+    "max_depth": 20,
+    "min_samples_leaf": 30,
+    "class_weight": "balanced"
+  },
+  "('LONG', 'profit')": {
+    "n_estimators": 150,
+    "max_depth": 13,
+    "min_samples_leaf": 20
+  },
+  "('LONG', 'quality')": {
+    "n_estimators": 100,
+    "max_depth": 11,
+    "min_samples_leaf": 30
+  },
+  "('LONG', 'danger')": {
+    "n_estimators": 150,
+    "max_depth": 15,
+    "min_samples_leaf": 10
+  },
+  "('LONG', 'entry_timing')": {
+    "n_estimators": 100,
+    "max_depth": 9,
+    "min_samples_leaf": 30
+  },
+  "('LONG', 'exit_timing')": {
+    "n_estimators": 100,
+    "max_depth": 13,
+    "min_samples_leaf": 30
+  },
+  "('SHORT', 'profit')": {
+    "n_estimators": 150,
+    "max_depth": 15,
+    "min_samples_leaf": 20
+  },
+  "('SHORT', 'quality')": {
+    "n_estimators": 100,
+    "max_depth": 13,
+    "min_samples_leaf": 20
+  },
+  "('SHORT', 'danger')": {
+    "n_estimators": 150,
+    "max_depth": 13,
+    "min_samples_leaf": 10
+  },
+  "('SHORT', 'entry_timing')": {
+    "n_estimators": 100,
+    "max_depth": 11,
+    "min_samples_leaf": 30
+  },
+  "('SHORT', 'exit_timing')": {
+    "n_estimators": 100,
+    "max_depth": 15,
+    "min_samples_leaf": 30
+  }
+}
