@@ -1,0 +1,52 @@
+{
+  "('profit', 'LONG')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.11669484320288097
+  },
+  "('quality', 'LONG')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.04348964719607962
+  },
+  "('danger', 'LONG')": {
+    "max_depth": 7,
+    "min_samples_leaf": 5,
+    "r2": 0.5337951515911203
+  },
+  "('entry_timing', 'LONG')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.014135781664142954
+  },
+  "('exit_timing', 'LONG')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.04095729998995503
+  },
+  "('profit', 'SHORT')": {
+    "max_depth": 7,
+    "min_samples_leaf": 10,
+    "r2": 0.14640266929188678
+  },
+  "('quality', 'SHORT')": {
+    "max_depth": 7,
+    "min_samples_leaf": 10,
+    "r2": 0.06488812484763765
+  },
+  "('danger', 'SHORT')": {
+    "max_depth": 7,
+    "min_samples_leaf": 5,
+    "r2": 0.5055229955890529
+  },
+  "('entry_timing', 'SHORT')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.01432804978180804
+  },
+  "('exit_timing', 'SHORT')": {
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "r2": 0.04147674450836993
+  }
+}

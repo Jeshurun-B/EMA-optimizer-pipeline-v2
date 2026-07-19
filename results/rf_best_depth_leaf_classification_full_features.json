@@ -1,0 +1,42 @@
+{
+  "('class_target_1', 'LONG')": {
+    "max_depth": 15,
+    "min_samples_leaf": 10,
+    "auc": 0.6878672570252082
+  },
+  "('class_target_2', 'LONG')": {
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "auc": 0.7438394584843143
+  },
+  "('class_target_3_corrected', 'LONG')": {
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "auc": 0.8709086956570852
+  },
+  "('class_target_bad', 'LONG')": {
+    "max_depth": 10,
+    "min_samples_leaf": 10,
+    "auc": 0.8220930213530918
+  },
+  "('class_target_1', 'SHORT')": {
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "auc": 0.6966413611435428
+  },
+  "('class_target_2', 'SHORT')": {
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "auc": 0.7465760165128701
+  },
+  "('class_target_3_corrected', 'SHORT')": {
+    "max_depth": 15,
+    "min_samples_leaf": 10,
+    "auc": 0.8773483161225922
+  },
+  "('class_target_bad', 'SHORT')": {
+    "max_depth": 15,
+    "min_samples_leaf": 20,
+    "auc": 0.8310831212399495
+  }
+}

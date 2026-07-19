@@ -1,0 +1,42 @@
+{
+  "('LONG', 'class_target_1')": {
+    "n_estimators": 300,
+    "auc": 0.6893934817474351,
+    "baseline_auc": 0.6849
+  },
+  "('LONG', 'class_target_2')": {
+    "n_estimators": 200,
+    "auc": 0.7446700193664213,
+    "baseline_auc": 0.7543
+  },
+  "('LONG', 'class_target_3_corrected')": {
+    "n_estimators": 300,
+    "auc": 0.8713566540006786,
+    "baseline_auc": 0.8736
+  },
+  "('LONG', 'class_target_bad')": {
+    "n_estimators": 200,
+    "auc": 0.8223305025628033,
+    "baseline_auc": 0.7421
+  },
+  "('SHORT', 'class_target_1')": {
+    "n_estimators": 300,
+    "auc": 0.6986452380415819,
+    "baseline_auc": 0.697
+  },
+  "('SHORT', 'class_target_2')": {
+    "n_estimators": 300,
+    "auc": 0.7486566603911443,
+    "baseline_auc": 0.7632
+  },
+  "('SHORT', 'class_target_3_corrected')": {
+    "n_estimators": 300,
+    "auc": 0.8780041848172621,
+    "baseline_auc": null
+  },
+  "('SHORT', 'class_target_bad')": {
+    "n_estimators": 300,
+    "auc": 0.8324298296007548,
+    "baseline_auc": null
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "('LONG', 'profit')": {
+    "n_estimators": 150,
+    "r2": 0.11813503669857425,
+    "baseline_r2": 0.1155
+  },
+  "('LONG', 'quality')": {
+    "n_estimators": 200,
+    "r2": 0.04422217115727809,
+    "baseline_r2": -0.056
+  },
+  "('LONG', 'danger')": {
+    "n_estimators": 200,
+    "r2": 0.5345425140107355,
+    "baseline_r2": 0.4512
+  },
+  "('LONG', 'entry_timing')": {
+    "n_estimators": 300,
+    "r2": 0.014159869614923992,
+    "baseline_r2": 0.0067
+  },
+  "('LONG', 'exit_timing')": {
+    "n_estimators": 300,
+    "r2": 0.04127304583627558,
+    "baseline_r2": null
+  },
+  "('SHORT', 'profit')": {
+    "n_estimators": 150,
+    "r2": 0.14698945673584304,
+    "baseline_r2": 0.1359
+  },
+  "('SHORT', 'quality')": {
+    "n_estimators": 300,
+    "r2": 0.06556899926185174,
+    "baseline_r2": 0.0632
+  },
+  "('SHORT', 'danger')": {
+    "n_estimators": 150,
+    "r2": 0.5055423209243282,
+    "baseline_r2": 0.417
+  },
+  "('SHORT', 'entry_timing')": {
+    "n_estimators": 300,
+    "r2": 0.01475113029831141,
+    "baseline_r2": 0.01
+  },
+  "('SHORT', 'exit_timing')": {
+    "n_estimators": 300,
+    "r2": 0.03904903865014089,
+    "baseline_r2": null
+  }
+}
