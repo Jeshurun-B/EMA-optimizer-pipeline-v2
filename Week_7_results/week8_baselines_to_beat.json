@@ -1,0 +1,205 @@
+{
+  "('class_target_1', 'LONG')": {
+    "model": "RF",
+    "score": 0.6896,
+    "model_file": "RF_CLF_LONG_class_target_1_FINAL.joblib",
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 25,
+      "min_samples_leaf": 20,
+      "max_features": 0.5
+    },
+    "beat_previous": "Week 3 LogReg (0.6849)"
+  },
+  "('class_target_1', 'SHORT')": {
+    "model": "RF",
+    "score": 0.6981,
+    "model_file": "RF_CLF_SHORT_class_target_1_FINAL.joblib",
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 20,
+      "min_samples_leaf": 20,
+      "max_features": 0.7
+    },
+    "beat_previous": "Week 3 LogReg (0.6970)"
+  },
+  "('class_target_2', 'LONG')": {
+    "model": "LogReg (Week 3)",
+    "score": 0.7543,
+    "model_file": null,
+    "params": null,
+    "note": "RF never beat this target -- best RF was 0.7449 (depth=20, leaf=20, mf=0.7, n_est=200), saved as RF_CLF_LONG_class_target_2_FINAL.joblib if needed for reference/ensembling"
+  },
+  "('class_target_2', 'SHORT')": {
+    "model": "LogReg (Week 3)",
+    "score": 0.7632,
+    "model_file": null,
+    "params": null,
+    "note": "RF never beat this target -- best RF was 0.7482 (depth=15, leaf=20, mf=0.7, n_est=200), saved as RF_CLF_SHORT_class_target_2_FINAL.joblib if needed for reference/ensembling"
+  },
+  "('class_target_3_corrected', 'LONG')": {
+    "model": "LogReg (Week 4)",
+    "score": 0.8736,
+    "model_file": null,
+    "params": null,
+    "note": "RF never beat this target -- best RF was 0.8710 (depth=15, leaf=30, mf=log2, n_est=100), saved as RF_CLF_LONG_class_target_3_corrected_FINAL.joblib if needed for reference/ensembling"
+  },
+  "('class_target_3_corrected', 'SHORT')": {
+    "model": "RF",
+    "score": 0.878,
+    "model_file": "RF_CLF_SHORT_class_target_3_corrected_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 10,
+      "max_features": "log2"
+    },
+    "beat_previous": "No prior baseline recorded for this target/direction",
+    "FLAG": "Two candidate RF numbers exist this week (0.8780 from n_estimators sweep vs 0.8773 from final depth/leaf sweep) -- close but not identical; different n_estimators tested. Re-verify. Saved .joblib reflects the FINAL sweep's params (depth=15/leaf=10/n_est=100), not the 0.8780 config."
+  },
+  "('class_target_bad', 'LONG')": {
+    "model": "RF",
+    "score": 0.8229,
+    "model_file": "RF_CLF_LONG_class_target_bad_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 20,
+      "min_samples_leaf": 30,
+      "max_features": "sqrt"
+    },
+    "beat_previous": "Week 4 LogReg (0.7421)"
+  },
+  "('class_target_bad', 'SHORT')": {
+    "model": "RF",
+    "score": 0.8324,
+    "model_file": "RF_CLF_SHORT_class_target_bad_FINAL.joblib",
+    "params": {
+      "n_estimators": 300,
+      "max_depth": "~15 (unconfirmed exact)",
+      "min_samples_leaf": 20,
+      "max_features": "log2"
+    },
+    "beat_previous": "No prior baseline recorded for this target/direction",
+    "FLAG": "Two candidate RF numbers exist this week (0.8324 from n_estimators sweep at n_est=300 vs 0.8318 from final depth/leaf sweep at depth=20/leaf=30/n_est=100) -- reconcile before trusting. Saved .joblib reflects the FINAL sweep's params (depth=20/leaf=30/n_est=100), not the 0.8324 config."
+  },
+  "('profit', 'LONG')": {
+    "model": "RF",
+    "score": 0.1287,
+    "model_file": "RF_REG_LONG_profit_FINAL.joblib",
+    "params": {
+      "n_estimators": 150,
+      "max_depth": 13,
+      "min_samples_leaf": 20,
+      "max_features": "sqrt"
+    },
+    "beat_previous": "Week 5 LinReg (0.1155)"
+  },
+  "('profit', 'SHORT')": {
+    "model": "RF",
+    "score": 0.1607,
+    "model_file": "RF_REG_SHORT_profit_FINAL.joblib",
+    "params": {
+      "n_estimators": 150,
+      "max_depth": 15,
+      "min_samples_leaf": 20,
+      "max_features": 0.3
+    },
+    "beat_previous": "Week 5 LinReg (0.1359)"
+  },
+  "('quality', 'LONG')": {
+    "model": "RF",
+    "score": 0.0519,
+    "model_file": "RF_REG_LONG_quality_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 11,
+      "min_samples_leaf": 30,
+      "max_features": "log2"
+    },
+    "beat_previous": "Week 5 Tree Depth=2 (-0.0560)"
+  },
+  "('quality', 'SHORT')": {
+    "model": "RF",
+    "score": 0.074,
+    "model_file": "RF_REG_SHORT_quality_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 13,
+      "min_samples_leaf": 20,
+      "max_features": "sqrt"
+    },
+    "beat_previous": "Week 5 LinReg (0.0632)"
+  },
+  "('danger', 'LONG')": {
+    "model": "RF",
+    "score": 0.5412,
+    "model_file": "RF_REG_LONG_danger_FINAL.joblib",
+    "params": {
+      "n_estimators": 150,
+      "max_depth": 15,
+      "min_samples_leaf": 10,
+      "max_features": 0.3
+    },
+    "beat_previous": "Week 5 Tree Depth=3 (0.4512)"
+  },
+  "('danger', 'SHORT')": {
+    "model": "RF",
+    "score": 0.5114,
+    "model_file": "RF_REG_SHORT_danger_FINAL.joblib",
+    "params": {
+      "n_estimators": 150,
+      "max_depth": 13,
+      "min_samples_leaf": 10,
+      "max_features": 0.5
+    },
+    "beat_previous": "Week 5 Tree Depth=3 (0.4170)"
+  },
+  "('entry_timing', 'LONG')": {
+    "model": "RF",
+    "score": 0.0151,
+    "model_file": "RF_REG_LONG_entry_timing_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 9,
+      "min_samples_leaf": 30,
+      "max_features": "log2"
+    },
+    "beat_previous": "Week 5 LinReg (0.0067)"
+  },
+  "('entry_timing', 'SHORT')": {
+    "model": "RF",
+    "score": 0.0167,
+    "model_file": "RF_REG_SHORT_entry_timing_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 11,
+      "min_samples_leaf": 30,
+      "max_features": "log2"
+    },
+    "beat_previous": "Week 5 LinReg (0.0100)"
+  },
+  "('exit_timing', 'LONG')": {
+    "model": "RF",
+    "score": 0.0546,
+    "model_file": "RF_REG_LONG_exit_timing_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 13,
+      "min_samples_leaf": 30,
+      "max_features": 0.7
+    },
+    "beat_previous": "NO Week 5 baseline exists for this target -- nothing to beat, this is RF's number alone"
+  },
+  "('exit_timing', 'SHORT')": {
+    "model": "RF",
+    "score": 0.0516,
+    "model_file": "RF_REG_SHORT_exit_timing_FINAL.joblib",
+    "params": {
+      "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 30,
+      "max_features": 0.7
+    },
+    "beat_previous": "NO Week 5 baseline exists for this target -- nothing to beat, this is RF's number alone"
+  }
+}
