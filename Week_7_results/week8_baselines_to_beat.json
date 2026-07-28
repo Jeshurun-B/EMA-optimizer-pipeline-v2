@@ -1,205 +1,230 @@
 {
-  "('class_target_1', 'LONG')": {
-    "model": "RF",
-    "score": 0.6896,
-    "model_file": "RF_CLF_LONG_class_target_1_FINAL.joblib",
-    "params": {
-      "n_estimators": 200,
-      "max_depth": 25,
-      "min_samples_leaf": 20,
-      "max_features": 0.5
+  "classification": {
+    "LONG": {
+      "class_target_1": {
+        "Best_AUC": 0.7033,
+        "Params": {
+          "learning_rate": 0.03193900275479015,
+          "max_depth": 3,
+          "min_child_weight": 3,
+          "subsample": 0.6007924989700005,
+          "colsample_bytree": 0.9304605229561388,
+          "reg_alpha": 11.77485841650239,
+          "reg_lambda": 0.01573035968462679
+        }
+      },
+      "class_target_2": {
+        "Best_AUC": 0.7595,
+        "Params": {
+          "learning_rate": 0.06690593189214605,
+          "max_depth": 3,
+          "min_child_weight": 8,
+          "subsample": 0.719587225130806,
+          "colsample_bytree": 0.8409990149762306,
+          "reg_alpha": 10.84666200903493,
+          "reg_lambda": 0.012558316865181288
+        }
+      },
+      "class_target_3_corrected": {
+        "Best_AUC": 0.884,
+        "Params": {
+          "learning_rate": 0.018694343039862876,
+          "max_depth": 4,
+          "min_child_weight": 2,
+          "subsample": 0.8459380994284885,
+          "colsample_bytree": 0.7867677630277468,
+          "reg_alpha": 0.0729309047188579,
+          "reg_lambda": 8.959604200352018
+        }
+      },
+      "class_target_bad": {
+        "Best_AUC": 0.843,
+        "Params": {
+          "learning_rate": 0.02153816843812914,
+          "max_depth": 4,
+          "min_child_weight": 3,
+          "subsample": 0.8085506441749629,
+          "colsample_bytree": 0.8577797535427466,
+          "reg_alpha": 5.217310901617513,
+          "reg_lambda": 10.250011268885658
+        }
+      }
     },
-    "beat_previous": "Week 3 LogReg (0.6849)"
+    "SHORT": {
+      "class_target_1": {
+        "Best_AUC": 0.712,
+        "Params": {
+          "learning_rate": 0.028144818575484794,
+          "max_depth": 4,
+          "min_child_weight": 2,
+          "subsample": 0.8416883878823824,
+          "colsample_bytree": 0.9454571131072624,
+          "reg_alpha": 8.654810512280925,
+          "reg_lambda": 0.007965238502102503
+        }
+      },
+      "class_target_2": {
+        "Best_AUC": 0.7653,
+        "Params": {
+          "learning_rate": 0.04273487104783263,
+          "max_depth": 4,
+          "min_child_weight": 5,
+          "subsample": 0.7746929207492816,
+          "colsample_bytree": 0.8362694952342458,
+          "reg_alpha": 14.395243368619107,
+          "reg_lambda": 0.019938236510528482
+        }
+      },
+      "class_target_3_corrected": {
+        "Best_AUC": 0.8903,
+        "Params": {
+          "learning_rate": 0.023284440703042975,
+          "max_depth": 5,
+          "min_child_weight": 4,
+          "subsample": 0.8359020861440672,
+          "colsample_bytree": 0.9223150651880696,
+          "reg_alpha": 0.18182924025647226,
+          "reg_lambda": 8.937631829924365
+        }
+      },
+      "class_target_bad": {
+        "Best_AUC": 0.853,
+        "Params": {
+          "learning_rate": 0.024699249159249228,
+          "max_depth": 4,
+          "min_child_weight": 1,
+          "subsample": 0.8145199483646348,
+          "colsample_bytree": 0.7320405115383158,
+          "reg_alpha": 3.4940756518068126,
+          "reg_lambda": 14.370938656919858
+        }
+      }
+    }
   },
-  "('class_target_1', 'SHORT')": {
-    "model": "RF",
-    "score": 0.6981,
-    "model_file": "RF_CLF_SHORT_class_target_1_FINAL.joblib",
-    "params": {
-      "n_estimators": 200,
-      "max_depth": 20,
-      "min_samples_leaf": 20,
-      "max_features": 0.7
+  "regression": {
+    "LONG": {
+      "profit": {
+        "Best_R2": 0.1778,
+        "Params": {
+          "learning_rate": 0.03723119927251687,
+          "max_depth": 4,
+          "min_child_weight": 10,
+          "subsample": 0.841774377624883,
+          "colsample_bytree": 0.8120846740664908,
+          "reg_alpha": 4.994676307140724,
+          "reg_lambda": 0.001969452051107179
+        }
+      },
+      "quality": {
+        "Best_R2": 0.0966,
+        "Params": {
+          "learning_rate": 0.03191288112443416,
+          "max_depth": 6,
+          "min_child_weight": 4,
+          "subsample": 0.8981333522112259,
+          "colsample_bytree": 0.781960206634495,
+          "reg_alpha": 2.3817817828641314,
+          "reg_lambda": 0.12441380643974286
+        }
+      },
+      "danger": {
+        "Best_R2": 0.5751,
+        "Params": {
+          "learning_rate": 0.046483534089626126,
+          "max_depth": 3,
+          "min_child_weight": 11,
+          "subsample": 0.6935362301418458,
+          "colsample_bytree": 0.8175306855615615,
+          "reg_alpha": 0.1584792715430103,
+          "reg_lambda": 0.006523772552165877
+        }
+      },
+      "entry_timing": {
+        "Best_R2": 0.0191,
+        "Params": {
+          "learning_rate": 0.06931046941852473,
+          "max_depth": 2,
+          "min_child_weight": 6,
+          "subsample": 0.901243070619618,
+          "colsample_bytree": 0.856100436963098,
+          "reg_alpha": 11.965417306590771,
+          "reg_lambda": 0.0015407765511508272
+        }
+      },
+      "exit_timing": {
+        "Best_R2": 0.0634,
+        "Params": {
+          "learning_rate": 0.019114542270718432,
+          "max_depth": 3,
+          "min_child_weight": 4,
+          "subsample": 0.7690276252235134,
+          "colsample_bytree": 0.9188983631249638,
+          "reg_alpha": 0.29431099554330364,
+          "reg_lambda": 3.414793883444629
+        }
+      }
     },
-    "beat_previous": "Week 3 LogReg (0.6970)"
-  },
-  "('class_target_2', 'LONG')": {
-    "model": "LogReg (Week 3)",
-    "score": 0.7543,
-    "model_file": null,
-    "params": null,
-    "note": "RF never beat this target -- best RF was 0.7449 (depth=20, leaf=20, mf=0.7, n_est=200), saved as RF_CLF_LONG_class_target_2_FINAL.joblib if needed for reference/ensembling"
-  },
-  "('class_target_2', 'SHORT')": {
-    "model": "LogReg (Week 3)",
-    "score": 0.7632,
-    "model_file": null,
-    "params": null,
-    "note": "RF never beat this target -- best RF was 0.7482 (depth=15, leaf=20, mf=0.7, n_est=200), saved as RF_CLF_SHORT_class_target_2_FINAL.joblib if needed for reference/ensembling"
-  },
-  "('class_target_3_corrected', 'LONG')": {
-    "model": "LogReg (Week 4)",
-    "score": 0.8736,
-    "model_file": null,
-    "params": null,
-    "note": "RF never beat this target -- best RF was 0.8710 (depth=15, leaf=30, mf=log2, n_est=100), saved as RF_CLF_LONG_class_target_3_corrected_FINAL.joblib if needed for reference/ensembling"
-  },
-  "('class_target_3_corrected', 'SHORT')": {
-    "model": "RF",
-    "score": 0.878,
-    "model_file": "RF_CLF_SHORT_class_target_3_corrected_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 15,
-      "min_samples_leaf": 10,
-      "max_features": "log2"
-    },
-    "beat_previous": "No prior baseline recorded for this target/direction",
-    "FLAG": "Two candidate RF numbers exist this week (0.8780 from n_estimators sweep vs 0.8773 from final depth/leaf sweep) -- close but not identical; different n_estimators tested. Re-verify. Saved .joblib reflects the FINAL sweep's params (depth=15/leaf=10/n_est=100), not the 0.8780 config."
-  },
-  "('class_target_bad', 'LONG')": {
-    "model": "RF",
-    "score": 0.8229,
-    "model_file": "RF_CLF_LONG_class_target_bad_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 20,
-      "min_samples_leaf": 30,
-      "max_features": "sqrt"
-    },
-    "beat_previous": "Week 4 LogReg (0.7421)"
-  },
-  "('class_target_bad', 'SHORT')": {
-    "model": "RF",
-    "score": 0.8324,
-    "model_file": "RF_CLF_SHORT_class_target_bad_FINAL.joblib",
-    "params": {
-      "n_estimators": 300,
-      "max_depth": "~15 (unconfirmed exact)",
-      "min_samples_leaf": 20,
-      "max_features": "log2"
-    },
-    "beat_previous": "No prior baseline recorded for this target/direction",
-    "FLAG": "Two candidate RF numbers exist this week (0.8324 from n_estimators sweep at n_est=300 vs 0.8318 from final depth/leaf sweep at depth=20/leaf=30/n_est=100) -- reconcile before trusting. Saved .joblib reflects the FINAL sweep's params (depth=20/leaf=30/n_est=100), not the 0.8324 config."
-  },
-  "('profit', 'LONG')": {
-    "model": "RF",
-    "score": 0.1287,
-    "model_file": "RF_REG_LONG_profit_FINAL.joblib",
-    "params": {
-      "n_estimators": 150,
-      "max_depth": 13,
-      "min_samples_leaf": 20,
-      "max_features": "sqrt"
-    },
-    "beat_previous": "Week 5 LinReg (0.1155)"
-  },
-  "('profit', 'SHORT')": {
-    "model": "RF",
-    "score": 0.1607,
-    "model_file": "RF_REG_SHORT_profit_FINAL.joblib",
-    "params": {
-      "n_estimators": 150,
-      "max_depth": 15,
-      "min_samples_leaf": 20,
-      "max_features": 0.3
-    },
-    "beat_previous": "Week 5 LinReg (0.1359)"
-  },
-  "('quality', 'LONG')": {
-    "model": "RF",
-    "score": 0.0519,
-    "model_file": "RF_REG_LONG_quality_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 11,
-      "min_samples_leaf": 30,
-      "max_features": "log2"
-    },
-    "beat_previous": "Week 5 Tree Depth=2 (-0.0560)"
-  },
-  "('quality', 'SHORT')": {
-    "model": "RF",
-    "score": 0.074,
-    "model_file": "RF_REG_SHORT_quality_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 13,
-      "min_samples_leaf": 20,
-      "max_features": "sqrt"
-    },
-    "beat_previous": "Week 5 LinReg (0.0632)"
-  },
-  "('danger', 'LONG')": {
-    "model": "RF",
-    "score": 0.5412,
-    "model_file": "RF_REG_LONG_danger_FINAL.joblib",
-    "params": {
-      "n_estimators": 150,
-      "max_depth": 15,
-      "min_samples_leaf": 10,
-      "max_features": 0.3
-    },
-    "beat_previous": "Week 5 Tree Depth=3 (0.4512)"
-  },
-  "('danger', 'SHORT')": {
-    "model": "RF",
-    "score": 0.5114,
-    "model_file": "RF_REG_SHORT_danger_FINAL.joblib",
-    "params": {
-      "n_estimators": 150,
-      "max_depth": 13,
-      "min_samples_leaf": 10,
-      "max_features": 0.5
-    },
-    "beat_previous": "Week 5 Tree Depth=3 (0.4170)"
-  },
-  "('entry_timing', 'LONG')": {
-    "model": "RF",
-    "score": 0.0151,
-    "model_file": "RF_REG_LONG_entry_timing_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 9,
-      "min_samples_leaf": 30,
-      "max_features": "log2"
-    },
-    "beat_previous": "Week 5 LinReg (0.0067)"
-  },
-  "('entry_timing', 'SHORT')": {
-    "model": "RF",
-    "score": 0.0167,
-    "model_file": "RF_REG_SHORT_entry_timing_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 11,
-      "min_samples_leaf": 30,
-      "max_features": "log2"
-    },
-    "beat_previous": "Week 5 LinReg (0.0100)"
-  },
-  "('exit_timing', 'LONG')": {
-    "model": "RF",
-    "score": 0.0546,
-    "model_file": "RF_REG_LONG_exit_timing_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 13,
-      "min_samples_leaf": 30,
-      "max_features": 0.7
-    },
-    "beat_previous": "NO Week 5 baseline exists for this target -- nothing to beat, this is RF's number alone"
-  },
-  "('exit_timing', 'SHORT')": {
-    "model": "RF",
-    "score": 0.0516,
-    "model_file": "RF_REG_SHORT_exit_timing_FINAL.joblib",
-    "params": {
-      "n_estimators": 100,
-      "max_depth": 15,
-      "min_samples_leaf": 30,
-      "max_features": 0.7
-    },
-    "beat_previous": "NO Week 5 baseline exists for this target -- nothing to beat, this is RF's number alone"
+    "SHORT": {
+      "profit": {
+        "Best_R2": 0.2036,
+        "Params": {
+          "learning_rate": 0.03236534518126892,
+          "max_depth": 3,
+          "min_child_weight": 11,
+          "subsample": 0.6496003746013588,
+          "colsample_bytree": 0.9466558743286613,
+          "reg_alpha": 3.625022346975227,
+          "reg_lambda": 0.9866503867741391
+        }
+      },
+      "quality": {
+        "Best_R2": 0.1125,
+        "Params": {
+          "learning_rate": 0.018837948577922224,
+          "max_depth": 5,
+          "min_child_weight": 7,
+          "subsample": 0.7834644922964445,
+          "colsample_bytree": 0.9992056224786011,
+          "reg_alpha": 1.5463682542464987,
+          "reg_lambda": 0.06618296850708996
+        }
+      },
+      "danger": {
+        "Best_R2": 0.5364,
+        "Params": {
+          "learning_rate": 0.05735890911316965,
+          "max_depth": 3,
+          "min_child_weight": 5,
+          "subsample": 0.7296421170234975,
+          "colsample_bytree": 0.7098906104840018,
+          "reg_alpha": 1.079395492948426,
+          "reg_lambda": 0.006893327248265821
+        }
+      },
+      "entry_timing": {
+        "Best_R2": 0.0161,
+        "Params": {
+          "learning_rate": 0.01381569917568476,
+          "max_depth": 4,
+          "min_child_weight": 7,
+          "subsample": 0.8112655327580548,
+          "colsample_bytree": 0.9624156925196973,
+          "reg_alpha": 8.27437385348141,
+          "reg_lambda": 0.001542415939377877
+        }
+      },
+      "exit_timing": {
+        "Best_R2": 0.057,
+        "Params": {
+          "learning_rate": 0.01589807545227361,
+          "max_depth": 3,
+          "min_child_weight": 3,
+          "subsample": 0.6022233179138565,
+          "colsample_bytree": 0.992192845765884,
+          "reg_alpha": 0.058316472009700145,
+          "reg_lambda": 1.1036334268441936
+        }
+      }
+    }
   }
 }
