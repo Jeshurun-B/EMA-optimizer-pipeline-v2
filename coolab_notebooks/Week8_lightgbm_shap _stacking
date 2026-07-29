@@ -1,1 +1,2734 @@
-{"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python","version":"3.12.13","mimetype":"text/x-python","codemirror_mode":{"name":"ipython","version":3},"pygments_lexer":"ipython3","nbconvert_exporter":"python","file_extension":".py"}},"nbformat_minor":5,"nbformat":4,"cells":[{"id":"599df0bc-68ae-44ae-a174-e930bd736b32","cell_type":"markdown","source":"# Week 8 — Gradient Boosting II: LightGBM + SHAP + Model Stacking\n**Date:** July 28, 2026\n**Week:** 8 of 10 — follows Week 7 (XGBoost, closed out; SHAP explicitly deferred to this week)\n\nXGBoost edged out RF as your best single model this week just closed, but by a thin margin, and RF's two weak spots (`class_target_2`, `class_target_3_corrected` LONG) got closed rather than blown open — worth keeping in mind before this week's tools invite overconfidence. This week has four real jobs, in order: (1) finally compile the RF-vs-XGBoost win/loss tally Week 7 never assembled, so \"current best\" means something concrete; (2) add LightGBM as a third tree ensemble and run SHAP across all three models together — the interpretability pass Week 7 deliberately postponed rather than redoing later; (3) build a stacking ensemble to see whether combining model families beats any single one; (4) do a genuine mid-point review of every model trained since Week 1, plus a first look at regime-dependence (trending vs ranging markets). None of this is a free pass to treat this week's numbers as more solid than last week's — SHAP agreement, stacking gains, and regime splits are all new places for optimistic bias to hide if you don't check for it the same way you checked Week 4's `class_target_3`.\n","metadata":{}},{"id":"063c3e2b-ded5-4094-b325-30ce6f44427b","cell_type":"markdown","source":"---","metadata":{}},{"id":"bdb88f6e-dfea-442e-a99e-35ddccdea54f","cell_type":"markdown","source":"## PART A — Setup (carried forward from Week 7, complete)","metadata":{}},{"id":"a6c3d8b5-ad94-433b-85dd-57d378c3e74a","cell_type":"markdown","source":"### A.0 — Carrying Week 7's lessons forward, explicitly\n\nTwo of these bit you again *inside* Week 7 itself, after being named as fixed — read this before writing anything below.\n\n1. **`RESULTS_DIR`/`save_result_dict` shadowing recurred in Week 7's own Optuna tuning cells** (both classification and regression), *after* being named a standing rule earlier the same week. Both are defined once, in A.9 below. No downstream cell — tuning sweep, comparison table, anything copy-pasted from a prior cell or a prior week — should reassign `RESULTS_DIR = 'results'` or redefine `save_result_dict` locally. If you're about to paste a sweep cell from Week 7, check this first.\n2. **Git identity must be configured at the top of *this* session, not assumed carried over.** Week 7 hit `fatal: unable to auto-detect email address` again at close-out, on a fresh container, despite this being written up as a Week 7 fix already. Run A.9's identity cell before anything that calls `save_progress()`.\n3. **Any Optuna study over ~15 minutes uses persistent `storage=sqlite:///...`, not in-memory.** Week 7's 50-trial regression sweep ran close to 90 minutes in-memory; if a Kaggle session had died mid-sweep, all of it would have been lost.\n4. **If you narrow a hyperparameter search space around a previous round's best trial, say so explicitly in the record** — Week 7's round 2 measured local refinement around round 1's single best trial, not independent re-exploration. Don't report it as if it were a broader search.\n5. **Diff any fully-regenerated setup cell against the previous verified version before running it.** Week 7 lost `target_exit` this way once already.\n6. **Log1p A/B tests must pass the *string* transform key (`'log1p'`/`'log5p'`), not a bare `True`/`False`.** `cv_regression()`'s offset lookup is keyed on the string, so passing a boolean silently resolves to \"no transform\" on both sides of a comparison — a same-vs-same test that can't detect anything, even though it will still print numbers. Sanity-check any A/B cell you write below by confirming the \"no transform\" and \"with transform\" runs actually produce different R² before trusting the delta.\n","metadata":{}},{"id":"749577f6-c662-494b-8dd7-2123ca3c71f6","cell_type":"markdown","source":"### A.0.1 — Standing checks from `ADVICE.md` (re-run this pulse-check every week, not just at Week 11)\n\nThese aren't this week's main topic, but skipping them silently is exactly the pattern `ADVICE.md` was written to stop. Answer briefly before treating anything below as a \"win\":\n- Is the CV-leakage question (early-stopping slice overlapping the last walk-forward fold) still deferred? It was deferred once in Week 7 for RF/XGBoost comparability. If LightGBM's baseline this week inherits the same simplification, say so explicitly — don't let it quietly become a fourth week of \"comparable, but not rigorous.\"\n- Do you have even a rough \"would this have made money\" number yet for your current best model? Not required to be exact — a naive PnL-if-every-flagged-signal-was-taken number is enough to keep the actual goal in view.\n- Any target being leaned on as a leaderboard leader — is it still worth re-checking against the volatility-ablation pattern that caught `class_target_3_corrected`?\n","metadata":{}},{"id":"0aeccfb6-abbf-4498-9e53-ae82e4b85f66","cell_type":"code","source":"# TODO: write 2-4 sentences per bullet above, based on this week's actual state --\n# not a restatement of last week's answer. If nothing has changed, say so explicitly\n# rather than leaving it blank.\nadvice_pulse_check = \"\"\"\nCV leakage status: ...\nRough PnL-if-taken number for current best model: ...\nAny leaderboard leader worth re-ablating: ...\n\"\"\"\nprint(advice_pulse_check)\n","metadata":{},"outputs":[],"execution_count":null},{"id":"d3cbb569-aae8-4e26-904c-eeb84f77514f","cell_type":"markdown","source":"---","metadata":{}},{"id":"5da91b7f-bd39-402b-b40d-74c5828f70f6","cell_type":"markdown","source":"### A.1 — Install packages","metadata":{}},{"id":"3fee1913-deba-43a7-ac50-1bd8f232881f","cell_type":"code","source":"!pip install -q supabase scikit-learn statsmodels xgboost lightgbm shap optuna\n","metadata":{},"outputs":[],"execution_count":null},{"id":"1d382027-e76e-4b62-b49f-ac3be7cb5c67","cell_type":"markdown","source":"### A.2 — Environment detection + secrets (Kaggle-primary, Colab-compatible)","metadata":{}},{"id":"b8587477-78d9-4cfa-94c8-2af14a69dfbe","cell_type":"code","source":"import os\n\nIS_KAGGLE = 'KAGGLE_KERNEL_RUN_TYPE' in os.environ\nIS_COLAB = 'COLAB_RELEASE_TAG' in os.environ\n\nif IS_KAGGLE:\n    from kaggle_secrets import UserSecretsClient\n    secrets = UserSecretsClient()\n    get_secret = lambda k: secrets.get_secret(k).strip()\nelif IS_COLAB:\n    from google.colab import userdata\n    get_secret = lambda k: userdata.get(k)\nelse:\n    # local/other -- read from os.environ as a fallback\n    get_secret = lambda k: os.environ[k]\n\nprint(f\"Environment: {'Kaggle' if IS_KAGGLE else 'Colab' if IS_COLAB else 'Other/local'}\")\n# Do NOT unconditionally import google.colab.userdata below this cell \"just in case\" --\n# Week 7 carried a dead Colab import into a Kaggle session. Branch, don't duplicate.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"1197d555-04a5-4c98-b429-bbe978a1901a","cell_type":"markdown","source":"### A.3 — Git identity (set BEFORE anything calls save_progress, every session)","metadata":{}},{"id":"48d81ee9-c889-46a0-95aa-78c3f52a9583","cell_type":"code","source":"import subprocess\n\nUSER_EMAIL       = \"israelbajulaye@student.oauife.edu.ng\"\nGITHUB_USERNAME  = \"Jeshurun-B\"\n\n# TODO: run these two lines every session, unconditionally -- do not assume a fresh\n# container inherited a previous session's git identity.\nsubprocess.run([\"git\", \"config\", \"--global\", \"user.email\", USER_EMAIL], check=True)\nsubprocess.run([\"git\", \"config\", \"--global\", \"user.name\", GITHUB_USERNAME], check=True)\n","metadata":{},"outputs":[],"execution_count":null},{"id":"cd10746d-49f9-49c9-86eb-6e02455b23a6","cell_type":"markdown","source":"### A.4 — Connect to both databases","metadata":{}},{"id":"a58cf761-6d2c-4b93-891a-5d4bdf96442f","cell_type":"code","source":"import pandas as pd\nimport numpy as np\nfrom supabase import create_client\n\n# Main DB\nmain_client = create_client(get_secret('SUPABASE_URL'), get_secret('SUPABASE_KEY'))\n\n# Analytics DB\nanalytics_client = create_client(get_secret('ANALYTICS_SUPABASE_URL'), get_secret('ANALYTICS_SUPABASE_KEY'))\n\nprint(\"Connected to both Supabase projects.\")\n","metadata":{},"outputs":[],"execution_count":null},{"id":"63efc347-6436-4639-9194-7cbe02f05b45","cell_type":"markdown","source":"### A.5 — Fetch + merge (keep exactly one merged dataframe)","metadata":{}},{"id":"baa3c072-4140-47ca-b5d9-25be18388def","cell_type":"code","source":"# TODO: fetch df_main from 'signals' (status == 'analyzed'), df_analytics from 'crossover_analytics'\n# TODO: rename df_analytics 'crossover_utc' -> 'checked_at_utc'\n# TODO: inner-merge on ['checked_at_utc', 'symbol'] into ONE dataframe named df -- do not\n#       also keep a second parallel dataframe around (Week 3's df/df_all mistake)\n# TODO: print(f\"Merged: {len(df):,} rows | {df.shape[1]} columns\")\ndf = None  # placeholder\n","metadata":{},"outputs":[],"execution_count":null},{"id":"0df67608-8321-48e0-a66d-ea5b9d9335a6","cell_type":"markdown","source":"### A.6 — Targets: classification + regression (carried forward, unchanged from Week 7)\nRetired: the old T1–T4 / `target_special` system and `class_target_3`. Do not regenerate either.\n\n**`REG_TARGETS` format note (changed mid-Week-7):** the transform flag is now a *string* (`'log1p'`, `'log5p'`, or `'none'`/absent), not a boolean. `quality`'s `log5p` (ln(y+5) + Duan's smearing) was confirmed merged into `cv_regression()` this week — carry the string-keyed version forward, not the old boolean version from the Week 5/6 session prompt.","metadata":{}},{"id":"71059459-2329-4181-8e1d-cde736f20897","cell_type":"code","source":"def optimal_entry_candle(row):\n    \"\"\"Returns 15-min candles from crossover to optimal entry. 0 = immediate entry.\"\"\"\n    try:\n        if pd.isnull(row['optimal_entry_utc']) or pd.isnull(row['checked_at_utc']):\n            return 0.0\n        return float((row['optimal_entry_utc'] - row['checked_at_utc']).total_seconds() / 900)\n    except Exception:\n        return 0.0\n\n# TODO: df['Optimum_entry'] = df.apply(optimal_entry_candle, axis=1)\n\n# --- Classification targets ---\n# TODO: mae_abs, mfe_abs = df['mae_percent'].abs(), df['mfe_percent'].abs()\n# TODO: df['target_b'] = (mfe_abs / (mfe_abs + mae_abs + 1e-8)) * (mfe_abs - mae_abs)\n# TODO: df['class_target_1'] = (df['target_b'] > 0.4).astype(int)\n# TODO: df['class_target_2'] = (df['mfe_percent'] > 1).astype(int)\n# TODO: is_long = df['signal_x'].astype(str).str.upper() == 'LONG'\n# TODO: df['total_mae'] = np.where(is_long, df['max_move_down_pct'].astype(float), df['max_move_up_pct'].astype(float))\n# TODO: df['class_target_3_corrected'] = (df['total_mae'] > 1.0).astype(int)\n# TODO: df['class_target_bad'] = ((df['total_mae'] > 1.0) & (df['pnl_percent'] < 0.1)).astype(int)\n\n# --- Regression targets (raw columns; transform applied inside cv_regression per REG_TARGETS) ---\n# TODO: df['target_profit'], df['target_quality'], df['target_danger'], df['target_entry'], df['target_exit']\n# TODO: REG_TARGETS = {\n#     'profit':       ('target_profit',  'log1p'),\n#     'quality':      ('target_quality', 'log5p'),\n#     'danger':       ('target_danger',  'log1p'),\n#     'entry_timing': ('target_entry',   'log1p'),\n#     'exit_timing':  ('target_exit',    'log1p'),\n# }\nREG_TARGETS = {}\n\n# TODO: print LONG/SHORT positive rate for all four classification targets -- every time\n# targets are (re)applied, not just the first time.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"3c57b91e-8868-4bd2-babd-a61b8d8e83e8","cell_type":"markdown","source":"### A.7 — Feature engineering pipeline (unchanged, leak-free, `FE_` prefix)\nAnalytics outcome columns (`mfe_percent`, `mae_percent`, `pnl_percent`, `trade_duration`, `exit_price`) are post-signal — only valid as lag-1 features. `WRAPPER_FIRST_FINAL_LONG`/`SHORT` still contains the dead reference `'FE_mfe_mae_ratio_lag'` — filter defensively (`[f for f in LIST if f in df.columns]`) or it will `KeyError`.","metadata":{}},{"id":"5b965a83-df75-4409-92f5-be87aace0e34","cell_type":"code","source":"# TODO: carry forward all FE_ engineered features from Week 7 unchanged.\n# TODO: confirm WRAPPER_FIRST_FINAL_LONG / SHORT are filtered defensively wherever used:\n#       [f for f in WRAPPER_FIRST_FINAL_LONG if f in df.columns]\n","metadata":{},"outputs":[],"execution_count":null},{"id":"02ab7026-e633-40d6-9e28-741045a48aba","cell_type":"markdown","source":"### A.8 — Feature sets","metadata":{}},{"id":"9fb9a1ae-dbf2-4657-b354-c7b0ed1d9774","cell_type":"code","source":"# TODO: df_long, df_short split + sort by checked_at_utc\n# TODO: feat_set_long, feat_set_short = filtered FEATURES_COMBINED per side\n# TODO: print counts for FEATURES_ALL / FEATURES_COMBINED / df_long / df_short\n","metadata":{},"outputs":[],"execution_count":null},{"id":"0d12f86a-293b-431b-97e5-6d48e3cd4335","cell_type":"markdown","source":"### A.9 — Walk-forward CV framework (finalized — `cv_no_scaling`/`cv_regression` are what tree ensembles use)\nTree-based models are scale-invariant, so `cv_no_scaling()` applies to `LGBMClassifier`/`LGBMRegressor` exactly as it did to RF and XGBoost. `cv_regression()` now takes a **string** transform key (`'log1p'`/`'log5p'`/absent) — this is the Week 7-end version, not the Week 5/6 boolean version. `'rmse'` is genuinely `sqrt(MSE)`, fixed at the source since Week 6.","metadata":{}},{"id":"7630aeac-cbbf-459e-a0a2-3d0de5a59772","cell_type":"code","source":"from sklearn.model_selection import TimeSeriesSplit\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import (\n    accuracy_score, precision_score, recall_score, f1_score, roc_auc_score,\n    mean_squared_error, mean_absolute_error, r2_score\n)\nfrom sklearn.base import clone\n\n# TODO: paste cv_with_scaling(), cv_no_scaling(), cv_regression() unchanged from Week 7's\n# closing version. cv_regression's signature: target_info = (target_col, transform),\n# transform in {'log1p', 'log5p', None}. Do NOT reintroduce the boolean version.\n\ndef cv_with_scaling(model, df_subset, feature_cols, target_col, n_splits=5, gap=0):\n    pass  # TODO\n\ndef cv_no_scaling(model, df_subset, feature_cols, target_col, n_splits=5, gap=0):\n    pass  # TODO\n\ndef cv_regression(model, df_subset, feature_cols, target_info, n_splits=5, gap=0, scale=False, clip_bounds=None):\n    pass  # TODO\n","metadata":{},"outputs":[],"execution_count":null},{"id":"38fc6294-c15f-4473-9f90-9ef7321a8f9d","cell_type":"markdown","source":"### A.10 — Persistent results/model saving\n**Non-negotiable, per the session prompt and Week 7's own recurrence of this exact bug:**\n`RESULTS_DIR` and `save_result_dict` are defined ONCE, right here. No cell below this one --\nnot a tuning sweep, not a leaderboard cell, not anything pasted from Week 7 -- may reassign\n`RESULTS_DIR` to a bare relative path or redefine `save_result_dict` locally.","metadata":{}},{"id":"a0cf0675-4f31-46e6-9ccf-484c01cb8acb","cell_type":"code","source":"import os\nimport time\nimport json as _json\nimport subprocess as _sp\n\n# --- Identity / repo config -------------------------------------------------\nGITHUB_USERNAME = \"Jeshurun-B\"\nREPO_NAME       = \"EMA-optimizer-pipeline-v2\"\nUSER_EMAIL      = \"israelbajulaye@student.oauife.edu.ng\"\nPARENT_DIR      = os.getcwd()\nREPO_PATH       = os.path.join(PARENT_DIR, REPO_NAME)\n\n# Pull the token from Kaggle Secrets. Do this HERE, not inside save_progress(),\n# so a missing/misconfigured secret fails loudly at setup time -- not silently\n# three cells later when you're mid-experiment and don't notice the print.\nfrom kaggle_secrets import UserSecretsClient\nGITHUB_TOKEN = UserSecretsClient().get_secret(\"GITHUB_TOKEN\")\n\n\ndef _ensure_repo():\n    \"\"\"\n    Make sure REPO_PATH exists locally (clone if not), and return True/False.\n    Pulled out of save_progress() so it can run ONCE, up front, before anything\n    else (like RESULTS_DIR/MODELS_DIR) assumes the repo is there.\n    Does NOT chdir anywhere permanently -- caller decides cwd.\n    \"\"\"\n    if os.path.exists(REPO_PATH):\n        return True\n    remote_url = f\"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/{GITHUB_USERNAME}/{REPO_NAME}.git\"\n    print(f\"[_ensure_repo] Repository not found locally. Cloning {REPO_NAME}...\")\n    os.chdir(PARENT_DIR)\n    clone_result = _sp.run([\"git\", \"clone\", remote_url], capture_output=True, text=True)\n    if clone_result.returncode != 0:\n        print(\"[_ensure_repo] Clone failed:\")\n        print(_scrub(clone_result.stderr, GITHUB_TOKEN))\n        return False\n    print(\"[_ensure_repo] Clone complete.\")\n    return True\n\n\ndef _scrub(text, token):\n    \"\"\"Strip the PAT out of any git output before printing -- a failed clone/pull/push\n    can otherwise echo the token straight into notebook output.\"\"\"\n    return text.replace(token, \"***\") if token else text\n\n\n# --- Guarantee the repo exists BEFORE building any path that assumes it does ---\nif not GITHUB_TOKEN:\n    raise RuntimeError(\"[setup] GITHUB_TOKEN secret is missing -- fix this before continuing.\")\nif not _ensure_repo():\n    raise RuntimeError(\"[setup] Could not clone repo -- see error above.\")\n\n# --- NOW it's safe to build these as absolute paths INSIDE the repo, and to\n# create them. Previously RESULTS_DIR was a bare relative string created at\n# whatever cwd happened to be at import time -- which was often NOT inside\n# REPO_PATH, so files saved there lived outside the repo and never got pushed.\nRF_RESULTS_DIR   = os.path.join(REPO_PATH, \"Week_6_results\")\nRF_MODELS_DIR    = os.path.join(REPO_PATH, \"Rf_W6models\")\nXGB_RESULTS_DIR  = os.path.join(REPO_PATH, \"Week_7_results\")\nXGB_MODELS_DIR   = os.path.join(REPO_PATH, \"XGB-wk_7_models\")\nRESULTS_DIR      = os.path.join(REPO_PATH, \"Week_8_results\")   # this week's writes go here ONLY\nMODELS_DIR       = os.path.join(REPO_PATH, \"LGBM-wk_8_models\")\n\n\nos.makedirs(RF_RESULTS_DIR, exist_ok=True)\nos.makedirs(RF_MODELS_DIR, exist_ok=True)\nos.makedirs(XGB_RESULTS_DIR, exist_ok=True)\nos.makedirs(XGB_MODELS_DIR, exist_ok=True)\nos.makedirs(RESULTS_DIR, exist_ok=True)\nos.makedirs(MODELS_DIR, exist_ok=True)\n\ndef save_result_dict(d, name):\n    path = os.path.join(RESULTS_DIR, f\"{name}.json\")\n    with open(path, \"w\") as f:\n        _json.dump(d, f, indent=2, default=str)\n    return path\n\n\ndef save_model(model, name):\n    import joblib\n    path = os.path.join(MODELS_DIR, f\"{name}.joblib\")\n    joblib.dump(model, path)\n    return path\n\n\ndef save_progress(commit_message=None):\n    \"\"\"\n    Stage, commit, pull (merge), and push everything in REPO_PATH to GitHub.\n    Call this yourself after finishing a chunk of work -- not on autopilot.\n    \"\"\"\n    if not GITHUB_TOKEN:\n        print(\"[save_progress] Aborted: GITHUB_TOKEN is missing.\")\n        return False\n\n    if not _ensure_repo():\n        return False\n\n    os.chdir(REPO_PATH)\n\n    # --- Lock file: never auto-delete. A crashed prior git process leaves this\n    # behind, but a genuinely-running one does too -- can't tell the difference\n    # from here, so surface it as an error and let a human check. ---\n    lock_file = os.path.join(REPO_PATH, \".git\", \"index.lock\")\n    if os.path.exists(lock_file):\n        raise RuntimeError(\n            f\"[save_progress] {lock_file} exists. A git process may genuinely be \"\n            \"running, or a previous one crashed. Check manually before proceeding -- \"\n            \"deleting this blindly can corrupt the repo.\"\n        )\n\n    # --- Stage & commit local changes FIRST, before any pull/merge. This is what\n    # protects this session's work: once it's a local commit, a merge can only\n    # add to it, never silently lose it. ---\n    status = _sp.run([\"git\", \"status\", \"--porcelain\"], capture_output=True, text=True)\n    committed_something = False\n    if status.stdout.strip():\n        print(\"[save_progress] Changes to be committed:\")\n        print(status.stdout)\n        _sp.run([\"git\", \"add\", \".\"], check=True)\n        msg = commit_message or f\"Manual save: {time.strftime('%Y-%m-%d %H:%M:%S')}\"\n        _sp.run([\"git\", \"commit\", \"-m\", msg], check=True)\n        committed_something = True\n    else:\n        print(\"[save_progress] No local changes to commit.\")\n\n    # --- Pull with merge (--no-rebase) via \"origin\" (set once at clone time) so\n    # origin/main is actually updated -- the ahead-check below depends on that. ---\n    print(\"[save_progress] Pulling latest from origin/main to check for divergence...\")\n    pull_result = _sp.run(\n        [\"git\", \"pull\", \"origin\", \"main\", \"--no-rebase\"],\n        capture_output=True, text=True\n    )\n    print(\"PULL STDOUT:\", pull_result.stdout)\n\n    if pull_result.returncode != 0:\n        conflict_check = _sp.run(\n            [\"git\", \"diff\", \"--name-only\", \"--diff-filter=U\"],\n            capture_output=True, text=True\n        )\n        if conflict_check.stdout.strip():\n            print(\"[save_progress] MERGE CONFLICT -- stopping here, not resolving automatically.\")\n            print(\"Conflicted files:\\n\" + conflict_check.stdout)\n            print(\"Resolve manually (edit files, `git add <file>`, `git commit`), \"\n                  \"then call save_progress() again to push.\")\n            return False\n        else:\n            print(\"[save_progress] Pull failed for a non-conflict reason:\")\n            print(_scrub(pull_result.stderr, GITHUB_TOKEN))\n            return False\n\n    if \"up to date\" not in pull_result.stdout.lower() and \"up-to-date\" not in pull_result.stdout.lower():\n        print(\"[save_progress] Merged remote changes from another environment (e.g. Colab/Kaggle).\")\n\n    ahead_check = _sp.run(\n        [\"git\", \"rev-list\", \"--count\", \"origin/main..HEAD\"],\n        capture_output=True, text=True\n    )\n    commits_ahead = ahead_check.stdout.strip()\n    if commits_ahead == \"0\" and not committed_something:\n        print(\"[save_progress] Nothing new to push -- already in sync with origin/main.\")\n        return True\n\n    push_result = _sp.run([\"git\", \"push\", \"origin\", \"main\"], capture_output=True, text=True)\n    if push_result.returncode != 0:\n        print(\"[save_progress] Push failed:\")\n        print(_scrub(push_result.stderr, GITHUB_TOKEN))\n        return False\n\n\n\n    print(f\"[save_progress] Successfully pushed to GitHub at {time.strftime('%H:%M:%S')}\")\n    return True\n\nprint(\"done\")","metadata":{},"outputs":[],"execution_count":null},{"id":"4befa419-c3fb-4fcf-974f-c2c6dc8efc22","cell_type":"markdown","source":"### A.11 — First task this week, not a side note: the RF-vs-XGBoost tally Week 7 never compiled","metadata":{}},{"id":"3ff7a178-02ba-4237-a1f9-cbba6610946b","cell_type":"code","source":"# TODO: load week8_baselines_to_beat.json (XGBoost's final numbers, saved at Week 7 close-out)\n#       AND week7_baselines_to_beat.json (RF's numbers) from PREV_RESULTS_DIR.\n# TODO: for all 18 target/direction combos (4 classification x2 directions = 8, 5 regression x2 = 10),\n#       compute win/loss: does XGBoost's saved number actually beat RF's saved number, combo by combo?\n# TODO: print an explicit count, e.g. \"XGBoost beats RF on X/18 combos\" -- mirroring how Week 6\n#       reported \"RF beats baseline 8/10\". Do not eyeball this from memory of last week's printouts --\n#       Week 7's own leaderboard cells manually re-typed remembered numbers more than once, which is\n#       exactly the failure mode this tally exists to avoid repeating.\n# TODO: specifically confirm: does the saved class_target_2 / class_target_3_corrected baseline\n#       actually reflect Week 3/4 LogReg's number (the thing RF lost to), or RF's own (weaker) number?\n#       Week 7's narrative assumed the former without re-checking the saved JSON value directly.\nrf_vs_xgb_tally = {}\n","metadata":{},"outputs":[],"execution_count":null},{"id":"85df7ee0-7c4d-4f3e-80d0-4ad617c77cc0","cell_type":"markdown","source":"---","metadata":{}},{"id":"ed5cd2a9-c803-4f50-af68-0e6c107d573d","cell_type":"markdown","source":"## PART B — LightGBM Theory + Implementation (Monday)","metadata":{}},{"id":"554b8cd1-9d37-4a70-8cd3-eda39ab64a9c","cell_type":"markdown","source":"**Concept:** LightGBM grows trees **leaf-wise** (best-loss-reduction leaf split next) rather than **level-wise** (every leaf at a depth splits before moving deeper, XGBoost's default). Leaf-wise can reach a lower loss with fewer splits, but it's easier to overfit on a small/noisy leaf if `num_leaves`/`min_data_in_leaf` aren't controlled — think about which of your Week 6/7 depth findings (shallow depth generally best, `min_samples_leaf` interacting with depth) this predicts for LightGBM's own controls.\n\n**Histogram binning:** continuous features are pre-bucketed into a fixed number of histogram bins before split-finding, which is why LightGBM is typically faster on large tabular datasets than XGBoost's exact or approximate split search.","metadata":{}},{"id":"00707e69-f848-4f2c-9073-ba6717f446a9","cell_type":"markdown","source":"### Deliverable — Leaf-wise vs level-wise, in your own words (fill in)","metadata":{}},{"id":"9517bec7-c764-43fd-90b4-11433bfd293e","cell_type":"markdown","source":"*(your notes here — specifically: given Week 6/7's finding that shallow trees win on this dataset, what does that predict about how tightly you'll need to constrain `num_leaves` here?)*","metadata":{}},{"id":"1a1adec7-1691-4590-afd2-c745af98b65d","cell_type":"markdown","source":"### Train LGBMClassifier / LGBMRegressor with early stopping","metadata":{}},{"id":"8b567553-51b7-4bf2-9b55-76cd01108427","cell_type":"code","source":"# ============================================================\n# TODO: Train LGBMClassifier with early stopping, per classification target\n# ============================================================\n# TODO: mirror Week 7's XGBoost early-stopping pattern: split a genuine walk-forward\n#       validation fold distinct from the final CV test folds, fit with early_stopping,\n#       then evaluate the resulting n_estimators via cv_no_scaling() for comparability.\n# TODO: watch the off-by-one from Week 7 -- confirm whether best_iteration needs +1\n#       for the number of trees you actually want (Week 7's classifier loop and\n#       regressor loop disagreed on this; pick one convention and use it consistently\n#       across BOTH classification and regression this week).\nlgbm_clf_results = {}\n","metadata":{},"outputs":[],"execution_count":null},{"id":"bdce4db8-21f2-4441-8117-a915e4e892bb","cell_type":"code","source":"# ============================================================\n# TODO: Train LGBMRegressor with early stopping, per REG_TARGETS\n# ============================================================\n# TODO: mirror the classifier loop above for all five REG_TARGETS, both directions.\n# TODO: use the STRING transform key ('log1p'/'log5p') from REG_TARGETS directly --\n#       do not reintroduce a boolean is_log flag.\nlgbm_reg_results = {}\n","metadata":{},"outputs":[],"execution_count":null},{"id":"b51d900d-4ca0-42f8-ae7d-a0dc0180ebba","cell_type":"markdown","source":"### Tune: `num_leaves`, `min_data_in_leaf`, `learning_rate`, `bagging_fraction` (joint sweep)","metadata":{}},{"id":"12af79c2-7c4c-4aae-a5d4-9dbede893e6c","cell_type":"code","source":"# TODO: time-test ONE representative config before committing to a sweep size\n#       (Week 6's sweeps ran 2-3x longer than estimated more than once -- don't repeat that here).\n# TODO: sweep num_leaves / min_data_in_leaf jointly, not one-at-a-time -- Week 6 found\n#       max_depth and min_samples_leaf interact, not independent levers. Assume the same\n#       is true here until you've checked.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"4ec124b6-9edd-4eb1-9cef-35aa463b5d1d","cell_type":"markdown","source":"### Deliverable — LightGBM vs XGBoost: speed and accuracy on your data (fill in)","metadata":{}},{"id":"8eeb1ef4-1113-458c-816d-0c641cc4ccfd","cell_type":"markdown","source":"*(your comparison here — same targets, same CV folds; is the speed difference actually large enough to matter at this dataset size, or is that more true at bigger scale than you have?)*","metadata":{}},{"id":"893e6e87-3394-4c8b-9b46-b570c844cde6","cell_type":"markdown","source":"---","metadata":{}},{"id":"8b4ba673-170f-42c6-8e03-64322f377054","cell_type":"markdown","source":"## PART C — SHAP Across RF, XGBoost, and LightGBM (Tuesday)","metadata":{}},{"id":"3245de4e-88ea-4114-b403-f8954faf97b0","cell_type":"markdown","source":"This is the deliverable Week 7 deferred, deliberately, so it could be done once across all three models instead of redone per-model. Do it that way now — resist the temptation to just run it on whichever model happens to be loaded in memory.","metadata":{}},{"id":"9ee2b861-d426-43e4-b627-1a1c5f916231","cell_type":"markdown","source":"### SHAP summary plot — do all three models agree on global importance and direction?","metadata":{}},{"id":"a6506ef3-caec-4378-93d4-94c91584aecb","cell_type":"code","source":"# TODO: import shap\n# TODO: for EACH of RF (Week 6's saved .joblib), XGBoost (Week 7's saved .joblib),\n#       and LightGBM (this week's model), build shap.TreeExplainer and shap_values\n#       on the SAME held-out fold / same feature set / same target, so the three are comparable.\n# TODO: shap.summary_plot() for each, side by side (or in one figure)\n# TODO: compare each model's top-10 SHAP features against Week 6's permutation-importance\n#       top-10 for the SAME target -- do all three agree with permutation more than MDI did\n#       in Week 6 (recall: MDI vs permutation only overlapped 4-6/10)?\n","metadata":{},"outputs":[],"execution_count":null},{"id":"5ae63822-652d-4d18-ada4-9d5a6b8be12d","cell_type":"markdown","source":"### SHAP dependence plot — same feature, three models, one shape check","metadata":{}},{"id":"110d4b2d-01f4-40e7-a1b9-5b95c581379b","cell_type":"code","source":"# TODO: pick Week 6's top permutation-importance feature (rsi_4h or ema_separation_4h)\n# TODO: shap.dependence_plot() for that feature, once per model (RF/XGBoost/LightGBM)\n# TODO: does the shape roughly match Week 6's PDP curve for the same feature, across all\n#       three models? A sanity check, not an expectation of identical curves.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"23c75853-ebea-4e04-bca3-55baa790c29e","cell_type":"markdown","source":"### SHAP waterfall plot — one good signal, one bad signal, your current best model","metadata":{}},{"id":"122c53df-61eb-44d6-8bd7-94e46d12ad52","cell_type":"code","source":"# TODO: pick one row where class_target_1 == 1, prediction confident and correct\n# TODO: pick one row where class_target_1 == 0, prediction confident and correct\n# TODO: shap.waterfall_plot() for each -- which features pushed the prediction each way?\n","metadata":{},"outputs":[],"execution_count":null},{"id":"aeb7df65-8400-4c59-8cab-297e7d3c08d8","cell_type":"markdown","source":"### Deliverable — three-way SHAP interpretation report (fill in)","metadata":{}},{"id":"3f4b8226-ab3c-4a54-a4f9-60172ead7e11","cell_type":"markdown","source":"*(your notes here: agreement level between the three models' SHAP rankings; agreement with Week 6's permutation importance; any feature one model leans on that the other two don't, and your best guess why)*","metadata":{}},{"id":"1bd596d5-b4eb-4bdd-b336-49c5384ca481","cell_type":"markdown","source":"---","metadata":{}},{"id":"6a4d4726-c496-4de7-9084-4cc447c9807f","cell_type":"markdown","source":"## PART D — Model Stacking Theory + Implementation (Wednesday)","metadata":{}},{"id":"23372baa-413c-494a-9566-f10a84d3e45f","cell_type":"markdown","source":"**Concept:** a stacking ensemble trains a meta-model on the **out-of-fold predictions** of several level-0 models, rather than on the raw features directly. The idea is that each level-0 model (LogReg, RF, XGBoost, LightGBM) makes different kinds of mistakes, and a meta-model can learn when to trust which one — this only helps if the level-0 models are meaningfully different from each other, not just differently-tuned versions of the same idea.\n\n**Walk-forward passthrough is the part that's easy to get wrong here:** the meta-model's training rows must be *out-of-fold* predictions from the level-0 models (predictions on data those models didn't see), computed walk-forward, in the same style as `cv_no_scaling()`/`cv_regression()` — not in-sample predictions, which would hand the meta-model a leaked, over-optimistic signal to learn from.","metadata":{}},{"id":"dc411fe3-5c2e-4f6f-88a1-bb2b6f6f93ce","cell_type":"markdown","source":"### Level-0 models: LogReg, RF, XGBoost, LightGBM","metadata":{}},{"id":"4ff0b5ad-464f-4cbb-b894-810d0156b1c1","cell_type":"code","source":"# TODO: load Week 3/4's tuned LogReg, Week 6's tuned RF, Week 7's tuned XGBoost,\n#       and this week's tuned LightGBM -- one saved model per target/direction, reused\n#       here rather than retrained from scratch.\nlevel0_models = {}\n","metadata":{},"outputs":[],"execution_count":null},{"id":"f98bdfc8-89c3-4893-9b9a-124db037e473","cell_type":"markdown","source":"### Level-1 meta-model: LogisticRegression (simple, interpretable)","metadata":{}},{"id":"68177284-0f64-4c67-a75f-0e10d4eeecec","cell_type":"code","source":"# TODO: build the out-of-fold prediction matrix (walk-forward, no leakage) for the\n#       level-0 models on one target/direction first, as a single worked example, before\n#       generalizing to all targets.\n# TODO: fit StackingClassifier (or a hand-rolled equivalent using cv_no_scaling-style\n#       walk-forward folds) with LogisticRegression as the final_estimator.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"2a863b70-bf2a-4be9-a5b6-f86c3de76f6b","cell_type":"markdown","source":"### Deliverable — stacked ensemble, one target/direction worked example (fill in)","metadata":{}},{"id":"9e8e9539-3fba-45a0-a6cd-4051188ad0c6","cell_type":"markdown","source":"*(your notes here)*","metadata":{}},{"id":"51b63526-1c98-42db-bf41-ac7d172fb698","cell_type":"markdown","source":"---","metadata":{}},{"id":"60023644-97e7-41c3-92bc-9425143e6aac","cell_type":"markdown","source":"## PART E — Stacking Tuning + Mid-Point Full Model Review (Thursday)","metadata":{}},{"id":"36db127f-342c-4a61-9fb4-685120febdea","cell_type":"markdown","source":"**This comparison table is the most important document of the project so far** — every model trained since Week 1, on the same walk-forward folds, side by side. Keep classification (AUC) and regression (R²) in **separate tables** -- do not sort them together.","metadata":{}},{"id":"5ac59146-bac0-4875-a950-420c511f5d62","cell_type":"markdown","source":"### Does stacking beat your best single model? Which level-0 models contribute most?","metadata":{}},{"id":"fac47f0e-9819-45d6-b144-d31cb407163f","cell_type":"code","source":"# TODO: compare stacked ensemble's CV metrics against XGBoost/LightGBM's own individual scores,\n#       per target/direction.\n# TODO: inspect the meta-model's coefficients (LogisticRegression.coef_) -- which level-0 model's\n#       predictions does the meta-model weight most heavily? Does that match which single model\n#       already led the leaderboard, or does stacking surface something non-obvious?\n","metadata":{},"outputs":[],"execution_count":null},{"id":"aa0ff2b0-f89e-40c9-9a89-c07f90b1b5b4","cell_type":"markdown","source":"### Try different meta-models: LogReg vs Ridge vs another RF","metadata":{}},{"id":"02143fe6-c768-4c52-a02f-94bfa83bd091","cell_type":"code","source":"# TODO: swap final_estimator and re-run the same comparison -- does the choice of\n#       meta-model actually change the ranking, or just the margin?\n","metadata":{},"outputs":[],"execution_count":null},{"id":"71138638-b695-461e-9336-a82573d6fad5","cell_type":"markdown","source":"### Calibration: reliability diagram — are confidence scores well-calibrated?","metadata":{}},{"id":"58b169ed-7ea2-427a-9ba2-5cf13397b523","cell_type":"code","source":"# TODO: from sklearn.calibration import calibration_curve\n# TODO: plot predicted-probability bins against observed positive rate, for your current\n#       best model AND the stacked ensemble\n","metadata":{},"outputs":[],"execution_count":null},{"id":"ca04cc3e-bec2-4468-a885-5887dce32e23","cell_type":"markdown","source":"### Full model comparison — every model, same walk-forward folds\nSeparate classification and regression tables. Include training time and an interpretability note (e.g. \"single coefficient vector\", \"SHAP available\", \"meta-model over 4 base learners\") for each row -- not just the metric.","metadata":{}},{"id":"e38f311e-5c52-4614-b888-b5c525b74df6","cell_type":"code","source":"# TODO: classification_comparison = pd.DataFrame([...])  -- rows: LogReg, DecisionTree, RF,\n#       XGBoost, LightGBM, Stacked -- columns: target, direction, AUC, train_time_s, notes\n# TODO: regression_comparison = pd.DataFrame([...])  -- same models, R2 instead of AUC\n# TODO: shortlist top 2-3 models to carry forward toward Week 9 (SVM) and eventual deployment\nclassification_comparison = None\nregression_comparison = None\n","metadata":{},"outputs":[],"execution_count":null},{"id":"4fe95475-e41a-4418-b2f9-12a8f1405b50","cell_type":"markdown","source":"---","metadata":{}},{"id":"4489fd40-a91c-4368-8996-de2e887da4d9","cell_type":"markdown","source":"## PART F — Regime-Based Model Split + Week 8 Consolidation (Friday)","metadata":{}},{"id":"9a7f2e4f-3bee-4ef0-917b-ab15a7cdb7c3","cell_type":"markdown","source":"Per `ADVICE.md`'s regime-dependence note: crypto's character has shifted meaningfully even within the dataset's own window. A model strong on average across the full history can be strong in one regime and dead weight in another — averaging can hide that. Treat this first split as the start of a real line of investigation if it turns up something, not a one-off Friday curiosity.","metadata":{}},{"id":"9fb84c1e-38f3-4997-be81-cebfa0beadef","cell_type":"markdown","source":"### Split by market regime: ADX > 25 (trending) vs ADX <= 25 (ranging)","metadata":{}},{"id":"6f6038b4-d3a2-4303-99d3-73097ea47199","cell_type":"code","source":"# TODO: df_trending = df[df['adx_ltf'] > 25]; df_ranging = df[df['adx_ltf'] <= 25]\n# TODO: re-run your current best model's walk-forward CV separately on each regime subset\n# TODO: does accuracy/AUC improve for the trending regime specifically? Is the ranging-regime\n#       score meaningfully worse, or does it wash out in the full-history average?\n","metadata":{},"outputs":[],"execution_count":null},{"id":"7f428f58-c34f-42d0-aa05-f8b80a7c4e47","cell_type":"markdown","source":"### Deliverable — regime-aware model experiment results (fill in)","metadata":{}},{"id":"99dac0fc-eeab-47e5-8f1d-3a85abf65dd7","cell_type":"markdown","source":"*(your notes here)*","metadata":{}},{"id":"7c16cacd-5009-4d7b-a4a7-f2124988d94a","cell_type":"markdown","source":"### Week 8 Honest Record","metadata":{}},{"id":"2ee12647-8988-46b4-9a5c-e6893d36dd29","cell_type":"markdown","source":"**Write this last — after re-running the cells it summarizes, not from memory of what you meant to get.** Every `...` below gets filled in only once the corresponding cell above has actually been run in this session.","metadata":{}},{"id":"cd97915a-ab52-4105-ac5a-7314d53778e6","cell_type":"code","source":"week8_record = f\"\"\"\n=================================================================================\nWEEK 8 PRODUCTION LOG -- GRADIENT BOOSTING II (LIGHTGBM), SHAP, STACKING, MID-POINT REVIEW\n=================================================================================\n\nRF vs XGBOOST TALLY (Week 7's deferred first task, done first this week)\nResult: ... / 18 combos won by XGBoost\nDoes the class_target_2 / class_target_3_corrected(LONG) baseline actually reflect\nLogReg's number, confirmed from the saved JSON (not assumed from memory)?: ...\n\nCLASSIFICATION LEADERBOARD (best AUC per target, model + delta over week8_baselines_to_beat)\n... (fill in per target, from your actual comparison table above)\n\nREGRESSION LEADERBOARD (best R2 per target, model + delta over week8_baselines_to_beat)\n... (fill in per target, from your actual comparison table above)\n\nLIGHTGBM vs XGBOOST\nSpeed: ...\nAccuracy: ...\n\nSHAP vs PERMUTATION IMPORTANCE (three-way: RF, XGBoost, LightGBM)\nDid all three agree with each other, and with Week 6's permutation importance, more than\nMDI vs permutation did in Week 6?: ...\n\nSTACKING\nDid it beat the best single model? By how much, on which targets specifically?: ...\nWhich level-0 model did the meta-model lean on most?: ...\nAre probabilities well-calibrated (reliability diagram)?: ...\n\nREGIME SPLIT\nTrending vs ranging -- real difference, or noise?: ...\n\nADVICE.MD STANDING CHECK-INS (see A.0.1 -- do not skip this section)\nCV leakage status this week: ...\nRough would-this-have-made-money number, current best model: ...\n\nHONEST VERDICT\nIs LightGBM, XGBoost, or the stacked ensemble your best model overall, per family?: ...\nBiggest surprise this week: ...\nTop 2-3 models shortlisted for Week 9 (SVM) onward: ...\nExpectation for Week 9: ...\n\"\"\"\n\nprint(week8_record)\n# Fill in every \"...\" only after the cells above have actually run this session.\n","metadata":{},"outputs":[],"execution_count":null},{"id":"f56b9667-0df0-4023-be6d-4c35095293bf","cell_type":"code","source":"# TODO: build week9_baselines_to_beat from this week's actual final leaderboard --\n#       do not hand-type remembered numbers into a dict; pull them from the same\n#       classification_comparison / regression_comparison DataFrames built in Part E.\nweek9_baselines_to_beat = {}\n\n# TODO: save_result_dict(week9_baselines_to_beat, \"week9_baselines_to_beat\")\n# TODO: save_progress(\"Week 8 close-out: LightGBM + three-way SHAP + stacking + regime split, \"\n#                      \"final baselines to beat for Week 9 SVM\")\n","metadata":{},"outputs":[],"execution_count":null}]}
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "7e9cc253",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012174,
+     "end_time": "2026-07-29T00:06:42.124688+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.112514+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "# Week 8 — Gradient Boosting II: LightGBM + SHAP + Model Stacking\n",
+    "**Date:** July 28, 2026\n",
+    "**Week:** 8 of 10 — follows Week 7 (XGBoost, closed out; SHAP explicitly deferred to this week)\n",
+    "\n",
+    "XGBoost edged out RF as your best single model this week just closed, but by a thin margin, and RF's two weak spots (`class_target_2`, `class_target_3_corrected` LONG) got closed rather than blown open — worth keeping in mind before this week's tools invite overconfidence. This week has four real jobs, in order: (1) finally compile the RF-vs-XGBoost win/loss tally Week 7 never assembled, so \"current best\" means something concrete; (2) add LightGBM as a third tree ensemble and run SHAP across all three models together — the interpretability pass Week 7 deliberately postponed rather than redoing later; (3) build a stacking ensemble to see whether combining model families beats any single one; (4) do a genuine mid-point review of every model trained since Week 1, plus a first look at regime-dependence (trending vs ranging markets). None of this is a free pass to treat this week's numbers as more solid than last week's — SHAP agreement, stacking gains, and regime splits are all new places for optimistic bias to hide if you don't check for it the same way you checked Week 4's `class_target_3`.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aac7fb4c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011638,
+     "end_time": "2026-07-29T00:06:42.147659+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.136021+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "84156264",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011374,
+     "end_time": "2026-07-29T00:06:42.169492+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.158118+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART A — Setup (carried forward from Week 7, complete)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "15c42bde",
+   "metadata": {
+    "papermill": {
+     "duration": 0.010948,
+     "end_time": "2026-07-29T00:06:42.191103+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.180155+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.0 — Carrying Week 7's lessons forward, explicitly\n",
+    "\n",
+    "Two of these bit you again *inside* Week 7 itself, after being named as fixed — read this before writing anything below.\n",
+    "\n",
+    "1. **`RESULTS_DIR`/`save_result_dict` shadowing recurred in Week 7's own Optuna tuning cells** (both classification and regression), *after* being named a standing rule earlier the same week. Both are defined once, in A.9 below. No downstream cell — tuning sweep, comparison table, anything copy-pasted from a prior cell or a prior week — should reassign `RESULTS_DIR = 'results'` or redefine `save_result_dict` locally. If you're about to paste a sweep cell from Week 7, check this first.\n",
+    "2. **Git identity must be configured at the top of *this* session, not assumed carried over.** Week 7 hit `fatal: unable to auto-detect email address` again at close-out, on a fresh container, despite this being written up as a Week 7 fix already. Run A.9's identity cell before anything that calls `save_progress()`.\n",
+    "3. **Any Optuna study over ~15 minutes uses persistent `storage=sqlite:///...`, not in-memory.** Week 7's 50-trial regression sweep ran close to 90 minutes in-memory; if a Kaggle session had died mid-sweep, all of it would have been lost.\n",
+    "4. **If you narrow a hyperparameter search space around a previous round's best trial, say so explicitly in the record** — Week 7's round 2 measured local refinement around round 1's single best trial, not independent re-exploration. Don't report it as if it were a broader search.\n",
+    "5. **Diff any fully-regenerated setup cell against the previous verified version before running it.** Week 7 lost `target_exit` this way once already.\n",
+    "6. **Log1p A/B tests must pass the *string* transform key (`'log1p'`/`'log5p'`), not a bare `True`/`False`.** `cv_regression()`'s offset lookup is keyed on the string, so passing a boolean silently resolves to \"no transform\" on both sides of a comparison — a same-vs-same test that can't detect anything, even though it will still print numbers. Sanity-check any A/B cell you write below by confirming the \"no transform\" and \"with transform\" runs actually produce different R² before trusting the delta.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "97baba9a",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011031,
+     "end_time": "2026-07-29T00:06:42.212945+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.201914+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.0.1 — Standing checks from `ADVICE.md` (re-run this pulse-check every week, not just at Week 11)\n",
+    "\n",
+    "These aren't this week's main topic, but skipping them silently is exactly the pattern `ADVICE.md` was written to stop. Answer briefly before treating anything below as a \"win\":\n",
+    "- Is the CV-leakage question (early-stopping slice overlapping the last walk-forward fold) still deferred? It was deferred once in Week 7 for RF/XGBoost comparability. If LightGBM's baseline this week inherits the same simplification, say so explicitly — don't let it quietly become a fourth week of \"comparable, but not rigorous.\"\n",
+    "- Do you have even a rough \"would this have made money\" number yet for your current best model? Not required to be exact — a naive PnL-if-every-flagged-signal-was-taken number is enough to keep the actual goal in view.\n",
+    "- Any target being leaned on as a leaderboard leader — is it still worth re-checking against the volatility-ablation pattern that caught `class_target_3_corrected`?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "d5db4047",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:42.236063Z",
+     "iopub.status.busy": "2026-07-29T00:06:42.235692Z",
+     "iopub.status.idle": "2026-07-29T00:06:42.246033Z",
+     "shell.execute_reply": "2026-07-29T00:06:42.244900Z"
+    },
+    "papermill": {
+     "duration": 0.024512,
+     "end_time": "2026-07-29T00:06:42.248035+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.223523+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "CV leakage status: ... so next week is supposed to be about about svm , am planning to either compress it and slow down to\n",
+      "to actually address this means i will be modifying my curriculum,i am also going to expand the curriculum to explore other\n",
+      "complex algorithm (deep learning etc) but right now i'll be sticking with the notebook plan, i will be testing everysingle one\n",
+      "my models far asides that , the cv i'll be using would remain as is , i'll create another 3 set for those section and that's \n",
+      "what i would be using going forward i'm going to focus more on understanding and less about making money for now\n",
+      "also going forward am going to be seperating my validation set from source before anything touches them , test/training data\n",
+      "would just be the top 60k, the rest 5k+ would be validation, this would be extremely strict, as new market shifts would be painfully \n",
+      "obvious and any leakage would be very apparent , when i reach the comparism stage that's what i'll employ df_TT and df_OOS\n",
+      "\n",
+      "Rough PnL-if-taken number for current best model: ... regarding this i am also planning on shifting focus from auc to precision\n",
+      "recall and accuracy moving forward, and optimizing for that, and am also adding mae for model evaluation i feel this is more easy\n",
+      "to wrap my head around in terms of profit and loss\n",
+      "Any leaderboard leader worth re-ablating: ... all of them would become painfully obvious when i start using the validation set\n",
+      "i'll also be making a new data pipeline that fetches captures crossovers as they occur and running test on them directly next week\n",
+      "i will decide by the end of the week to either shift week9, cancel it or merge it \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# TODO: write 2-4 sentences per bullet above, based on this week's actual state --\n",
+    "# not a restatement of last week's answer. If nothing has changed, say so explicitly\n",
+    "# rather than leaving it blank.\n",
+    "advice_pulse_check = \"\"\"\n",
+    "CV leakage status: ... so next week is supposed to be about about svm , am planning to either compress it and slow down to\n",
+    "to actually address this means i will be modifying my curriculum,i am also going to expand the curriculum to explore other\n",
+    "complex algorithm (deep learning etc) but right now i'll be sticking with the notebook plan, i will be testing everysingle one\n",
+    "my models far asides that , the cv i'll be using would remain as is , i'll create another 3 set for those section and that's \n",
+    "what i would be using going forward i'm going to focus more on understanding and less about making money for now\n",
+    "also going forward am going to be seperating my validation set from source before anything touches them , test/training data\n",
+    "would just be the top 60k, the rest 5k+ would be validation, this would be extremely strict, as new market shifts would be painfully \n",
+    "obvious and any leakage would be very apparent , when i reach the comparism stage that's what i'll employ df_TT and df_OOS\n",
+    "\n",
+    "Rough PnL-if-taken number for current best model: ... regarding this i am also planning on shifting focus from auc to precision\n",
+    "recall and accuracy moving forward, and optimizing for that, and am also adding mae for model evaluation i feel this is more easy\n",
+    "to wrap my head around in terms of profit and loss\n",
+    "Any leaderboard leader worth re-ablating: ... all of them would become painfully obvious when i start using the validation set\n",
+    "i'll also be making a new data pipeline that fetches captures crossovers as they occur and running test on them directly next week\n",
+    "i will decide by the end of the week to either shift week9, cancel it or merge it \n",
+    "\"\"\"\n",
+    "print(advice_pulse_check)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "036aea9c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.010643,
+     "end_time": "2026-07-29T00:06:42.269760+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.259117+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d86ba19d",
+   "metadata": {
+    "papermill": {
+     "duration": 0.010543,
+     "end_time": "2026-07-29T00:06:42.291389+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.280846+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.1 — Install packages"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "c444d8e4",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:42.314795Z",
+     "iopub.status.busy": "2026-07-29T00:06:42.314424Z",
+     "iopub.status.idle": "2026-07-29T00:06:49.292278Z",
+     "shell.execute_reply": "2026-07-29T00:06:49.291212Z"
+    },
+    "papermill": {
+     "duration": 6.992509,
+     "end_time": "2026-07-29T00:06:49.294635+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:42.302126+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m48.4/48.4 kB\u001b[0m \u001b[31m2.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n",
+      "\u001b[?25h"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install -q supabase scikit-learn statsmodels xgboost lightgbm shap optuna\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "30dcf184",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011007,
+     "end_time": "2026-07-29T00:06:49.316535+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:49.305528+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.2 — Environment detection + secrets (Kaggle-primary, Colab-compatible)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "b4c89ca0",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:49.340387Z",
+     "iopub.status.busy": "2026-07-29T00:06:49.339998Z",
+     "iopub.status.idle": "2026-07-29T00:06:49.357869Z",
+     "shell.execute_reply": "2026-07-29T00:06:49.356815Z"
+    },
+    "papermill": {
+     "duration": 0.032105,
+     "end_time": "2026-07-29T00:06:49.359590+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:49.327485+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Environment: Kaggle\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "\n",
+    "IS_KAGGLE = 'KAGGLE_KERNEL_RUN_TYPE' in os.environ\n",
+    "IS_COLAB = 'COLAB_RELEASE_TAG' in os.environ\n",
+    "\n",
+    "if IS_KAGGLE:\n",
+    "    from kaggle_secrets import UserSecretsClient\n",
+    "    secrets = UserSecretsClient()\n",
+    "    get_secret = lambda k: secrets.get_secret(k).strip()\n",
+    "elif IS_COLAB:\n",
+    "    from google.colab import userdata\n",
+    "    get_secret = lambda k: userdata.get(k)\n",
+    "else:\n",
+    "    # local/other -- read from os.environ as a fallback\n",
+    "    get_secret = lambda k: os.environ[k]\n",
+    "\n",
+    "print(f\"Environment: {'Kaggle' if IS_KAGGLE else 'Colab' if IS_COLAB else 'Other/local'}\")\n",
+    "# Do NOT unconditionally import google.colab.userdata below this cell \"just in case\" --\n",
+    "# Week 7 carried a dead Colab import into a Kaggle session. Branch, don't duplicate.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "70d170ac",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:49.383159Z",
+     "iopub.status.busy": "2026-07-29T00:06:49.382819Z",
+     "iopub.status.idle": "2026-07-29T00:06:54.139350Z",
+     "shell.execute_reply": "2026-07-29T00:06:54.138270Z"
+    },
+    "papermill": {
+     "duration": 4.77091,
+     "end_time": "2026-07-29T00:06:54.141496+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:49.370586+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Environment ready\n",
+      "test\n"
+     ]
+    }
+   ],
+   "source": [
+    "# ============================================================\n",
+    "# PART A.1 — IMPORTS\n",
+    "# ============================================================\n",
+    "\n",
+    "import pandas as pd, numpy as np, matplotlib.pyplot as plt, seaborn as sns, warnings\n",
+    "warnings.filterwarnings('ignore')\n",
+    "\n",
+    "from supabase import create_client\n",
+    "\n",
+    "from sklearn.base import clone\n",
+    "from sklearn.model_selection import TimeSeriesSplit\n",
+    "from sklearn.preprocessing import StandardScaler\n",
+    "from sklearn.linear_model import LinearRegression, LogisticRegression\n",
+    "from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, plot_tree\n",
+    "from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor\n",
+    "from sklearn.inspection import permutation_importance, PartialDependenceDisplay\n",
+    "from sklearn.metrics import (\n",
+    "    mean_squared_error, mean_absolute_error, r2_score,\n",
+    "    accuracy_score, precision_score, recall_score, f1_score, roc_auc_score\n",
+    ")\n",
+    "\n",
+    "pd.set_option('display.max_columns', None)\n",
+    "pd.set_option('display.max_rows', 100)\n",
+    "sns.set_style('whitegrid')\n",
+    "plt.rcParams['figure.figsize'] = (12, 5)\n",
+    "print('Environment ready')\n",
+    "print(\"test\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "950c0f2c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.010854,
+     "end_time": "2026-07-29T00:06:54.164154+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:54.153300+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.3 — Git identity (set BEFORE anything calls save_progress, every session)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "5880a95d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:54.188078Z",
+     "iopub.status.busy": "2026-07-29T00:06:54.187537Z",
+     "iopub.status.idle": "2026-07-29T00:06:54.220406Z",
+     "shell.execute_reply": "2026-07-29T00:06:54.219511Z"
+    },
+    "papermill": {
+     "duration": 0.047259,
+     "end_time": "2026-07-29T00:06:54.222474+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:54.175215+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "CompletedProcess(args=['git', 'config', '--global', 'user.name', 'Jeshurun-B'], returncode=0)"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import subprocess\n",
+    "\n",
+    "USER_EMAIL       = \"israelbajulaye@student.oauife.edu.ng\"\n",
+    "GITHUB_USERNAME  = \"Jeshurun-B\"\n",
+    "\n",
+    "# TODO: run these two lines every session, unconditionally -- do not assume a fresh\n",
+    "# container inherited a previous session's git identity.\n",
+    "subprocess.run([\"git\", \"config\", \"--global\", \"user.email\", USER_EMAIL], check=True)\n",
+    "subprocess.run([\"git\", \"config\", \"--global\", \"user.name\", GITHUB_USERNAME], check=True)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9d1fe030",
+   "metadata": {
+    "papermill": {
+     "duration": 0.010858,
+     "end_time": "2026-07-29T00:06:54.244380+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:54.233522+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.4 — Connect to both databases"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "dd1f29d4",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:54.268203Z",
+     "iopub.status.busy": "2026-07-29T00:06:54.267841Z",
+     "iopub.status.idle": "2026-07-29T00:06:55.397116Z",
+     "shell.execute_reply": "2026-07-29T00:06:55.395908Z"
+    },
+    "papermill": {
+     "duration": 1.143809,
+     "end_time": "2026-07-29T00:06:55.399168+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:54.255359+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Connected to both Supabase projects.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "from supabase import create_client\n",
+    "\n",
+    "# Main DB\n",
+    "main_client = create_client(get_secret('SUPABASE_URL'), get_secret('SUPABASE_KEY'))\n",
+    "\n",
+    "# Analytics DB\n",
+    "analytics_client = create_client(get_secret('ANALYTICS_SUPABASE_URL'), get_secret('ANALYTICS_SUPABASE_KEY'))\n",
+    "\n",
+    "print(\"Connected to both Supabase projects.\")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1f7b4e77",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012059,
+     "end_time": "2026-07-29T00:06:55.422601+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:55.410542+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.5 — Fetch + merge (keep exactly one merged dataframe)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "0b793eea",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:06:55.446874Z",
+     "iopub.status.busy": "2026-07-29T00:06:55.446509Z",
+     "iopub.status.idle": "2026-07-29T00:07:21.325540Z",
+     "shell.execute_reply": "2026-07-29T00:07:21.324301Z"
+    },
+    "papermill": {
+     "duration": 25.894105,
+     "end_time": "2026-07-29T00:07:21.328010+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:06:55.433905+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Merged: 65,387 rows | 60 columns\n"
+     ]
+    }
+   ],
+   "source": [
+    "# TODO: fetch df_main from 'signals' (status == 'analyzed'), df_analytics from 'crossover_analytics'\n",
+    "# TODO: rename df_analytics 'crossover_utc' -> 'checked_at_utc'\n",
+    "# TODO: inner-merge on ['checked_at_utc', 'symbol'] into ONE dataframe named df -- do not\n",
+    "#       also keep a second parallel dataframe around (Week 3's df/df_all mistake)\n",
+    "# TODO: print(f\"Merged: {len(df):,} rows | {df.shape[1]} columns\")\n",
+    "\n",
+    "# Fetch and format main signals data\n",
+    "df_main = pd.DataFrame(main_client.table('signals').select('*').eq('status', 'analyzed').execute().data)\n",
+    "for col in ['checked_at_utc', 'time_of_max_price', 'time_of_min_price']:\n",
+    "    if col in df_main.columns:\n",
+    "        df_main[col] = pd.to_datetime(df_main[col], utc=True, errors='coerce')\n",
+    "df_main = df_main.sort_values('checked_at_utc').reset_index(drop=True)\n",
+    "\n",
+    "# Fetch and format analytics data\n",
+    "df_analytics = pd.DataFrame(analytics_client.table('crossover_analytics').select('*').execute().data)\n",
+    "for col in ['crossover_utc', 'optimal_entry_utc']:\n",
+    "    if col in df_analytics.columns:\n",
+    "        df_analytics[col] = pd.to_datetime(df_analytics[col], utc=True, errors='coerce')\n",
+    "df_analytics_renamed = df_analytics.rename(columns={'crossover_utc': 'checked_at_utc'})\n",
+    "\n",
+    "# Inner merge on UTC and symbol\n",
+    "df = df_main.merge(df_analytics_renamed, on=['checked_at_utc', 'symbol'], how='inner')\n",
+    "df = df.sort_values('checked_at_utc').reset_index(drop=True)\n",
+    "print(f'Merged: {len(df):,} rows | {df.shape[1]} columns')\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4de15edd",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011254,
+     "end_time": "2026-07-29T00:07:21.351238+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:21.339984+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.6 — Targets: classification + regression (carried forward, unchanged from Week 7)\n",
+    "Retired: the old T1–T4 / `target_special` system and `class_target_3`. Do not regenerate either.\n",
+    "\n",
+    "**`REG_TARGETS` format note (changed mid-Week-7):** the transform flag is now a *string* (`'log1p'`, `'log5p'`, or `'none'`/absent), not a boolean. `quality`'s `log5p` (ln(y+5) + Duan's smearing) was confirmed merged into `cv_regression()` this week — carry the string-keyed version forward, not the old boolean version from the Week 5/6 session prompt."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "8cb6932a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:21.375429Z",
+     "iopub.status.busy": "2026-07-29T00:07:21.375060Z",
+     "iopub.status.idle": "2026-07-29T00:07:22.951800Z",
+     "shell.execute_reply": "2026-07-29T00:07:22.950874Z"
+    },
+    "papermill": {
+     "duration": 1.591306,
+     "end_time": "2026-07-29T00:07:22.953910+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:21.362604+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Classification + regression targets applied\n",
+      "class_target_1               +%: LONG  37.0%  SHORT  38.8%\n",
+      "class_target_2               +%: LONG  38.0%  SHORT  39.8%\n",
+      "class_target_3_corrected     +%: LONG  29.3%  SHORT  29.1%\n",
+      "class_target_bad             +%: LONG  23.3%  SHORT  23.2%\n",
+      "REG_TARGETS: {'profit': 'target_profit', 'quality': 'target_quality', 'danger': 'target_danger', 'entry_timing': 'target_entry', 'exit_timing': 'target_exit'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "def optimal_entry_candle(row):\n",
+    "    \"\"\"Returns 15-min candles from crossover to optimal entry. 0 = immediate entry.\"\"\"\n",
+    "    try:\n",
+    "        if pd.isnull(row['optimal_entry_utc']) or pd.isnull(row['checked_at_utc']):\n",
+    "            return 0.0\n",
+    "\n",
+    "        return float(\n",
+    "            (row['optimal_entry_utc'] - row['checked_at_utc']).total_seconds() / 900\n",
+    "        )\n",
+    "\n",
+    "    except Exception:\n",
+    "        return 0.0\n",
+    "\n",
+    "df['Optimum_entry'] = df.apply(optimal_entry_candle, axis=1)\n",
+    "\n",
+    "# --- Classification targets ---\n",
+    "mae_abs, mfe_abs = df['mae_percent'].abs(), df['mfe_percent'].abs()\n",
+    "df['target_b']       = (mfe_abs / (mfe_abs + mae_abs + 1e-8)) * (mfe_abs - mae_abs)\n",
+    "df['class_target_1'] = (df['target_b'] > 0.4).astype(int)\n",
+    "df['class_target_2'] = (df['mfe_percent'] > 1).astype(int)\n",
+    "\n",
+    "is_long = df['signal_x'].astype(str).str.upper() == 'LONG'\n",
+    "df['total_mae'] = np.where(is_long, df['max_move_down_pct'].astype(float), df['max_move_up_pct'].astype(float))\n",
+    "df['class_target_3_corrected'] = (df['total_mae'] > 1.0).astype(int)\n",
+    "df['class_target_bad'] = ((df['total_mae'] > 1.0) & (df['pnl_percent'] < 0.1)).astype(int)\n",
+    "\n",
+    "# --- Regression targets (Week 5) ---\n",
+    "df['target_profit']  = df['mfe_percent']\n",
+    "df['target_quality'] = df['target_b']\n",
+    "df['target_danger']  = df['total_mae']\n",
+    "df['target_entry']   = df['Optimum_entry']\n",
+    "df['trade_time'] = np.where(is_long, df['candles_to_max_price'].astype(float), df['candles_to_min_price'].astype(float))\n",
+    "df['target_exit'] = df['trade_time']\n",
+    "\n",
+    "# name -> (raw_column_name, apply_log1p_in_cv)\n",
+    "REG_TARGETS = {\n",
+    "    'profit':       ('target_profit', 'log1p'),\n",
+    "    'quality':      ('target_quality', 'log5p'),\n",
+    "    'danger':       ('target_danger', 'log1p'),\n",
+    "    'entry_timing': ('target_entry',  'log1p'),\n",
+    "    'exit_timing':  ('target_exit',   'log1p'),\n",
+    "}\n",
+    "\n",
+    "print('Classification + regression targets applied')\n",
+    "for ct in ['class_target_1', 'class_target_2', 'class_target_3_corrected', 'class_target_bad']:\n",
+    "    long_rate  = df[df['signal_x']=='LONG'][ct].mean()*100\n",
+    "    short_rate = df[df['signal_x']=='SHORT'][ct].mean()*100\n",
+    "    print(f'{ct:<28} +%: LONG {long_rate:5.1f}%  SHORT {short_rate:5.1f}%')\n",
+    "print('REG_TARGETS:', {k: v[0] for k, v in REG_TARGETS.items()})\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ae441adb",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011009,
+     "end_time": "2026-07-29T00:07:22.976268+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:22.965259+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.7 — Feature engineering pipeline (unchanged, leak-free, `FE_` prefix)\n",
+    "Analytics outcome columns (`mfe_percent`, `mae_percent`, `pnl_percent`, `trade_duration`, `exit_price`) are post-signal — only valid as lag-1 features. `WRAPPER_FIRST_FINAL_LONG`/`SHORT` still contains the dead reference `'FE_mfe_mae_ratio_lag'` — filter defensively (`[f for f in LIST if f in df.columns]`) or it will `KeyError`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "c196b39f",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:23.000759Z",
+     "iopub.status.busy": "2026-07-29T00:07:23.000279Z",
+     "iopub.status.idle": "2026-07-29T00:07:23.302832Z",
+     "shell.execute_reply": "2026-07-29T00:07:23.301731Z"
+    },
+    "papermill": {
+     "duration": 0.317508,
+     "end_time": "2026-07-29T00:07:23.304928+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:22.987420+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Engineered features: 48\n"
+     ]
+    }
+   ],
+   "source": [
+    "# TODO: carry forward all FE_ engineered features from Week 7 unchanged.\n",
+    "# TODO: confirm WRAPPER_FIRST_FINAL_LONG / SHORT are filtered defensively wherever used:\n",
+    "#       [f for f in WRAPPER_FIRST_FINAL_LONG if f in df.columns] am not using any wrapper\n",
+    "def safe_ratio(num, den):\n",
+    "    return (num / den.replace(0, np.nan)).replace([np.inf,-np.inf], np.nan).fillna(0.0)\n",
+    "\n",
+    "df['FE_adx_x_volume']        = df['adx_ltf'].astype(float) * df['volume_ratio'].astype(float)\n",
+    "df['FE_macd_x_volume']       = df['macd_histogram_ltf'].astype(float) * df['volume_ratio'].astype(float)\n",
+    "df['FE_ema_sep_x_adx']       = df['ema_separation'].astype(float) * df['adx_ltf'].astype(float)\n",
+    "df['FE_rsi_x_htf4h']         = df['rsi_ltf'].astype(float) * df['htf_4h_bias'].astype(float)\n",
+    "df['FE_adx_x_htf1d']         = df['adx_ltf'].astype(float) * df['htf_1d_bias'].astype(float)\n",
+    "df['FE_rsi4h_x_htf1d']       = df['rsi_4h'].astype(float) * df['htf_1d_bias'].astype(float)\n",
+    "df['FE_adx_x_atr_pct']       = df['adx_ltf'].astype(float) * (df['atr_ltf'].astype(float) / df['price'].astype(float))\n",
+    "df['FE_rsi_delta_x_vol']     = df['rsi_ltf'].astype(float).diff(2).fillna(0) * df['volume_ratio'].astype(float)\n",
+    "df['FE_exhaustion_risk']     = (df['rsi_ltf'].astype(float) > 70).astype(int) * df['ema_separation'].astype(float)\n",
+    "\n",
+    "df['FE_ema_ratio']            = safe_ratio(df['ema_fast_ltf'].astype(float), df['ema_slow_ltf'].astype(float))\n",
+    "df['FE_price_to_bb']          = safe_ratio(df['atr_pct'].astype(float), df['bb_width_ltf'].astype(float))\n",
+    "df['FE_adx_4h_ratio']         = safe_ratio(df['adx_ltf'].astype(float), df['adx_4h'].astype(float))\n",
+    "df['FE_vol_efficiency_ratio'] = safe_ratio(df['volume_ratio'].astype(float), df['atr_pct'].astype(float))\n",
+    "df['FE_rsi_mtf_ratio']        = safe_ratio(df['rsi_ltf'].astype(float), df['rsi_4h'].astype(float))\n",
+    "df['FE_spread_to_atr_ratio']  = safe_ratio((df['price'].astype(float)-df['ema_fast_ltf'].astype(float)), df['atr_ltf'].astype(float))\n",
+    "\n",
+    "df['FE_adx_trending']        = (df['adx_ltf'].astype(float) > 25.0).astype(int)\n",
+    "df['FE_adx_4h_trending']     = (df['adx_4h'].astype(float) > 25.0).astype(int)\n",
+    "df['FE_rsi_overbought']      = (df['rsi_ltf'].astype(float) > 65.0).astype(int)\n",
+    "df['FE_rsi_oversold']        = (df['rsi_ltf'].astype(float) < 35.0).astype(int)\n",
+    "df['FE_rsi_4h_bull']         = (df['rsi_4h'].astype(float) > 55.0).astype(int)\n",
+    "df['FE_high_volume']         = (df['volume_ratio'].astype(float) > 1.5).astype(int)\n",
+    "df['FE_full_htf_align_long'] = ((df['htf_4h_bias'].astype(int)==1) & (df['htf_1d_bias'].astype(int)==1)).astype(int)\n",
+    "\n",
+    "# Row-local (no whole-dataset lookahead) -- fixed Week 5\n",
+    "df['FE_full_htf_align_short'] = ((df['htf_4h_bias'].astype(int)==-1) & (df['htf_1d_bias'].astype(int)==-1)).astype(int)\n",
+    "df['FE_btc_volume_align']    = ((df['btc_trend_bias'].astype(int)==1) & (df['volume_ratio'].astype(float)>1.0)).astype(int)\n",
+    "df['FE_bb_squeeze_regime']   = (df['bb_width_ltf'].astype(float) < df['atr_ltf'].astype(float)).astype(int)\n",
+    "df['FE_momentum_divergence_bear'] = ((df['price'].astype(float) > df['price'].astype(float).shift(3)) &\n",
+    "    (df['rsi_ltf'].astype(float) < df['rsi_ltf'].astype(float).shift(3))).astype(int)\n",
+    "\n",
+    "df['FE_session_asia']    = df['hour_of_day'].isin([23,0,1,2,3,4,5,6,7,8]).astype(int)\n",
+    "df['FE_session_london']  = df['hour_of_day'].isin([7,8,9,10,11,12,13,14,15,16]).astype(int)\n",
+    "df['FE_session_ny']      = df['hour_of_day'].isin([13,14,15,16,17,18,19,20,21]).astype(int)\n",
+    "df['FE_session_overlap'] = df['hour_of_day'].isin([13,14,15]).astype(int)\n",
+    "\n",
+    "# Row-local weekend flag -- CONFIRM this matches your actual day_of_week convention\n",
+    "# (Monday=0 vs Sunday=0) before trusting it; unresolved from Week 5.\n",
+    "df['FE_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)\n",
+    "\n",
+    "df['FE_overlap_x_volume'] = df['FE_session_overlap'] * df['volume_ratio'].astype(float)\n",
+    "df['FE_asia_x_volume']    = df['FE_session_asia']    * df['volume_ratio'].astype(float)\n",
+    "\n",
+    "df['FE_adx_regime'] = pd.cut(df['adx_ltf'].astype(float), bins=[-np.inf,20.0,35.0,np.inf], labels=[0,1,2]).astype(int)\n",
+    "df['FE_rsi_zone']   = pd.cut(df['rsi_ltf'].astype(float), bins=[-np.inf,30.0,45.0,55.0,70.0,np.inf], labels=[0,1,2,3,4]).astype(int)\n",
+    "\n",
+    "# FE_optimum_entry_bin / FE_prev_t3_score stay removed (target leak / dead reference, Week 5)\n",
+    "df = df.sort_values(['symbol','checked_at_utc']).reset_index(drop=True)\n",
+    "signal_map = {'LONG':1,'SHORT':-1}\n",
+    "df['FE_prev_signal_dir'] = df.groupby('symbol')['signal_x'].shift(1).map(signal_map).fillna(0).astype(int)\n",
+    "df['FE_prev_quality_score'] = df.groupby('symbol')['target_quality'].shift(1).fillna(0.0)\n",
+    "\n",
+    "def streak(s):\n",
+    "    c = s.ne(s.shift(1)).cumsum()\n",
+    "    return s.groupby(c).cumcount() + 1\n",
+    "\n",
+    "df['FE_same_dir_streak']    = df.groupby('symbol')['signal_x'].transform(streak).fillna(0).astype(int)\n",
+    "df['FE_signal_gap_candles'] = df['signal_gap_hours'].astype(float) * 4.0\n",
+    "df['FE_prev_bb_squeeze']    = df.groupby('symbol')['FE_bb_squeeze_regime'].shift(1).fillna(0).astype(int)\n",
+    "sig_num = df['signal_x'].map(signal_map).fillna(0).astype(int)\n",
+    "raw_dc = sig_num != df['FE_prev_signal_dir']\n",
+    "raw_dc.loc[df.groupby('symbol').head(1).index] = False\n",
+    "df['FE_dir_changed'] = raw_dc.astype(int)\n",
+    "prev_gap = df.groupby('symbol')['signal_gap_hours'].shift(1).replace(0,np.nan)\n",
+    "df['FE_prev_signal_gap_decay'] = (df['signal_gap_hours'].astype(float)/prev_gap).replace([np.inf,-np.inf],np.nan).fillna(1.0)\n",
+    "\n",
+    "df['_tmp_adx'] = df['FE_adx_regime']; df['_tmp_rsi'] = df['FE_rsi_zone']\n",
+    "df = pd.get_dummies(df, columns=['_tmp_adx','_tmp_rsi'], prefix=['DUM_adx','DUM_rsi'], drop_first=True, dtype=int)\n",
+    "\n",
+    "FE_FEATURES = [c for c in df.columns if c.startswith('FE_') or c.startswith('DUM_')]\n",
+    "print(f'Engineered features: {len(FE_FEATURES)}')\n",
+    "FEATURES_ALL = [f for f in [\n",
+    "    'ema_fast_ltf','ema_slow_ltf','ema_fast_slope','ema_slow_slope','ema_separation','price_above_both_emas',\n",
+    "    'crossover_candle_strength','adx_ltf','adx_slope','adx_4h','macd_histogram_ltf','macd_histogram_4h',\n",
+    "    'htf_4h_bias','htf_1d_bias','ema_separation_4h','rsi_4h','rsi_ltf','roc_ltf','atr_ltf','atr_pct',\n",
+    "    'bb_width_ltf','price_to_atr','volume_ratio','volume_trend','crossover_volume_ratio','fear_greed_index',\n",
+    "    'btc_trend_bias','hour_of_day','day_of_week','swing_high','swing_low','atr_stop_distance','signal_gap_hours'\n",
+    "] if f in df.columns]\n",
+    "FEATURES_COMBINED = list(FEATURES_ALL) + [f for f in FE_FEATURES if f not in FEATURES_ALL]\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6e73d11c",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011817,
+     "end_time": "2026-07-29T00:07:23.328389+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.316572+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.8 — Feature sets"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "1ba7fafe",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:23.353361Z",
+     "iopub.status.busy": "2026-07-29T00:07:23.353015Z",
+     "iopub.status.idle": "2026-07-29T00:07:23.452977Z",
+     "shell.execute_reply": "2026-07-29T00:07:23.451800Z"
+    },
+    "papermill": {
+     "duration": 0.116786,
+     "end_time": "2026-07-29T00:07:23.456476+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.339690+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FEATURES_ALL: 33 | FEATURES_COMBINED: 81\n",
+      "df_long: 32,684 | df_short: 32,703\n"
+     ]
+    }
+   ],
+   "source": [
+    "# TODO: df_long, df_short split + sort by checked_at_utc\n",
+    "# TODO: feat_set_long, feat_set_short = filtered FEATURES_COMBINED per side\n",
+    "# TODO: print counts for FEATURES_ALL / FEATURES_COMBINED / df_long / df_short\n",
+    "df_long  = df[df['signal_x']=='LONG'].sort_values('checked_at_utc').reset_index(drop=True)\n",
+    "df_short = df[df['signal_x']=='SHORT'].sort_values('checked_at_utc').reset_index(drop=True)\n",
+    "feat_set_long  = [f for f in FEATURES_COMBINED if f in df_long.columns]\n",
+    "feat_set_short = [f for f in FEATURES_COMBINED if f in df_short.columns]\n",
+    "\n",
+    "print(f'FEATURES_ALL: {len(FEATURES_ALL)} | FEATURES_COMBINED: {len(FEATURES_COMBINED)}')\n",
+    "print(f'df_long: {len(df_long):,} | df_short: {len(df_short):,}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "565d8662",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011884,
+     "end_time": "2026-07-29T00:07:23.482710+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.470826+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.9 — Walk-forward CV framework (finalized — `cv_no_scaling`/`cv_regression` are what tree ensembles use)\n",
+    "Tree-based models are scale-invariant, so `cv_no_scaling()` applies to `LGBMClassifier`/`LGBMRegressor` exactly as it did to RF and XGBoost. `cv_regression()` now takes a **string** transform key (`'log1p'`/`'log5p'`/absent) — this is the Week 7-end version, not the Week 5/6 boolean version. `'rmse'` is genuinely `sqrt(MSE)`, fixed at the source since Week 6."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "94353794",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:23.508013Z",
+     "iopub.status.busy": "2026-07-29T00:07:23.507069Z",
+     "iopub.status.idle": "2026-07-29T00:07:23.529897Z",
+     "shell.execute_reply": "2026-07-29T00:07:23.529094Z"
+    },
+    "papermill": {
+     "duration": 0.037785,
+     "end_time": "2026-07-29T00:07:23.531842+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.494057+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "\n",
+    "# TODO: paste cv_with_scaling(), cv_no_scaling(), cv_regression() unchanged from Week 7's\n",
+    "# closing version. cv_regression's signature: target_info = (target_col, transform),\n",
+    "# transform in {'log1p', 'log5p', None}. Do NOT reintroduce the boolean version.\n",
+    "\n",
+    "from sklearn.model_selection import TimeSeriesSplit\n",
+    "from sklearn.preprocessing import StandardScaler\n",
+    "from sklearn.metrics import (\n",
+    "    accuracy_score, precision_score, recall_score, f1_score, roc_auc_score,\n",
+    "    mean_squared_error, mean_absolute_error, r2_score\n",
+    ")\n",
+    "from sklearn.base import clone\n",
+    "\n",
+    "def cv_with_scaling(model, df_subset, feature_cols, target_col, n_splits=5, gap=0):\n",
+    "    df_clean = df_subset[feature_cols + [target_col]].dropna()\n",
+    "    df_clean = df_clean.sort_values('checked_at_utc') if 'checked_at_utc' in df_clean.columns else df_clean\n",
+    "    X = df_clean[feature_cols].values\n",
+    "    y = df_clean[target_col].values\n",
+    "    tscv = TimeSeriesSplit(n_splits=n_splits, gap=gap)\n",
+    "    scores = {'accuracy': [], 'precision': [], 'recall': [], 'f1': [], 'auc': []}\n",
+    "    for train_idx, test_idx in tscv.split(X):\n",
+    "        X_tr, X_te = X[train_idx], X[test_idx]\n",
+    "        y_tr, y_te = y[train_idx], y[test_idx]\n",
+    "        if len(np.unique(y_tr)) < 2 or len(np.unique(y_te)) < 2:\n",
+    "            continue\n",
+    "        scaler = StandardScaler()\n",
+    "        X_tr_sc = scaler.fit_transform(X_tr)\n",
+    "        X_te_sc = scaler.transform(X_te)\n",
+    "        m = clone(model)\n",
+    "        m.fit(X_tr_sc, y_tr)\n",
+    "        y_pred = m.predict(X_te_sc)\n",
+    "        y_prob = m.predict_proba(X_te_sc)[:, 1]\n",
+    "        scores['accuracy'].append(accuracy_score(y_te, y_pred))\n",
+    "        scores['precision'].append(precision_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['recall'].append(recall_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['f1'].append(f1_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['auc'].append(roc_auc_score(y_te, y_prob))\n",
+    "    return {k: (np.mean(v), np.std(v)) for k, v in scores.items()}\n",
+    "\n",
+    "\n",
+    "def cv_no_scaling(model, df_subset, feature_cols, target_col, n_splits=5, gap=0):\n",
+    "    df_clean = df_subset[feature_cols + [target_col]].replace([np.inf, -np.inf], np.nan).dropna()\n",
+    "    df_clean = df_clean.sort_values('checked_at_utc') if 'checked_at_utc' in df_clean.columns else df_clean\n",
+    "    X = df_clean[feature_cols].values\n",
+    "    y = df_clean[target_col].values\n",
+    "    tscv = TimeSeriesSplit(n_splits=n_splits, gap=gap)\n",
+    "    scores = {'accuracy': [], 'precision': [], 'recall': [], 'f1': [], 'auc': []}\n",
+    "    for train_idx, test_idx in tscv.split(X):\n",
+    "        X_tr, X_te = X[train_idx], X[test_idx]\n",
+    "        y_tr, y_te = y[train_idx], y[test_idx]\n",
+    "        if len(np.unique(y_tr)) < 2 or len(np.unique(y_te)) < 2:\n",
+    "            continue\n",
+    "        m = clone(model)\n",
+    "        m.fit(X_tr, y_tr)\n",
+    "        y_pred = m.predict(X_te)\n",
+    "        y_prob = m.predict_proba(X_te)[:, 1]\n",
+    "        scores['accuracy'].append(accuracy_score(y_te, y_pred))\n",
+    "        scores['precision'].append(precision_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['recall'].append(recall_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['f1'].append(f1_score(y_te, y_pred, zero_division=0))\n",
+    "        scores['auc'].append(roc_auc_score(y_te, y_prob))\n",
+    "    return {k: (np.mean(v), np.std(v)) for k, v in scores.items()}\n",
+    "\n",
+    "\n",
+    "def cv_regression(model, df_subset, feature_cols, target_info, n_splits=5, gap=0, scale=False, clip_bounds=None):\n",
+    "    \"\"\"'rmse' is sqrt(MSE) -- fixed at the source, Week 6.\n",
+    "    target_info = (target_col, transform) where transform is one of:\n",
+    "      'none'  -> no transform (raw target)\n",
+    "      'log1p' -> ln(1 + y), for targets that are always >= 0\n",
+    "      'log5p' -> ln(5 + y), for targets that can go as low as -3.6 (quality)\n",
+    "    Both log modes use Duan's smearing correction on inverse-transform.\n",
+    "    \"\"\"\n",
+    "    target_col, transform = target_info\n",
+    "    df_c = df_subset[feature_cols + [target_col]].replace([np.inf, -np.inf], np.nan).dropna().copy()\n",
+    "    X, y = df_c[feature_cols].values, df_c[target_col].values\n",
+    "    tscv = TimeSeriesSplit(n_splits=n_splits, gap=gap)\n",
+    "    scores = {'mse': [], 'rmse': [], 'mae': [], 'r2': []}\n",
+    "\n",
+    "    # Offset per mode -- log1p adds 1, log5p adds 5 (chosen since quality's min ~ -3.6,\n",
+    "    # needs offset > 3.6 to stay positive; 5 gives headroom).\n",
+    "    offset = {'log1p': 1, 'log5p': 5}.get(transform, None)\n",
+    "\n",
+    "    for tr, te in tscv.split(X):\n",
+    "        Xtr, Xte = X[tr], X[te]\n",
+    "        ytr, yte = y[tr], y[te]\n",
+    "        if scale:\n",
+    "            sc = StandardScaler()\n",
+    "            Xtr = sc.fit_transform(Xtr)\n",
+    "            Xte = sc.transform(Xte)\n",
+    "        m = clone(model)\n",
+    "        if offset is not None:\n",
+    "            ytr_fit = np.log(ytr + offset)\n",
+    "            m.fit(Xtr, ytr_fit)\n",
+    "            preds_log = m.predict(Xte)\n",
+    "            train_log_preds = m.predict(Xtr)\n",
+    "            duan_cf = np.mean(np.exp(ytr_fit - train_log_preds))\n",
+    "            preds_raw = (np.exp(preds_log) * duan_cf) - offset\n",
+    "            yte_raw = yte\n",
+    "            if clip_bounds is not None:\n",
+    "                preds_raw = np.clip(preds_raw, clip_bounds[0], clip_bounds[1])\n",
+    "        else:\n",
+    "            m.fit(Xtr, ytr)\n",
+    "            preds_raw = m.predict(Xte)\n",
+    "            yte_raw = yte\n",
+    "        mse = mean_squared_error(yte_raw, preds_raw)\n",
+    "        scores['mse'].append(mse)\n",
+    "        scores['rmse'].append(np.sqrt(mse))\n",
+    "        scores['mae'].append(mean_absolute_error(yte_raw, preds_raw))\n",
+    "        scores['r2'].append(r2_score(yte_raw, preds_raw))\n",
+    "    return {k: (np.mean(v), np.std(v)) for k, v in scores.items()}\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d17682d1",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011302,
+     "end_time": "2026-07-29T00:07:23.554630+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.543328+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.10 — Persistent results/model saving\n",
+    "**Non-negotiable, per the session prompt and Week 7's own recurrence of this exact bug:**\n",
+    "`RESULTS_DIR` and `save_result_dict` are defined ONCE, right here. No cell below this one --\n",
+    "not a tuning sweep, not a leaderboard cell, not anything pasted from Week 7 -- may reassign\n",
+    "`RESULTS_DIR` to a bare relative path or redefine `save_result_dict` locally."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "114e4231",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:23.580295Z",
+     "iopub.status.busy": "2026-07-29T00:07:23.579928Z",
+     "iopub.status.idle": "2026-07-29T00:07:31.584986Z",
+     "shell.execute_reply": "2026-07-29T00:07:31.583980Z"
+    },
+    "papermill": {
+     "duration": 8.020255,
+     "end_time": "2026-07-29T00:07:31.587074+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:23.566819+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[_ensure_repo] Repository not found locally. Cloning EMA-optimizer-pipeline-v2...\n",
+      "[_ensure_repo] Clone complete.\n",
+      "done\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "import time\n",
+    "import json as _json\n",
+    "import subprocess as _sp\n",
+    "\n",
+    "# --- Identity / repo config -------------------------------------------------\n",
+    "GITHUB_USERNAME = \"Jeshurun-B\"\n",
+    "REPO_NAME       = \"EMA-optimizer-pipeline-v2\"\n",
+    "USER_EMAIL      = \"israelbajulaye@student.oauife.edu.ng\"\n",
+    "PARENT_DIR      = os.getcwd()\n",
+    "REPO_PATH       = os.path.join(PARENT_DIR, REPO_NAME)\n",
+    "\n",
+    "# Pull the token from Kaggle Secrets. Do this HERE, not inside save_progress(),\n",
+    "# so a missing/misconfigured secret fails loudly at setup time -- not silently\n",
+    "# three cells later when you're mid-experiment and don't notice the print.\n",
+    "from kaggle_secrets import UserSecretsClient\n",
+    "GITHUB_TOKEN = UserSecretsClient().get_secret(\"GITHUB_TOKEN\")\n",
+    "\n",
+    "\n",
+    "def _ensure_repo():\n",
+    "    \"\"\"\n",
+    "    Make sure REPO_PATH exists locally (clone if not), and return True/False.\n",
+    "    Pulled out of save_progress() so it can run ONCE, up front, before anything\n",
+    "    else (like RESULTS_DIR/MODELS_DIR) assumes the repo is there.\n",
+    "    Does NOT chdir anywhere permanently -- caller decides cwd.\n",
+    "    \"\"\"\n",
+    "    if os.path.exists(REPO_PATH):\n",
+    "        return True\n",
+    "    remote_url = f\"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/{GITHUB_USERNAME}/{REPO_NAME}.git\"\n",
+    "    print(f\"[_ensure_repo] Repository not found locally. Cloning {REPO_NAME}...\")\n",
+    "    os.chdir(PARENT_DIR)\n",
+    "    clone_result = _sp.run([\"git\", \"clone\", remote_url], capture_output=True, text=True)\n",
+    "    if clone_result.returncode != 0:\n",
+    "        print(\"[_ensure_repo] Clone failed:\")\n",
+    "        print(_scrub(clone_result.stderr, GITHUB_TOKEN))\n",
+    "        return False\n",
+    "    print(\"[_ensure_repo] Clone complete.\")\n",
+    "    return True\n",
+    "\n",
+    "\n",
+    "def _scrub(text, token):\n",
+    "    \"\"\"Strip the PAT out of any git output before printing -- a failed clone/pull/push\n",
+    "    can otherwise echo the token straight into notebook output.\"\"\"\n",
+    "    return text.replace(token, \"***\") if token else text\n",
+    "\n",
+    "\n",
+    "# --- Guarantee the repo exists BEFORE building any path that assumes it does ---\n",
+    "if not GITHUB_TOKEN:\n",
+    "    raise RuntimeError(\"[setup] GITHUB_TOKEN secret is missing -- fix this before continuing.\")\n",
+    "if not _ensure_repo():\n",
+    "    raise RuntimeError(\"[setup] Could not clone repo -- see error above.\")\n",
+    "\n",
+    "# --- NOW it's safe to build these as absolute paths INSIDE the repo, and to\n",
+    "# create them. Previously RESULTS_DIR was a bare relative string created at\n",
+    "# whatever cwd happened to be at import time -- which was often NOT inside\n",
+    "# REPO_PATH, so files saved there lived outside the repo and never got pushed.\n",
+    "RF_RESULTS_DIR   = os.path.join(REPO_PATH, \"Week_6_results\")\n",
+    "RF_MODELS_DIR    = os.path.join(REPO_PATH, \"Rf_W6models\")\n",
+    "XGB_RESULTS_DIR  = os.path.join(REPO_PATH, \"Week_7_results\")\n",
+    "XGB_MODELS_DIR   = os.path.join(REPO_PATH, \"XGB-wk_7_models\")\n",
+    "RESULTS_DIR      = os.path.join(REPO_PATH, \"Week_8_results\")   # this week's writes go here ONLY\n",
+    "MODELS_DIR       = os.path.join(REPO_PATH, \"LGBM-wk_8_models\")\n",
+    "\n",
+    "\n",
+    "os.makedirs(RF_RESULTS_DIR, exist_ok=True)\n",
+    "os.makedirs(RF_MODELS_DIR, exist_ok=True)\n",
+    "os.makedirs(XGB_RESULTS_DIR, exist_ok=True)\n",
+    "os.makedirs(XGB_MODELS_DIR, exist_ok=True)\n",
+    "os.makedirs(RESULTS_DIR, exist_ok=True)\n",
+    "os.makedirs(MODELS_DIR, exist_ok=True)\n",
+    "\n",
+    "def save_result_dict(d, name):\n",
+    "    path = os.path.join(RESULTS_DIR, f\"{name}.json\")\n",
+    "    with open(path, \"w\") as f:\n",
+    "        _json.dump(d, f, indent=2, default=str)\n",
+    "    return path\n",
+    "\n",
+    "\n",
+    "def save_model(model, name):\n",
+    "    import joblib\n",
+    "    path = os.path.join(MODELS_DIR, f\"{name}.joblib\")\n",
+    "    joblib.dump(model, path)\n",
+    "    return path\n",
+    "\n",
+    "\n",
+    "def save_progress(commit_message=None):\n",
+    "    \"\"\"\n",
+    "    Stage, commit, pull (merge), and push everything in REPO_PATH to GitHub.\n",
+    "    Call this yourself after finishing a chunk of work -- not on autopilot.\n",
+    "    \"\"\"\n",
+    "    if not GITHUB_TOKEN:\n",
+    "        print(\"[save_progress] Aborted: GITHUB_TOKEN is missing.\")\n",
+    "        return False\n",
+    "\n",
+    "    if not _ensure_repo():\n",
+    "        return False\n",
+    "\n",
+    "    os.chdir(REPO_PATH)\n",
+    "\n",
+    "    # --- Lock file: never auto-delete. A crashed prior git process leaves this\n",
+    "    # behind, but a genuinely-running one does too -- can't tell the difference\n",
+    "    # from here, so surface it as an error and let a human check. ---\n",
+    "    lock_file = os.path.join(REPO_PATH, \".git\", \"index.lock\")\n",
+    "    if os.path.exists(lock_file):\n",
+    "        raise RuntimeError(\n",
+    "            f\"[save_progress] {lock_file} exists. A git process may genuinely be \"\n",
+    "            \"running, or a previous one crashed. Check manually before proceeding -- \"\n",
+    "            \"deleting this blindly can corrupt the repo.\"\n",
+    "        )\n",
+    "\n",
+    "    # --- Stage & commit local changes FIRST, before any pull/merge. This is what\n",
+    "    # protects this session's work: once it's a local commit, a merge can only\n",
+    "    # add to it, never silently lose it. ---\n",
+    "    status = _sp.run([\"git\", \"status\", \"--porcelain\"], capture_output=True, text=True)\n",
+    "    committed_something = False\n",
+    "    if status.stdout.strip():\n",
+    "        print(\"[save_progress] Changes to be committed:\")\n",
+    "        print(status.stdout)\n",
+    "        _sp.run([\"git\", \"add\", \".\"], check=True)\n",
+    "        msg = commit_message or f\"Manual save: {time.strftime('%Y-%m-%d %H:%M:%S')}\"\n",
+    "        _sp.run([\"git\", \"commit\", \"-m\", msg], check=True)\n",
+    "        committed_something = True\n",
+    "    else:\n",
+    "        print(\"[save_progress] No local changes to commit.\")\n",
+    "\n",
+    "    # --- Pull with merge (--no-rebase) via \"origin\" (set once at clone time) so\n",
+    "    # origin/main is actually updated -- the ahead-check below depends on that. ---\n",
+    "    print(\"[save_progress] Pulling latest from origin/main to check for divergence...\")\n",
+    "    pull_result = _sp.run(\n",
+    "        [\"git\", \"pull\", \"origin\", \"main\", \"--no-rebase\"],\n",
+    "        capture_output=True, text=True\n",
+    "    )\n",
+    "    print(\"PULL STDOUT:\", pull_result.stdout)\n",
+    "\n",
+    "    if pull_result.returncode != 0:\n",
+    "        conflict_check = _sp.run(\n",
+    "            [\"git\", \"diff\", \"--name-only\", \"--diff-filter=U\"],\n",
+    "            capture_output=True, text=True\n",
+    "        )\n",
+    "        if conflict_check.stdout.strip():\n",
+    "            print(\"[save_progress] MERGE CONFLICT -- stopping here, not resolving automatically.\")\n",
+    "            print(\"Conflicted files:\\n\" + conflict_check.stdout)\n",
+    "            print(\"Resolve manually (edit files, `git add <file>`, `git commit`), \"\n",
+    "                  \"then call save_progress() again to push.\")\n",
+    "            return False\n",
+    "        else:\n",
+    "            print(\"[save_progress] Pull failed for a non-conflict reason:\")\n",
+    "            print(_scrub(pull_result.stderr, GITHUB_TOKEN))\n",
+    "            return False\n",
+    "\n",
+    "    if \"up to date\" not in pull_result.stdout.lower() and \"up-to-date\" not in pull_result.stdout.lower():\n",
+    "        print(\"[save_progress] Merged remote changes from another environment (e.g. Colab/Kaggle).\")\n",
+    "\n",
+    "    ahead_check = _sp.run(\n",
+    "        [\"git\", \"rev-list\", \"--count\", \"origin/main..HEAD\"],\n",
+    "        capture_output=True, text=True\n",
+    "    )\n",
+    "    commits_ahead = ahead_check.stdout.strip()\n",
+    "    if commits_ahead == \"0\" and not committed_something:\n",
+    "        print(\"[save_progress] Nothing new to push -- already in sync with origin/main.\")\n",
+    "        return True\n",
+    "\n",
+    "    push_result = _sp.run([\"git\", \"push\", \"origin\", \"main\"], capture_output=True, text=True)\n",
+    "    if push_result.returncode != 0:\n",
+    "        print(\"[save_progress] Push failed:\")\n",
+    "        print(_scrub(push_result.stderr, GITHUB_TOKEN))\n",
+    "        return False\n",
+    "\n",
+    "\n",
+    "\n",
+    "    print(f\"[save_progress] Successfully pushed to GitHub at {time.strftime('%H:%M:%S')}\")\n",
+    "    return True\n",
+    "\n",
+    "print(\"done\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "600e5f8f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011113,
+     "end_time": "2026-07-29T00:07:31.609806+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:31.598693+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### A.11 — First task this week, not a side note: the RF-vs-XGBoost tally Week 7 never compiled"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "93fe3fe2",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:31.635223Z",
+     "iopub.status.busy": "2026-07-29T00:07:31.634885Z",
+     "iopub.status.idle": "2026-07-29T00:07:31.657408Z",
+     "shell.execute_reply": "2026-07-29T00:07:31.656538Z"
+    },
+    "papermill": {
+     "duration": 0.038381,
+     "end_time": "2026-07-29T00:07:31.659373+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:31.620992+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "============================================================\n",
+      "RF vs. XGBOOST WIN/LOSS TALLY\n",
+      "============================================================\n",
+      "\n",
+      "class_target_1_LONG                 | RF/LogReg: 0.6896 vs XGBoost: 0.7033 --> WINNER: XGBoost\n",
+      "class_target_1_SHORT                | RF/LogReg: 0.6981 vs XGBoost: 0.7120 --> WINNER: XGBoost\n",
+      "class_target_2_LONG                 | RF/LogReg: 0.7543 vs XGBoost: 0.7595 --> WINNER: XGBoost\n",
+      "class_target_2_SHORT                | RF/LogReg: 0.7632 vs XGBoost: 0.7653 --> WINNER: XGBoost\n",
+      "class_target_3_corrected_LONG       | RF/LogReg: 0.8736 vs XGBoost: 0.8840 --> WINNER: XGBoost\n",
+      "class_target_3_corrected_SHORT      | RF/LogReg: 0.8780 vs XGBoost: 0.8903 --> WINNER: XGBoost\n",
+      "class_target_bad_LONG               | RF/LogReg: 0.8229 vs XGBoost: 0.8430 --> WINNER: XGBoost\n",
+      "class_target_bad_SHORT              | RF/LogReg: 0.8324 vs XGBoost: 0.8530 --> WINNER: XGBoost\n",
+      "danger_LONG                         | RF/LogReg: 0.5412 vs XGBoost: 0.5751 --> WINNER: XGBoost\n",
+      "danger_SHORT                        | RF/LogReg: 0.5114 vs XGBoost: 0.5364 --> WINNER: XGBoost\n",
+      "entry_timing_LONG                   | RF/LogReg: 0.0151 vs XGBoost: 0.0191 --> WINNER: XGBoost\n",
+      "entry_timing_SHORT                  | RF/LogReg: 0.0167 vs XGBoost: 0.0161 --> WINNER: RF\n",
+      "exit_timing_LONG                    | RF/LogReg: 0.0546 vs XGBoost: 0.0634 --> WINNER: XGBoost\n",
+      "exit_timing_SHORT                   | RF/LogReg: 0.0516 vs XGBoost: 0.0570 --> WINNER: XGBoost\n",
+      "profit_LONG                         | RF/LogReg: 0.1287 vs XGBoost: 0.1778 --> WINNER: XGBoost\n",
+      "profit_SHORT                        | RF/LogReg: 0.1607 vs XGBoost: 0.2036 --> WINNER: XGBoost\n",
+      "quality_LONG                        | RF/LogReg: 0.0519 vs XGBoost: 0.0966 --> WINNER: XGBoost\n",
+      "quality_SHORT                       | RF/LogReg: 0.0740 vs XGBoost: 0.1125 --> WINNER: XGBoost\n",
+      "\n",
+      "FINAL TALLY: XGBoost beat the prior baseline on 17 / 18 combos.\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "'/kaggle/working/EMA-optimizer-pipeline-v2/Week_8_results/unified_baselines_to_beat.json'"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# TODO: load week8_baselines_to_beat.json (XGBoost's final numbers, saved at Week 7 close-out)\n",
+    "#       AND week7_baselines_to_beat.json (RF's numbers) from PREV_RESULTS_DIR.\n",
+    "# TODO: for all 18 target/direction combos (4 classification x2 directions = 8, 5 regression x2 = 10),\n",
+    "#       compute win/loss: does XGBoost's saved number actually beat RF's saved number, combo by combo?\n",
+    "# TODO: print an explicit count, e.g. \"XGBoost beats RF on X/18 combos\" -- mirroring how Week 6\n",
+    "#       reported \"RF beats baseline 8/10\". Do not eyeball this from memory of last week's printouts --\n",
+    "#       Week 7's own leaderboard cells manually re-typed remembered numbers more than once, which is\n",
+    "#       exactly the failure mode this tally exists to avoid repeating.\n",
+    "# TODO: specifically confirm: does the saved class_target_2 / class_target_3_corrected baseline\n",
+    "#       actually reflect Week 3/4 LogReg's number (the thing RF lost to), or RF's own (weaker) number?\n",
+    "#       Week 7's narrative assumed the former without re-checking the saved JSON value directly.\n",
+    "rf_vs_xgb_tally = {}\n",
+    "# ============================================================\n",
+    "# PART A.11 — RF vs. XGBoost Tally Compilation & Unification\n",
+    "# ============================================================\n",
+    "import os\n",
+    "import json\n",
+    "import ast\n",
+    "\n",
+    "# 1. Path Definitions: Relying on explicit paths defined in A.10 to prevent missing file errors.\n",
+    "rf_json_path = os.path.join(RF_RESULTS_DIR, \"week7_baselines_to_beat.json\")\n",
+    "xgb_json_path = os.path.join(XGB_RESULTS_DIR, \"week8_baselines_to_beat.json\")\n",
+    "\n",
+    "# 2. Defensive File Loading: Catch missing files immediately rather than failing downstream.\n",
+    "try:\n",
+    "    with open(rf_json_path, 'r') as f:\n",
+    "        rf_raw = json.load(f)\n",
+    "    with open(xgb_json_path, 'r') as f:\n",
+    "        xgb_raw = json.load(f)\n",
+    "except FileNotFoundError as e:\n",
+    "    raise RuntimeError(f\"CRITICAL WARNING: Missing JSON baseline files.\\n{e}\")\n",
+    "\n",
+    "# 3. Data Normalization (RF): Convert stringified tuples \"('target', 'direction')\" into standardized keys.\n",
+    "rf_norm = {}\n",
+    "for k_str, data in rf_raw.items():\n",
+    "    # ast.literal_eval is a safe way to parse strings that look like Python tuples without using eval()\n",
+    "    target, direction = ast.literal_eval(k_str) \n",
+    "    rf_norm[f\"{target}_{direction}\"] = {\n",
+    "        'score': data['score'],\n",
+    "        'model': data['model']\n",
+    "    }\n",
+    "\n",
+    "# 4. Data Normalization (XGBoost): Flatten the deeply nested dict into standard keys.\n",
+    "xgb_norm = {}\n",
+    "for task, directions in xgb_raw.items():\n",
+    "    for direction, targets in directions.items():\n",
+    "        for target, data in targets.items():\n",
+    "            # Dynamically extract either AUC (classification) or R2 (regression)\n",
+    "            score = data.get('Best_AUC', data.get('Best_R2'))\n",
+    "            xgb_norm[f\"{target}_{direction}\"] = {\n",
+    "                'score': score,\n",
+    "                'model': 'XGBoost',\n",
+    "                'task': task,\n",
+    "                'params': data.get('Params')\n",
+    "            }\n",
+    "\n",
+    "# 5. Pipeline Integrity Check: Ensure both dictionaries contain the exact same targets.\n",
+    "missing_in_rf  = sorted(set(xgb_norm) - set(rf_norm))\n",
+    "missing_in_xgb = sorted(set(rf_norm) - set(xgb_norm))\n",
+    "if missing_in_rf or missing_in_xgb:\n",
+    "    print(\"KEY MISMATCH DETECTED:\")\n",
+    "    if missing_in_rf:  print(f\"  In XGBoost but not RF:  {missing_in_rf}\")\n",
+    "    if missing_in_xgb: print(f\"  In RF but not XGBoost:  {missing_in_xgb}\")\n",
+    "\n",
+    "# 6. Tally and Dictionary Unification\n",
+    "xgb_wins = 0\n",
+    "total_comparisons = 0\n",
+    "unified_baselines_to_beat = {}\n",
+    "\n",
+    "print(\"============================================================\")\n",
+    "print(\"RF vs. XGBOOST WIN/LOSS TALLY\")\n",
+    "print(\"============================================================\\n\")\n",
+    "\n",
+    "# Iterate through the standardized keys\n",
+    "for key in sorted(xgb_norm.keys()):\n",
+    "    if key not in rf_norm:\n",
+    "        continue # Safely skip mismatches caught by the integrity check above\n",
+    "        \n",
+    "    total_comparisons += 1\n",
+    "    \n",
+    "    # Reverse-engineer the target and direction from our unified key (e.g., 'class_target_1_LONG')\n",
+    "    # rsplit('_', 1) splits only on the LAST underscore, handling targets with underscores safely\n",
+    "    target_name = key.rsplit('_', 1)[0] \n",
+    "    direction = key.rsplit('_', 1)[1]   \n",
+    "    \n",
+    "    xgb_score = xgb_norm[key]['score']\n",
+    "    rf_score = rf_norm[key]['score']\n",
+    "    rf_model_name = rf_norm[key]['model']\n",
+    "    \n",
+    "    # Determine the winner. For both AUC and R2, higher is strictly better.\n",
+    "    if xgb_score > rf_score:\n",
+    "        xgb_wins += 1\n",
+    "        winner = \"XGBoost\"\n",
+    "        best_score = xgb_score\n",
+    "        best_model = \"XGBoost\"\n",
+    "        best_params = xgb_norm[key]['params']\n",
+    "    else:\n",
+    "        winner = rf_model_name\n",
+    "        best_score = rf_score\n",
+    "        best_model = rf_model_name\n",
+    "        best_params = None # Leaving None since RF params aren't mapped in this snippet\n",
+    "\n",
+    "    print(f\"{key:<35} | RF/LogReg: {rf_score:.4f} vs XGBoost: {xgb_score:.4f} --> WINNER: {winner}\")\n",
+    "    \n",
+    "    # Populate the final, flat dictionary structure for downstream use\n",
+    "    unified_baselines_to_beat[key] = {\n",
+    "        \"target\": target_name,\n",
+    "        \"direction\": direction,\n",
+    "        \"task\": xgb_norm[key]['task'],\n",
+    "        \"primary_metric\": \"auc\" if xgb_norm[key]['task'] == \"classification\" else \"r2\",\n",
+    "        \"best_score\": best_score,\n",
+    "        \"best_model\": best_model,\n",
+    "        \"params\": best_params\n",
+    "    }\n",
+    "\n",
+    "# 7. Final Sanity Checks\n",
+    "print(f\"\\nFINAL TALLY: XGBoost beat the prior baseline on {xgb_wins} / {total_comparisons} combos.\")\n",
+    "assert total_comparisons == 18, f\"Expected 18 combos, compared {total_comparisons} -- investigate mismatch above.\"\n",
+    "\n",
+    "# Save the unified baseline for immediate use by LightGBM and stacking models\n",
+    "save_result_dict(unified_baselines_to_beat, \"unified_baselines_to_beat\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "cacb01be",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:31.685187Z",
+     "iopub.status.busy": "2026-07-29T00:07:31.684307Z",
+     "iopub.status.idle": "2026-07-29T00:07:32.871477Z",
+     "shell.execute_reply": "2026-07-29T00:07:32.870512Z"
+    },
+    "papermill": {
+     "duration": 1.202273,
+     "end_time": "2026-07-29T00:07:32.873499+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:31.671226+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[save_progress] No local changes to commit.\n",
+      "[save_progress] Pulling latest from origin/main to check for divergence...\n",
+      "PULL STDOUT: Already up to date.\n",
+      "\n",
+      "[save_progress] Nothing new to push -- already in sync with origin/main.\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# ============================================================\n",
+    "# SAVE PROGRESS\n",
+    "# ============================================================\n",
+    "# Saving the A.11 tally completion and the new unified dictionary structure\n",
+    "save_progress(commit_message=\"Completed A.11: RF vs XGBoost tally and created unified baseline JSON\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7c36bbb2",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011403,
+     "end_time": "2026-07-29T00:07:32.896972+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:32.885569+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5095b119",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012616,
+     "end_time": "2026-07-29T00:07:32.921303+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:32.908687+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART B — LightGBM Theory + Implementation (Monday)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "76abf3e2",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011875,
+     "end_time": "2026-07-29T00:07:32.945354+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:32.933479+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Concept:** LightGBM grows trees **leaf-wise** (best-loss-reduction leaf split next) rather than **level-wise** (every leaf at a depth splits before moving deeper, XGBoost's default). Leaf-wise can reach a lower loss with fewer splits, but it's easier to overfit on a small/noisy leaf if `num_leaves`/`min_data_in_leaf` aren't controlled — think about which of your Week 6/7 depth findings (shallow depth generally best, `min_samples_leaf` interacting with depth) this predicts for LightGBM's own controls.\n",
+    "\n",
+    "**Histogram binning:** continuous features are pre-bucketed into a fixed number of histogram bins before split-finding, which is why LightGBM is typically faster on large tabular datasets than XGBoost's exact or approximate split search."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7d21b9d9",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012192,
+     "end_time": "2026-07-29T00:07:32.970024+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:32.957832+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Deliverable — Leaf-wise vs level-wise, in your own words (fill in)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "05d1c803",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011564,
+     "end_time": "2026-07-29T00:07:32.993585+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:32.982021+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "*(your notes here — specifically: given Week 6/7's finding that shallow trees win on this dataset, what does that predict about how tightly you'll need to constrain `num_leaves` here?)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f37eaa03",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011454,
+     "end_time": "2026-07-29T00:07:33.016713+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.005259+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Train LGBMClassifier / LGBMRegressor with early stopping"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "752dc11e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.042022Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.041699Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.046460Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.045530Z"
+    },
+    "papermill": {
+     "duration": 0.019576,
+     "end_time": "2026-07-29T00:07:33.048388+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.028812+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# ============================================================\n",
+    "# TODO: Train LGBMClassifier with early stopping, per classification target\n",
+    "# ============================================================\n",
+    "# TODO: mirror Week 7's XGBoost early-stopping pattern: split a genuine walk-forward\n",
+    "#       validation fold distinct from the final CV test folds, fit with early_stopping,\n",
+    "#       then evaluate the resulting n_estimators via cv_no_scaling() for comparability.\n",
+    "# TODO: watch the off-by-one from Week 7 -- confirm whether best_iteration needs +1\n",
+    "#       for the number of trees you actually want (Week 7's classifier loop and\n",
+    "#       regressor loop disagreed on this; pick one convention and use it consistently\n",
+    "#       across BOTH classification and regression this week).\n",
+    "lgbm_clf_results = {}\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "53114a8d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.074483Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.074119Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.078962Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.077857Z"
+    },
+    "papermill": {
+     "duration": 0.020552,
+     "end_time": "2026-07-29T00:07:33.080964+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.060412+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# ============================================================\n",
+    "# TODO: Train LGBMRegressor with early stopping, per REG_TARGETS\n",
+    "# ============================================================\n",
+    "# TODO: mirror the classifier loop above for all five REG_TARGETS, both directions.\n",
+    "# TODO: use the STRING transform key ('log1p'/'log5p') from REG_TARGETS directly --\n",
+    "#       do not reintroduce a boolean is_log flag.\n",
+    "lgbm_reg_results = {}\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c9453804",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011977,
+     "end_time": "2026-07-29T00:07:33.105345+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.093368+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Tune: `num_leaves`, `min_data_in_leaf`, `learning_rate`, `bagging_fraction` (joint sweep)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "66784223",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.130654Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.130305Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.134424Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.133537Z"
+    },
+    "papermill": {
+     "duration": 0.018942,
+     "end_time": "2026-07-29T00:07:33.136170+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.117228+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: time-test ONE representative config before committing to a sweep size\n",
+    "#       (Week 6's sweeps ran 2-3x longer than estimated more than once -- don't repeat that here).\n",
+    "# TODO: sweep num_leaves / min_data_in_leaf jointly, not one-at-a-time -- Week 6 found\n",
+    "#       max_depth and min_samples_leaf interact, not independent levers. Assume the same\n",
+    "#       is true here until you've checked.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6a4e4eb7",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011674,
+     "end_time": "2026-07-29T00:07:33.159749+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.148075+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Deliverable — LightGBM vs XGBoost: speed and accuracy on your data (fill in)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e6ef1144",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011774,
+     "end_time": "2026-07-29T00:07:33.183305+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.171531+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "*(your comparison here — same targets, same CV folds; is the speed difference actually large enough to matter at this dataset size, or is that more true at bigger scale than you have?)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "57193cd6",
+   "metadata": {
+    "papermill": {
+     "duration": 0.01178,
+     "end_time": "2026-07-29T00:07:33.206980+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.195200+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6409dc7a",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012009,
+     "end_time": "2026-07-29T00:07:33.230862+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.218853+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART C — SHAP Across RF, XGBoost, and LightGBM (Tuesday)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ca5e22cb",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011697,
+     "end_time": "2026-07-29T00:07:33.254422+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.242725+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "This is the deliverable Week 7 deferred, deliberately, so it could be done once across all three models instead of redone per-model. Do it that way now — resist the temptation to just run it on whichever model happens to be loaded in memory."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b6ac2955",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011682,
+     "end_time": "2026-07-29T00:07:33.277953+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.266271+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### SHAP summary plot — do all three models agree on global importance and direction?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "2fee7d5a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.304585Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.304212Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.309464Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.308503Z"
+    },
+    "papermill": {
+     "duration": 0.020994,
+     "end_time": "2026-07-29T00:07:33.311584+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.290590+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: import shap\n",
+    "# TODO: for EACH of RF (Week 6's saved .joblib), XGBoost (Week 7's saved .joblib),\n",
+    "#       and LightGBM (this week's model), build shap.TreeExplainer and shap_values\n",
+    "#       on the SAME held-out fold / same feature set / same target, so the three are comparable.\n",
+    "# TODO: shap.summary_plot() for each, side by side (or in one figure)\n",
+    "# TODO: compare each model's top-10 SHAP features against Week 6's permutation-importance\n",
+    "#       top-10 for the SAME target -- do all three agree with permutation more than MDI did\n",
+    "#       in Week 6 (recall: MDI vs permutation only overlapped 4-6/10)?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "66eb6238",
+   "metadata": {
+    "papermill": {
+     "duration": 0.01241,
+     "end_time": "2026-07-29T00:07:33.336746+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.324336+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### SHAP dependence plot — same feature, three models, one shape check"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "17abb2dd",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.362853Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.362169Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.366321Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.365499Z"
+    },
+    "papermill": {
+     "duration": 0.019529,
+     "end_time": "2026-07-29T00:07:33.368282+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.348753+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: pick Week 6's top permutation-importance feature (rsi_4h or ema_separation_4h)\n",
+    "# TODO: shap.dependence_plot() for that feature, once per model (RF/XGBoost/LightGBM)\n",
+    "# TODO: does the shape roughly match Week 6's PDP curve for the same feature, across all\n",
+    "#       three models? A sanity check, not an expectation of identical curves.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3be4f841",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011934,
+     "end_time": "2026-07-29T00:07:33.392276+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.380342+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### SHAP waterfall plot — one good signal, one bad signal, your current best model"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "441f1bd5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.418785Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.418379Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.422914Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.421884Z"
+    },
+    "papermill": {
+     "duration": 0.02064,
+     "end_time": "2026-07-29T00:07:33.425102+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.404462+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: pick one row where class_target_1 == 1, prediction confident and correct\n",
+    "# TODO: pick one row where class_target_1 == 0, prediction confident and correct\n",
+    "# TODO: shap.waterfall_plot() for each -- which features pushed the prediction each way?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e5c104cc",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011886,
+     "end_time": "2026-07-29T00:07:33.448949+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.437063+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Deliverable — three-way SHAP interpretation report (fill in)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2668aeac",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012652,
+     "end_time": "2026-07-29T00:07:33.477944+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.465292+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "*(your notes here: agreement level between the three models' SHAP rankings; agreement with Week 6's permutation importance; any feature one model leans on that the other two don't, and your best guess why)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4096e286",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012484,
+     "end_time": "2026-07-29T00:07:33.502692+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.490208+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3cc1d19f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011992,
+     "end_time": "2026-07-29T00:07:33.526739+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.514747+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART D — Model Stacking Theory + Implementation (Wednesday)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "225153c3",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011968,
+     "end_time": "2026-07-29T00:07:33.550695+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.538727+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Concept:** a stacking ensemble trains a meta-model on the **out-of-fold predictions** of several level-0 models, rather than on the raw features directly. The idea is that each level-0 model (LogReg, RF, XGBoost, LightGBM) makes different kinds of mistakes, and a meta-model can learn when to trust which one — this only helps if the level-0 models are meaningfully different from each other, not just differently-tuned versions of the same idea.\n",
+    "\n",
+    "**Walk-forward passthrough is the part that's easy to get wrong here:** the meta-model's training rows must be *out-of-fold* predictions from the level-0 models (predictions on data those models didn't see), computed walk-forward, in the same style as `cv_no_scaling()`/`cv_regression()` — not in-sample predictions, which would hand the meta-model a leaked, over-optimistic signal to learn from."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8a76efd9",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011749,
+     "end_time": "2026-07-29T00:07:33.575333+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.563584+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Level-0 models: LogReg, RF, XGBoost, LightGBM"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "d53b7c91",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.601079Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.600747Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.605161Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.604287Z"
+    },
+    "papermill": {
+     "duration": 0.01965,
+     "end_time": "2026-07-29T00:07:33.607150+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.587500+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: load Week 3/4's tuned LogReg, Week 6's tuned RF, Week 7's tuned XGBoost,\n",
+    "#       and this week's tuned LightGBM -- one saved model per target/direction, reused\n",
+    "#       here rather than retrained from scratch.\n",
+    "level0_models = {}\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "95679ccc",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012251,
+     "end_time": "2026-07-29T00:07:33.631341+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.619090+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Level-1 meta-model: LogisticRegression (simple, interpretable)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "5052ef58",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.658649Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.658267Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.662836Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.661823Z"
+    },
+    "papermill": {
+     "duration": 0.019984,
+     "end_time": "2026-07-29T00:07:33.664894+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.644910+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: build the out-of-fold prediction matrix (walk-forward, no leakage) for the\n",
+    "#       level-0 models on one target/direction first, as a single worked example, before\n",
+    "#       generalizing to all targets.\n",
+    "# TODO: fit StackingClassifier (or a hand-rolled equivalent using cv_no_scaling-style\n",
+    "#       walk-forward folds) with LogisticRegression as the final_estimator.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e8715ba5",
+   "metadata": {
+    "papermill": {
+     "duration": 0.014016,
+     "end_time": "2026-07-29T00:07:33.693870+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.679854+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Deliverable — stacked ensemble, one target/direction worked example (fill in)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5777ab59",
+   "metadata": {
+    "papermill": {
+     "duration": 0.014645,
+     "end_time": "2026-07-29T00:07:33.727835+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.713190+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "*(your notes here)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ea23fbbc",
+   "metadata": {
+    "papermill": {
+     "duration": 0.014461,
+     "end_time": "2026-07-29T00:07:33.761550+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.747089+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "da75aa5a",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011774,
+     "end_time": "2026-07-29T00:07:33.785413+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.773639+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART E — Stacking Tuning + Mid-Point Full Model Review (Thursday)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "804e2d2a",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011977,
+     "end_time": "2026-07-29T00:07:33.809377+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.797400+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**This comparison table is the most important document of the project so far** — every model trained since Week 1, on the same walk-forward folds, side by side. Keep classification (AUC) and regression (R²) in **separate tables** -- do not sort them together."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "59ce35ee",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011849,
+     "end_time": "2026-07-29T00:07:33.833210+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.821361+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Does stacking beat your best single model? Which level-0 models contribute most?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "b1b377d9",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.858630Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.858284Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.862568Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.861579Z"
+    },
+    "papermill": {
+     "duration": 0.019254,
+     "end_time": "2026-07-29T00:07:33.864425+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.845171+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: compare stacked ensemble's CV metrics against XGBoost/LightGBM's own individual scores,\n",
+    "#       per target/direction.\n",
+    "# TODO: inspect the meta-model's coefficients (LogisticRegression.coef_) -- which level-0 model's\n",
+    "#       predictions does the meta-model weight most heavily? Does that match which single model\n",
+    "#       already led the leaderboard, or does stacking surface something non-obvious?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b3a53a1f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.01239,
+     "end_time": "2026-07-29T00:07:33.889066+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.876676+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Try different meta-models: LogReg vs Ridge vs another RF"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "c79a72fa",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.915401Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.915063Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.919288Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.918312Z"
+    },
+    "papermill": {
+     "duration": 0.019561,
+     "end_time": "2026-07-29T00:07:33.921159+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.901598+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: swap final_estimator and re-run the same comparison -- does the choice of\n",
+    "#       meta-model actually change the ranking, or just the margin?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0fb5ffbd",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011941,
+     "end_time": "2026-07-29T00:07:33.945155+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.933214+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Calibration: reliability diagram — are confidence scores well-calibrated?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "2ae70a31",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:33.970907Z",
+     "iopub.status.busy": "2026-07-29T00:07:33.970571Z",
+     "iopub.status.idle": "2026-07-29T00:07:33.974637Z",
+     "shell.execute_reply": "2026-07-29T00:07:33.973796Z"
+    },
+    "papermill": {
+     "duration": 0.019209,
+     "end_time": "2026-07-29T00:07:33.976338+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.957129+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: from sklearn.calibration import calibration_curve\n",
+    "# TODO: plot predicted-probability bins against observed positive rate, for your current\n",
+    "#       best model AND the stacked ensemble\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c006d87f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012995,
+     "end_time": "2026-07-29T00:07:34.001411+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:33.988416+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Full model comparison — every model, same walk-forward folds\n",
+    "Separate classification and regression tables. Include training time and an interpretability note (e.g. \"single coefficient vector\", \"SHAP available\", \"meta-model over 4 base learners\") for each row -- not just the metric."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "f78afe49",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:34.027350Z",
+     "iopub.status.busy": "2026-07-29T00:07:34.027011Z",
+     "iopub.status.idle": "2026-07-29T00:07:34.031685Z",
+     "shell.execute_reply": "2026-07-29T00:07:34.030808Z"
+    },
+    "papermill": {
+     "duration": 0.020289,
+     "end_time": "2026-07-29T00:07:34.033788+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.013499+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: classification_comparison = pd.DataFrame([...])  -- rows: LogReg, DecisionTree, RF,\n",
+    "#       XGBoost, LightGBM, Stacked -- columns: target, direction, AUC, train_time_s, notes\n",
+    "# TODO: regression_comparison = pd.DataFrame([...])  -- same models, R2 instead of AUC\n",
+    "# TODO: shortlist top 2-3 models to carry forward toward Week 9 (SVM) and eventual deployment\n",
+    "classification_comparison = None\n",
+    "regression_comparison = None\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "619f8a98",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011985,
+     "end_time": "2026-07-29T00:07:34.058080+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.046095+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d28e378b",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011886,
+     "end_time": "2026-07-29T00:07:34.082074+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.070188+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "## PART F — Regime-Based Model Split + Week 8 Consolidation (Friday)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "74947b9b",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011993,
+     "end_time": "2026-07-29T00:07:34.106405+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.094412+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "Per `ADVICE.md`'s regime-dependence note: crypto's character has shifted meaningfully even within the dataset's own window. A model strong on average across the full history can be strong in one regime and dead weight in another — averaging can hide that. Treat this first split as the start of a real line of investigation if it turns up something, not a one-off Friday curiosity."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f64a492e",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012829,
+     "end_time": "2026-07-29T00:07:34.131389+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.118560+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Split by market regime: ADX > 25 (trending) vs ADX <= 25 (ranging)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "8403eb58",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:34.158504Z",
+     "iopub.status.busy": "2026-07-29T00:07:34.158132Z",
+     "iopub.status.idle": "2026-07-29T00:07:34.162706Z",
+     "shell.execute_reply": "2026-07-29T00:07:34.161663Z"
+    },
+    "papermill": {
+     "duration": 0.020852,
+     "end_time": "2026-07-29T00:07:34.164999+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.144147+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: df_trending = df[df['adx_ltf'] > 25]; df_ranging = df[df['adx_ltf'] <= 25]\n",
+    "# TODO: re-run your current best model's walk-forward CV separately on each regime subset\n",
+    "# TODO: does accuracy/AUC improve for the trending regime specifically? Is the ranging-regime\n",
+    "#       score meaningfully worse, or does it wash out in the full-history average?\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dc7ce50f",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011968,
+     "end_time": "2026-07-29T00:07:34.189945+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.177977+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Deliverable — regime-aware model experiment results (fill in)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2226f9c8",
+   "metadata": {
+    "papermill": {
+     "duration": 0.012011,
+     "end_time": "2026-07-29T00:07:34.214143+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.202132+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "*(your notes here)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e85c8a35",
+   "metadata": {
+    "papermill": {
+     "duration": 0.01193,
+     "end_time": "2026-07-29T00:07:34.238196+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.226266+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "### Week 8 Honest Record"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0a649ee2",
+   "metadata": {
+    "papermill": {
+     "duration": 0.011935,
+     "end_time": "2026-07-29T00:07:34.262179+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.250244+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": [
+    "**Write this last — after re-running the cells it summarizes, not from memory of what you meant to get.** Every `...` below gets filled in only once the corresponding cell above has actually been run in this session."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "f3a54cc5",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:34.288706Z",
+     "iopub.status.busy": "2026-07-29T00:07:34.288340Z",
+     "iopub.status.idle": "2026-07-29T00:07:34.294237Z",
+     "shell.execute_reply": "2026-07-29T00:07:34.293286Z"
+    },
+    "papermill": {
+     "duration": 0.022085,
+     "end_time": "2026-07-29T00:07:34.296204+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.274119+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "=================================================================================\n",
+      "WEEK 8 PRODUCTION LOG -- GRADIENT BOOSTING II (LIGHTGBM), SHAP, STACKING, MID-POINT REVIEW\n",
+      "=================================================================================\n",
+      "\n",
+      "RF vs XGBOOST TALLY (Week 7's deferred first task, done first this week)\n",
+      "Result: ... / 18 combos won by XGBoost\n",
+      "Does the class_target_2 / class_target_3_corrected(LONG) baseline actually reflect\n",
+      "LogReg's number, confirmed from the saved JSON (not assumed from memory)?: ...\n",
+      "\n",
+      "CLASSIFICATION LEADERBOARD (best AUC per target, model + delta over week8_baselines_to_beat)\n",
+      "... (fill in per target, from your actual comparison table above)\n",
+      "\n",
+      "REGRESSION LEADERBOARD (best R2 per target, model + delta over week8_baselines_to_beat)\n",
+      "... (fill in per target, from your actual comparison table above)\n",
+      "\n",
+      "LIGHTGBM vs XGBOOST\n",
+      "Speed: ...\n",
+      "Accuracy: ...\n",
+      "\n",
+      "SHAP vs PERMUTATION IMPORTANCE (three-way: RF, XGBoost, LightGBM)\n",
+      "Did all three agree with each other, and with Week 6's permutation importance, more than\n",
+      "MDI vs permutation did in Week 6?: ...\n",
+      "\n",
+      "STACKING\n",
+      "Did it beat the best single model? By how much, on which targets specifically?: ...\n",
+      "Which level-0 model did the meta-model lean on most?: ...\n",
+      "Are probabilities well-calibrated (reliability diagram)?: ...\n",
+      "\n",
+      "REGIME SPLIT\n",
+      "Trending vs ranging -- real difference, or noise?: ...\n",
+      "\n",
+      "ADVICE.MD STANDING CHECK-INS (see A.0.1 -- do not skip this section)\n",
+      "CV leakage status this week: ...\n",
+      "Rough would-this-have-made-money number, current best model: ...\n",
+      "\n",
+      "HONEST VERDICT\n",
+      "Is LightGBM, XGBoost, or the stacked ensemble your best model overall, per family?: ...\n",
+      "Biggest surprise this week: ...\n",
+      "Top 2-3 models shortlisted for Week 9 (SVM) onward: ...\n",
+      "Expectation for Week 9: ...\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "week8_record = f\"\"\"\n",
+    "=================================================================================\n",
+    "WEEK 8 PRODUCTION LOG -- GRADIENT BOOSTING II (LIGHTGBM), SHAP, STACKING, MID-POINT REVIEW\n",
+    "=================================================================================\n",
+    "\n",
+    "RF vs XGBOOST TALLY (Week 7's deferred first task, done first this week)\n",
+    "Result: ... / 18 combos won by XGBoost\n",
+    "Does the class_target_2 / class_target_3_corrected(LONG) baseline actually reflect\n",
+    "LogReg's number, confirmed from the saved JSON (not assumed from memory)?: ...\n",
+    "\n",
+    "CLASSIFICATION LEADERBOARD (best AUC per target, model + delta over week8_baselines_to_beat)\n",
+    "... (fill in per target, from your actual comparison table above)\n",
+    "\n",
+    "REGRESSION LEADERBOARD (best R2 per target, model + delta over week8_baselines_to_beat)\n",
+    "... (fill in per target, from your actual comparison table above)\n",
+    "\n",
+    "LIGHTGBM vs XGBOOST\n",
+    "Speed: ...\n",
+    "Accuracy: ...\n",
+    "\n",
+    "SHAP vs PERMUTATION IMPORTANCE (three-way: RF, XGBoost, LightGBM)\n",
+    "Did all three agree with each other, and with Week 6's permutation importance, more than\n",
+    "MDI vs permutation did in Week 6?: ...\n",
+    "\n",
+    "STACKING\n",
+    "Did it beat the best single model? By how much, on which targets specifically?: ...\n",
+    "Which level-0 model did the meta-model lean on most?: ...\n",
+    "Are probabilities well-calibrated (reliability diagram)?: ...\n",
+    "\n",
+    "REGIME SPLIT\n",
+    "Trending vs ranging -- real difference, or noise?: ...\n",
+    "\n",
+    "ADVICE.MD STANDING CHECK-INS (see A.0.1 -- do not skip this section)\n",
+    "CV leakage status this week: ...\n",
+    "Rough would-this-have-made-money number, current best model: ...\n",
+    "\n",
+    "HONEST VERDICT\n",
+    "Is LightGBM, XGBoost, or the stacked ensemble your best model overall, per family?: ...\n",
+    "Biggest surprise this week: ...\n",
+    "Top 2-3 models shortlisted for Week 9 (SVM) onward: ...\n",
+    "Expectation for Week 9: ...\n",
+    "\"\"\"\n",
+    "\n",
+    "print(week8_record)\n",
+    "# Fill in every \"...\" only after the cells above have actually run this session.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "fc266965",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-29T00:07:34.323707Z",
+     "iopub.status.busy": "2026-07-29T00:07:34.322820Z",
+     "iopub.status.idle": "2026-07-29T00:07:34.327363Z",
+     "shell.execute_reply": "2026-07-29T00:07:34.326518Z"
+    },
+    "papermill": {
+     "duration": 0.02055,
+     "end_time": "2026-07-29T00:07:34.329276+00:00",
+     "exception": false,
+     "start_time": "2026-07-29T00:07:34.308726+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "# TODO: build week9_baselines_to_beat from this week's actual final leaderboard --\n",
+    "#       do not hand-type remembered numbers into a dict; pull them from the same\n",
+    "#       classification_comparison / regression_comparison DataFrames built in Part E.\n",
+    "week9_baselines_to_beat = {}\n",
+    "\n",
+    "# TODO: save_result_dict(week9_baselines_to_beat, \"week9_baselines_to_beat\")\n",
+    "# TODO: save_progress(\"Week 8 close-out: LightGBM + three-way SHAP + stacking + regime split, \"\n",
+    "#                      \"final baselines to beat for Week 9 SVM\")\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.13"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 56.120672,
+   "end_time": "2026-07-29T00:07:35.161944+00:00",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2026-07-29T00:06:39.041272+00:00",
+   "version": "2.7.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
