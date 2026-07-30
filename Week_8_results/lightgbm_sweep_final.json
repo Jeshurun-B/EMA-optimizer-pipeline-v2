@@ -134,6 +134,21 @@
         }
       }
     },
-    "SHORT": {}
+    "SHORT": {
+      "profit": {
+        "Best_R2": 0.2030183431833165,
+        "Best_MAE": 1.2474459035199004,
+        "Params": {
+          "num_leaves": 9,
+          "min_data_in_leaf": 123,
+          "bagging_fraction": 0.7098360325416165,
+          "reg_alpha": 1.4300835127473512,
+          "reg_lambda": 0.2795331065599044,
+          "n_estimators": 452,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    }
   }
 }
