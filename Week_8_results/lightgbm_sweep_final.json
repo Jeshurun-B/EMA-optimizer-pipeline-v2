@@ -118,7 +118,22 @@
     }
   },
   "regression": {
-    "LONG": {},
+    "LONG": {
+      "profit": {
+        "Best_R2": 0.17880054383196073,
+        "Best_MAE": 1.2761461159924776,
+        "Params": {
+          "num_leaves": 8,
+          "min_data_in_leaf": 148,
+          "bagging_fraction": 0.8015281019121165,
+          "reg_alpha": 0.18822045161891982,
+          "reg_lambda": 0.16760249992791884,
+          "n_estimators": 609,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    },
     "SHORT": {}
   }
 }
