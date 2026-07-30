@@ -246,6 +246,20 @@
           "learning_rate": 0.05,
           "bagging_freq": 1
         }
+      },
+      "exit_timing": {
+        "Best_R2": 0.054971943840970816,
+        "Best_MAE": 8.635989021240986,
+        "Params": {
+          "num_leaves": 9,
+          "min_data_in_leaf": 159,
+          "bagging_fraction": 0.7197218887906432,
+          "reg_alpha": 0.822725620391907,
+          "reg_lambda": 0.1092037161146521,
+          "n_estimators": 497,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
       }
     }
   }
