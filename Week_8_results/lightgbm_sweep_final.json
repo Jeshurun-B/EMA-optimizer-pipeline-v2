@@ -146,6 +146,20 @@
           "learning_rate": 0.05,
           "bagging_freq": 1
         }
+      },
+      "danger": {
+        "Best_R2": 0.5814129626766552,
+        "Best_MAE": 0.3076230834269579,
+        "Params": {
+          "num_leaves": 7,
+          "min_data_in_leaf": 11,
+          "bagging_fraction": 0.8411569842978257,
+          "reg_alpha": 0.9190155225074205,
+          "reg_lambda": 0.6911678643886308,
+          "n_estimators": 1218,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
       }
     },
     "SHORT": {
