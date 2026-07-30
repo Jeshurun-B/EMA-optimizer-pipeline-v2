@@ -14,6 +14,20 @@
           "learning_rate": 0.05,
           "bagging_freq": 1
         }
+      },
+      "class_target_2": {
+        "Best_AUC": 0.758325094064717,
+        "Best_Precision": 0.6586963512328701,
+        "Params": {
+          "num_leaves": 29,
+          "min_data_in_leaf": 130,
+          "bagging_fraction": 0.6158141961049155,
+          "reg_alpha": 0.9336815698365111,
+          "reg_lambda": 0.11282253237914687,
+          "n_estimators": 159,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
       }
     },
     "SHORT": {
