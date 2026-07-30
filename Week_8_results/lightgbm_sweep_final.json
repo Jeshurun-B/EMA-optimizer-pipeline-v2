@@ -16,7 +16,22 @@
         }
       }
     },
-    "SHORT": {}
+    "SHORT": {
+      "class_target_1": {
+        "Best_AUC": 0.7129393525112244,
+        "Best_Precision": 0.6222273206034283,
+        "Params": {
+          "num_leaves": 22,
+          "min_data_in_leaf": 90,
+          "bagging_fraction": 0.7165470298059137,
+          "reg_alpha": 1.1062027298456782,
+          "reg_lambda": 0.8953165436343044,
+          "n_estimators": 246,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    }
   },
   "regression": {
     "LONG": {},
