@@ -2,13 +2,13 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "7e9cc253",
+   "id": "af131d70",
    "metadata": {
     "papermill": {
-     "duration": 0.012174,
-     "end_time": "2026-07-29T00:06:42.124688+00:00",
+     "duration": 0.011984,
+     "end_time": "2026-07-30T01:32:54.345540+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.112514+00:00",
+     "start_time": "2026-07-30T01:32:54.333556+00:00",
      "status": "completed"
     },
     "tags": []
@@ -23,13 +23,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "aac7fb4c",
+   "id": "3ec0bd9d",
    "metadata": {
     "papermill": {
-     "duration": 0.011638,
-     "end_time": "2026-07-29T00:06:42.147659+00:00",
+     "duration": 0.010431,
+     "end_time": "2026-07-30T01:32:54.367816+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.136021+00:00",
+     "start_time": "2026-07-30T01:32:54.357385+00:00",
      "status": "completed"
     },
     "tags": []
@@ -40,13 +40,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "84156264",
+   "id": "89cfa289",
    "metadata": {
     "papermill": {
-     "duration": 0.011374,
-     "end_time": "2026-07-29T00:06:42.169492+00:00",
+     "duration": 0.010546,
+     "end_time": "2026-07-30T01:32:54.389178+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.158118+00:00",
+     "start_time": "2026-07-30T01:32:54.378632+00:00",
      "status": "completed"
     },
     "tags": []
@@ -57,13 +57,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "15c42bde",
+   "id": "bf628065",
    "metadata": {
     "papermill": {
-     "duration": 0.010948,
-     "end_time": "2026-07-29T00:06:42.191103+00:00",
+     "duration": 0.01123,
+     "end_time": "2026-07-30T01:32:54.410981+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.180155+00:00",
+     "start_time": "2026-07-30T01:32:54.399751+00:00",
      "status": "completed"
     },
     "tags": []
@@ -83,13 +83,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "97baba9a",
+   "id": "3e2825aa",
    "metadata": {
     "papermill": {
-     "duration": 0.011031,
-     "end_time": "2026-07-29T00:06:42.212945+00:00",
+     "duration": 0.010715,
+     "end_time": "2026-07-30T01:32:54.432307+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.201914+00:00",
+     "start_time": "2026-07-30T01:32:54.421592+00:00",
      "status": "completed"
     },
     "tags": []
@@ -106,19 +106,19 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "id": "d5db4047",
+   "id": "b74e6f68",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:42.236063Z",
-     "iopub.status.busy": "2026-07-29T00:06:42.235692Z",
-     "iopub.status.idle": "2026-07-29T00:06:42.246033Z",
-     "shell.execute_reply": "2026-07-29T00:06:42.244900Z"
+     "iopub.execute_input": "2026-07-30T01:32:54.456044Z",
+     "iopub.status.busy": "2026-07-30T01:32:54.455705Z",
+     "iopub.status.idle": "2026-07-30T01:32:54.465905Z",
+     "shell.execute_reply": "2026-07-30T01:32:54.464622Z"
     },
     "papermill": {
-     "duration": 0.024512,
-     "end_time": "2026-07-29T00:06:42.248035+00:00",
+     "duration": 0.024805,
+     "end_time": "2026-07-30T01:32:54.467947+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.223523+00:00",
+     "start_time": "2026-07-30T01:32:54.443142+00:00",
      "status": "completed"
     },
     "tags": []
@@ -174,13 +174,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "036aea9c",
+   "id": "5aae28dc",
    "metadata": {
     "papermill": {
-     "duration": 0.010643,
-     "end_time": "2026-07-29T00:06:42.269760+00:00",
+     "duration": 0.01069,
+     "end_time": "2026-07-30T01:32:54.489484+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.259117+00:00",
+     "start_time": "2026-07-30T01:32:54.478794+00:00",
      "status": "completed"
     },
     "tags": []
@@ -191,13 +191,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "d86ba19d",
+   "id": "ad1dbb7d",
    "metadata": {
     "papermill": {
-     "duration": 0.010543,
-     "end_time": "2026-07-29T00:06:42.291389+00:00",
+     "duration": 0.010549,
+     "end_time": "2026-07-30T01:32:54.510967+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.280846+00:00",
+     "start_time": "2026-07-30T01:32:54.500418+00:00",
      "status": "completed"
     },
     "tags": []
@@ -209,19 +209,19 @@
   {
    "cell_type": "code",
    "execution_count": 2,
-   "id": "c444d8e4",
+   "id": "ed5c250d",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:42.314795Z",
-     "iopub.status.busy": "2026-07-29T00:06:42.314424Z",
-     "iopub.status.idle": "2026-07-29T00:06:49.292278Z",
-     "shell.execute_reply": "2026-07-29T00:06:49.291212Z"
+     "iopub.execute_input": "2026-07-30T01:32:54.534267Z",
+     "iopub.status.busy": "2026-07-30T01:32:54.533727Z",
+     "iopub.status.idle": "2026-07-30T01:33:04.356837Z",
+     "shell.execute_reply": "2026-07-30T01:33:04.355620Z"
     },
     "papermill": {
-     "duration": 6.992509,
-     "end_time": "2026-07-29T00:06:49.294635+00:00",
+     "duration": 9.837459,
+     "end_time": "2026-07-30T01:33:04.359074+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:42.302126+00:00",
+     "start_time": "2026-07-30T01:32:54.521615+00:00",
      "status": "completed"
     },
     "tags": []
@@ -242,13 +242,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "30dcf184",
+   "id": "329ef250",
    "metadata": {
     "papermill": {
-     "duration": 0.011007,
-     "end_time": "2026-07-29T00:06:49.316535+00:00",
+     "duration": 0.011281,
+     "end_time": "2026-07-30T01:33:04.381568+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:49.305528+00:00",
+     "start_time": "2026-07-30T01:33:04.370287+00:00",
      "status": "completed"
     },
     "tags": []
@@ -260,19 +260,19 @@
   {
    "cell_type": "code",
    "execution_count": 3,
-   "id": "b4c89ca0",
+   "id": "148ff482",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:49.340387Z",
-     "iopub.status.busy": "2026-07-29T00:06:49.339998Z",
-     "iopub.status.idle": "2026-07-29T00:06:49.357869Z",
-     "shell.execute_reply": "2026-07-29T00:06:49.356815Z"
+     "iopub.execute_input": "2026-07-30T01:33:04.406374Z",
+     "iopub.status.busy": "2026-07-30T01:33:04.405274Z",
+     "iopub.status.idle": "2026-07-30T01:33:04.423421Z",
+     "shell.execute_reply": "2026-07-30T01:33:04.422078Z"
     },
     "papermill": {
-     "duration": 0.032105,
-     "end_time": "2026-07-29T00:06:49.359590+00:00",
+     "duration": 0.032973,
+     "end_time": "2026-07-30T01:33:04.425470+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:49.327485+00:00",
+     "start_time": "2026-07-30T01:33:04.392497+00:00",
      "status": "completed"
     },
     "tags": []
@@ -311,19 +311,19 @@
   {
    "cell_type": "code",
    "execution_count": 4,
-   "id": "70d170ac",
+   "id": "bd850053",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:49.383159Z",
-     "iopub.status.busy": "2026-07-29T00:06:49.382819Z",
-     "iopub.status.idle": "2026-07-29T00:06:54.139350Z",
-     "shell.execute_reply": "2026-07-29T00:06:54.138270Z"
+     "iopub.execute_input": "2026-07-30T01:33:04.449462Z",
+     "iopub.status.busy": "2026-07-30T01:33:04.448926Z",
+     "iopub.status.idle": "2026-07-30T01:33:09.073700Z",
+     "shell.execute_reply": "2026-07-30T01:33:09.072427Z"
     },
     "papermill": {
-     "duration": 4.77091,
-     "end_time": "2026-07-29T00:06:54.141496+00:00",
+     "duration": 4.639425,
+     "end_time": "2026-07-30T01:33:09.075867+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:49.370586+00:00",
+     "start_time": "2026-07-30T01:33:04.436442+00:00",
      "status": "completed"
     },
     "tags": []
@@ -365,18 +365,18 @@
     "sns.set_style('whitegrid')\n",
     "plt.rcParams['figure.figsize'] = (12, 5)\n",
     "print('Environment ready')\n",
-    "print(\"test\")"
+    "print(\"test\")\n"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "950c0f2c",
+   "id": "152e8702",
    "metadata": {
     "papermill": {
-     "duration": 0.010854,
-     "end_time": "2026-07-29T00:06:54.164154+00:00",
+     "duration": 0.011105,
+     "end_time": "2026-07-30T01:33:09.099800+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:54.153300+00:00",
+     "start_time": "2026-07-30T01:33:09.088695+00:00",
      "status": "completed"
     },
     "tags": []
@@ -388,19 +388,19 @@
   {
    "cell_type": "code",
    "execution_count": 5,
-   "id": "5880a95d",
+   "id": "4a946b71",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:54.188078Z",
-     "iopub.status.busy": "2026-07-29T00:06:54.187537Z",
-     "iopub.status.idle": "2026-07-29T00:06:54.220406Z",
-     "shell.execute_reply": "2026-07-29T00:06:54.219511Z"
+     "iopub.execute_input": "2026-07-30T01:33:09.124623Z",
+     "iopub.status.busy": "2026-07-30T01:33:09.123932Z",
+     "iopub.status.idle": "2026-07-30T01:33:09.158618Z",
+     "shell.execute_reply": "2026-07-30T01:33:09.157470Z"
     },
     "papermill": {
-     "duration": 0.047259,
-     "end_time": "2026-07-29T00:06:54.222474+00:00",
+     "duration": 0.049842,
+     "end_time": "2026-07-30T01:33:09.160963+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:54.175215+00:00",
+     "start_time": "2026-07-30T01:33:09.111121+00:00",
      "status": "completed"
     },
     "tags": []
@@ -431,13 +431,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "9d1fe030",
+   "id": "9c78bc70",
    "metadata": {
     "papermill": {
-     "duration": 0.010858,
-     "end_time": "2026-07-29T00:06:54.244380+00:00",
+     "duration": 0.011312,
+     "end_time": "2026-07-30T01:33:09.184009+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:54.233522+00:00",
+     "start_time": "2026-07-30T01:33:09.172697+00:00",
      "status": "completed"
     },
     "tags": []
@@ -449,19 +449,19 @@
   {
    "cell_type": "code",
    "execution_count": 6,
-   "id": "dd1f29d4",
+   "id": "83b7cc61",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:54.268203Z",
-     "iopub.status.busy": "2026-07-29T00:06:54.267841Z",
-     "iopub.status.idle": "2026-07-29T00:06:55.397116Z",
-     "shell.execute_reply": "2026-07-29T00:06:55.395908Z"
+     "iopub.execute_input": "2026-07-30T01:33:09.208829Z",
+     "iopub.status.busy": "2026-07-30T01:33:09.207858Z",
+     "iopub.status.idle": "2026-07-30T01:33:09.872486Z",
+     "shell.execute_reply": "2026-07-30T01:33:09.871521Z"
     },
     "papermill": {
-     "duration": 1.143809,
-     "end_time": "2026-07-29T00:06:55.399168+00:00",
+     "duration": 0.679448,
+     "end_time": "2026-07-30T01:33:09.874718+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:54.255359+00:00",
+     "start_time": "2026-07-30T01:33:09.195270+00:00",
      "status": "completed"
     },
     "tags": []
@@ -491,13 +491,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "1f7b4e77",
+   "id": "8592bed2",
    "metadata": {
     "papermill": {
-     "duration": 0.012059,
-     "end_time": "2026-07-29T00:06:55.422601+00:00",
+     "duration": 0.012398,
+     "end_time": "2026-07-30T01:33:09.898325+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:55.410542+00:00",
+     "start_time": "2026-07-30T01:33:09.885927+00:00",
      "status": "completed"
     },
     "tags": []
@@ -509,19 +509,19 @@
   {
    "cell_type": "code",
    "execution_count": 7,
-   "id": "0b793eea",
+   "id": "c1e01f9f",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:06:55.446874Z",
-     "iopub.status.busy": "2026-07-29T00:06:55.446509Z",
-     "iopub.status.idle": "2026-07-29T00:07:21.325540Z",
-     "shell.execute_reply": "2026-07-29T00:07:21.324301Z"
+     "iopub.execute_input": "2026-07-30T01:33:09.922871Z",
+     "iopub.status.busy": "2026-07-30T01:33:09.922057Z",
+     "iopub.status.idle": "2026-07-30T01:33:33.856837Z",
+     "shell.execute_reply": "2026-07-30T01:33:33.855532Z"
     },
     "papermill": {
-     "duration": 25.894105,
-     "end_time": "2026-07-29T00:07:21.328010+00:00",
+     "duration": 23.949397,
+     "end_time": "2026-07-30T01:33:33.858928+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:06:55.433905+00:00",
+     "start_time": "2026-07-30T01:33:09.909531+00:00",
      "status": "completed"
     },
     "tags": []
@@ -531,7 +531,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Merged: 65,387 rows | 60 columns\n"
+      "Merged: 65,431 rows | 60 columns\n"
      ]
     }
    ],
@@ -564,13 +564,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "4de15edd",
+   "id": "33833a17",
    "metadata": {
     "papermill": {
-     "duration": 0.011254,
-     "end_time": "2026-07-29T00:07:21.351238+00:00",
+     "duration": 0.011407,
+     "end_time": "2026-07-30T01:33:33.881484+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:21.339984+00:00",
+     "start_time": "2026-07-30T01:33:33.870077+00:00",
      "status": "completed"
     },
     "tags": []
@@ -585,19 +585,19 @@
   {
    "cell_type": "code",
    "execution_count": 8,
-   "id": "8cb6932a",
+   "id": "b2849d9d",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:21.375429Z",
-     "iopub.status.busy": "2026-07-29T00:07:21.375060Z",
-     "iopub.status.idle": "2026-07-29T00:07:22.951800Z",
-     "shell.execute_reply": "2026-07-29T00:07:22.950874Z"
+     "iopub.execute_input": "2026-07-30T01:33:33.907063Z",
+     "iopub.status.busy": "2026-07-30T01:33:33.906530Z",
+     "iopub.status.idle": "2026-07-30T01:33:35.397986Z",
+     "shell.execute_reply": "2026-07-30T01:33:35.396803Z"
     },
     "papermill": {
-     "duration": 1.591306,
-     "end_time": "2026-07-29T00:07:22.953910+00:00",
+     "duration": 1.50706,
+     "end_time": "2026-07-30T01:33:35.400051+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:21.362604+00:00",
+     "start_time": "2026-07-30T01:33:33.892991+00:00",
      "status": "completed"
     },
     "tags": []
@@ -609,7 +609,7 @@
      "text": [
       "Classification + regression targets applied\n",
       "class_target_1               +%: LONG  37.0%  SHORT  38.8%\n",
-      "class_target_2               +%: LONG  38.0%  SHORT  39.8%\n",
+      "class_target_2               +%: LONG  37.9%  SHORT  39.8%\n",
       "class_target_3_corrected     +%: LONG  29.3%  SHORT  29.1%\n",
       "class_target_bad             +%: LONG  23.3%  SHORT  23.2%\n",
       "REG_TARGETS: {'profit': 'target_profit', 'quality': 'target_quality', 'danger': 'target_danger', 'entry_timing': 'target_entry', 'exit_timing': 'target_exit'}\n"
@@ -670,13 +670,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "ae441adb",
+   "id": "e95553b3",
    "metadata": {
     "papermill": {
-     "duration": 0.011009,
-     "end_time": "2026-07-29T00:07:22.976268+00:00",
+     "duration": 0.012339,
+     "end_time": "2026-07-30T01:33:35.424893+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:22.965259+00:00",
+     "start_time": "2026-07-30T01:33:35.412554+00:00",
      "status": "completed"
     },
     "tags": []
@@ -689,19 +689,19 @@
   {
    "cell_type": "code",
    "execution_count": 9,
-   "id": "c196b39f",
+   "id": "94e0c044",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:23.000759Z",
-     "iopub.status.busy": "2026-07-29T00:07:23.000279Z",
-     "iopub.status.idle": "2026-07-29T00:07:23.302832Z",
-     "shell.execute_reply": "2026-07-29T00:07:23.301731Z"
+     "iopub.execute_input": "2026-07-30T01:33:35.452005Z",
+     "iopub.status.busy": "2026-07-30T01:33:35.451087Z",
+     "iopub.status.idle": "2026-07-30T01:33:35.787129Z",
+     "shell.execute_reply": "2026-07-30T01:33:35.785979Z"
     },
     "papermill": {
-     "duration": 0.317508,
-     "end_time": "2026-07-29T00:07:23.304928+00:00",
+     "duration": 0.351664,
+     "end_time": "2026-07-30T01:33:35.789022+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:22.987420+00:00",
+     "start_time": "2026-07-30T01:33:35.437358+00:00",
      "status": "completed"
     },
     "tags": []
@@ -806,13 +806,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "6e73d11c",
+   "id": "739ad369",
    "metadata": {
     "papermill": {
-     "duration": 0.011817,
-     "end_time": "2026-07-29T00:07:23.328389+00:00",
+     "duration": 0.01105,
+     "end_time": "2026-07-30T01:33:35.811227+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.316572+00:00",
+     "start_time": "2026-07-30T01:33:35.800177+00:00",
      "status": "completed"
     },
     "tags": []
@@ -824,19 +824,19 @@
   {
    "cell_type": "code",
    "execution_count": 10,
-   "id": "1ba7fafe",
+   "id": "92ac4de9",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:23.353361Z",
-     "iopub.status.busy": "2026-07-29T00:07:23.353015Z",
-     "iopub.status.idle": "2026-07-29T00:07:23.452977Z",
-     "shell.execute_reply": "2026-07-29T00:07:23.451800Z"
+     "iopub.execute_input": "2026-07-30T01:33:35.835890Z",
+     "iopub.status.busy": "2026-07-30T01:33:35.834780Z",
+     "iopub.status.idle": "2026-07-30T01:33:35.944585Z",
+     "shell.execute_reply": "2026-07-30T01:33:35.943459Z"
     },
     "papermill": {
-     "duration": 0.116786,
-     "end_time": "2026-07-29T00:07:23.456476+00:00",
+     "duration": 0.124282,
+     "end_time": "2026-07-30T01:33:35.946547+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.339690+00:00",
+     "start_time": "2026-07-30T01:33:35.822265+00:00",
      "status": "completed"
     },
     "tags": []
@@ -847,7 +847,7 @@
      "output_type": "stream",
      "text": [
       "FEATURES_ALL: 33 | FEATURES_COMBINED: 81\n",
-      "df_long: 32,684 | df_short: 32,703\n"
+      "df_long: 32,705 | df_short: 32,726\n"
      ]
     }
    ],
@@ -861,18 +861,18 @@
     "feat_set_short = [f for f in FEATURES_COMBINED if f in df_short.columns]\n",
     "\n",
     "print(f'FEATURES_ALL: {len(FEATURES_ALL)} | FEATURES_COMBINED: {len(FEATURES_COMBINED)}')\n",
-    "print(f'df_long: {len(df_long):,} | df_short: {len(df_short):,}')"
+    "print(f'df_long: {len(df_long):,} | df_short: {len(df_short):,}')\n"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "565d8662",
+   "id": "96f563fe",
    "metadata": {
     "papermill": {
-     "duration": 0.011884,
-     "end_time": "2026-07-29T00:07:23.482710+00:00",
+     "duration": 0.011093,
+     "end_time": "2026-07-30T01:33:35.968965+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.470826+00:00",
+     "start_time": "2026-07-30T01:33:35.957872+00:00",
      "status": "completed"
     },
     "tags": []
@@ -885,19 +885,19 @@
   {
    "cell_type": "code",
    "execution_count": 11,
-   "id": "94353794",
+   "id": "f724d239",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:23.508013Z",
-     "iopub.status.busy": "2026-07-29T00:07:23.507069Z",
-     "iopub.status.idle": "2026-07-29T00:07:23.529897Z",
-     "shell.execute_reply": "2026-07-29T00:07:23.529094Z"
+     "iopub.execute_input": "2026-07-30T01:33:35.993646Z",
+     "iopub.status.busy": "2026-07-30T01:33:35.993273Z",
+     "iopub.status.idle": "2026-07-30T01:33:36.014907Z",
+     "shell.execute_reply": "2026-07-30T01:33:36.013968Z"
     },
     "papermill": {
-     "duration": 0.037785,
-     "end_time": "2026-07-29T00:07:23.531842+00:00",
+     "duration": 0.036838,
+     "end_time": "2026-07-30T01:33:36.016869+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.494057+00:00",
+     "start_time": "2026-07-30T01:33:35.980031+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1019,13 +1019,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "d17682d1",
+   "id": "290a82ea",
    "metadata": {
     "papermill": {
-     "duration": 0.011302,
-     "end_time": "2026-07-29T00:07:23.554630+00:00",
+     "duration": 0.011505,
+     "end_time": "2026-07-30T01:33:36.039677+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.543328+00:00",
+     "start_time": "2026-07-30T01:33:36.028172+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1041,19 +1041,19 @@
   {
    "cell_type": "code",
    "execution_count": 12,
-   "id": "114e4231",
+   "id": "fe889214",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:23.580295Z",
-     "iopub.status.busy": "2026-07-29T00:07:23.579928Z",
-     "iopub.status.idle": "2026-07-29T00:07:31.584986Z",
-     "shell.execute_reply": "2026-07-29T00:07:31.583980Z"
+     "iopub.execute_input": "2026-07-30T01:33:36.064713Z",
+     "iopub.status.busy": "2026-07-30T01:33:36.064124Z",
+     "iopub.status.idle": "2026-07-30T01:33:43.780805Z",
+     "shell.execute_reply": "2026-07-30T01:33:43.779691Z"
     },
     "papermill": {
-     "duration": 8.020255,
-     "end_time": "2026-07-29T00:07:31.587074+00:00",
+     "duration": 7.731849,
+     "end_time": "2026-07-30T01:33:43.782818+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:23.566819+00:00",
+     "start_time": "2026-07-30T01:33:36.050969+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1248,13 +1248,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "600e5f8f",
+   "id": "a7bf7aec",
    "metadata": {
     "papermill": {
-     "duration": 0.011113,
-     "end_time": "2026-07-29T00:07:31.609806+00:00",
+     "duration": 0.01143,
+     "end_time": "2026-07-30T01:33:43.805664+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:31.598693+00:00",
+     "start_time": "2026-07-30T01:33:43.794234+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1266,19 +1266,19 @@
   {
    "cell_type": "code",
    "execution_count": 13,
-   "id": "93fe3fe2",
+   "id": "83b4020c",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:31.635223Z",
-     "iopub.status.busy": "2026-07-29T00:07:31.634885Z",
-     "iopub.status.idle": "2026-07-29T00:07:31.657408Z",
-     "shell.execute_reply": "2026-07-29T00:07:31.656538Z"
+     "iopub.execute_input": "2026-07-30T01:33:43.831067Z",
+     "iopub.status.busy": "2026-07-30T01:33:43.830522Z",
+     "iopub.status.idle": "2026-07-30T01:33:43.851661Z",
+     "shell.execute_reply": "2026-07-30T01:33:43.850517Z"
     },
     "papermill": {
-     "duration": 0.038381,
-     "end_time": "2026-07-29T00:07:31.659373+00:00",
+     "duration": 0.036305,
+     "end_time": "2026-07-30T01:33:43.853513+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:31.620992+00:00",
+     "start_time": "2026-07-30T01:33:43.817208+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1452,19 +1452,19 @@
   {
    "cell_type": "code",
    "execution_count": 14,
-   "id": "cacb01be",
+   "id": "0f05bf49",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:31.685187Z",
-     "iopub.status.busy": "2026-07-29T00:07:31.684307Z",
-     "iopub.status.idle": "2026-07-29T00:07:32.871477Z",
-     "shell.execute_reply": "2026-07-29T00:07:32.870512Z"
+     "iopub.execute_input": "2026-07-30T01:33:43.879507Z",
+     "iopub.status.busy": "2026-07-30T01:33:43.878934Z",
+     "iopub.status.idle": "2026-07-30T01:33:45.074006Z",
+     "shell.execute_reply": "2026-07-30T01:33:45.073217Z"
     },
     "papermill": {
-     "duration": 1.202273,
-     "end_time": "2026-07-29T00:07:32.873499+00:00",
+     "duration": 1.210913,
+     "end_time": "2026-07-30T01:33:45.075963+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:31.671226+00:00",
+     "start_time": "2026-07-30T01:33:43.865050+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1502,13 +1502,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "7c36bbb2",
+   "id": "11260786",
    "metadata": {
     "papermill": {
-     "duration": 0.011403,
-     "end_time": "2026-07-29T00:07:32.896972+00:00",
+     "duration": 0.011736,
+     "end_time": "2026-07-30T01:33:45.099433+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:32.885569+00:00",
+     "start_time": "2026-07-30T01:33:45.087697+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1519,13 +1519,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "5095b119",
+   "id": "fd83f7c6",
    "metadata": {
     "papermill": {
-     "duration": 0.012616,
-     "end_time": "2026-07-29T00:07:32.921303+00:00",
+     "duration": 0.011904,
+     "end_time": "2026-07-30T01:33:45.123077+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:32.908687+00:00",
+     "start_time": "2026-07-30T01:33:45.111173+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1536,13 +1536,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "76abf3e2",
+   "id": "0c7c7089",
    "metadata": {
     "papermill": {
-     "duration": 0.011875,
-     "end_time": "2026-07-29T00:07:32.945354+00:00",
+     "duration": 0.011673,
+     "end_time": "2026-07-30T01:33:45.146399+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:32.933479+00:00",
+     "start_time": "2026-07-30T01:33:45.134726+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1555,13 +1555,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "7d21b9d9",
+   "id": "14f29e8b",
    "metadata": {
     "papermill": {
-     "duration": 0.012192,
-     "end_time": "2026-07-29T00:07:32.970024+00:00",
+     "duration": 0.016594,
+     "end_time": "2026-07-30T01:33:45.181902+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:32.957832+00:00",
+     "start_time": "2026-07-30T01:33:45.165308+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1572,30 +1572,34 @@
   },
   {
    "cell_type": "markdown",
-   "id": "05d1c803",
+   "id": "6b5f1579",
    "metadata": {
     "papermill": {
-     "duration": 0.011564,
-     "end_time": "2026-07-29T00:07:32.993585+00:00",
+     "duration": 0.016145,
+     "end_time": "2026-07-30T01:33:45.218572+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:32.982021+00:00",
+     "start_time": "2026-07-30T01:33:45.202427+00:00",
      "status": "completed"
     },
     "tags": []
    },
    "source": [
-    "*(your notes here — specifically: given Week 6/7's finding that shallow trees win on this dataset, what does that predict about how tightly you'll need to constrain `num_leaves` here?)*"
+    "*(your notes here — specifically: given Week 6/7's finding that shallow trees win on this dataset, what does that predict about how tightly you'll need to constrain `num_leaves` here?)*\n",
+    "\n",
+    "---\n",
+    "based on the fact that leafwise are used here overfitting would also be easier here since the leafs depth aren't caapped at level_wise depth, hence number of leaves should be capped\n",
+    "at lower numbers to prevent this overfitting"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "f37eaa03",
+   "id": "1101e5e3",
    "metadata": {
     "papermill": {
-     "duration": 0.011454,
-     "end_time": "2026-07-29T00:07:33.016713+00:00",
+     "duration": 0.014048,
+     "end_time": "2026-07-30T01:33:45.251698+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.005259+00:00",
+     "start_time": "2026-07-30T01:33:45.237650+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1605,26 +1609,29 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 15,
-   "id": "752dc11e",
+   "cell_type": "markdown",
+   "id": "c0392638",
    "metadata": {
+    "collapsed": true,
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.042022Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.041699Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.046460Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.045530Z"
+     "iopub.execute_input": "2026-07-29T21:42:20.813142Z",
+     "iopub.status.busy": "2026-07-29T21:42:20.812623Z",
+     "iopub.status.idle": "2026-07-29T21:43:53.514782Z",
+     "shell.execute_reply": "2026-07-29T21:43:53.513664Z",
+     "shell.execute_reply.started": "2026-07-29T21:42:20.813108Z"
+    },
+    "jupyter": {
+     "outputs_hidden": true
     },
     "papermill": {
-     "duration": 0.019576,
-     "end_time": "2026-07-29T00:07:33.048388+00:00",
+     "duration": 0.012213,
+     "end_time": "2026-07-30T01:33:45.280322+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.028812+00:00",
+     "start_time": "2026-07-30T01:33:45.268109+00:00",
      "status": "completed"
     },
     "tags": []
    },
-   "outputs": [],
    "source": [
     "# ============================================================\n",
     "# TODO: Train LGBMClassifier with early stopping, per classification target\n",
@@ -1636,30 +1643,178 @@
     "#       for the number of trees you actually want (Week 7's classifier loop and\n",
     "#       regressor loop disagreed on this; pick one convention and use it consistently\n",
     "#       across BOTH classification and regression this week).\n",
-    "lgbm_clf_results = {}\n"
+    "lgbm_clf_results = {}\n",
+    "# ============================================================\n",
+    "# PART B — Train LGBMClassifier with early stopping\n",
+    "# ============================================================\n",
+    "from lightgbm import LGBMClassifier, early_stopping, log_evaluation\n",
+    "import numpy as np\n",
+    "import warnings\n",
+    "\n",
+    "# Suppress LightGBM's default warning spam during CV\n",
+    "warnings.filterwarnings('ignore', category=UserWarning, module='lightgbm')\n",
+    "\n",
+    "class_targets = ['class_target_1', 'class_target_2', 'class_target_3_corrected', 'class_target_bad']\n",
+    "directions = {'LONG': (df_long, feat_set_long), 'SHORT': (df_short, feat_set_short)}\n",
+    "\n",
+    "lgbm_clf_results = {}\n",
+    "\n",
+    "print(\"============================================================\")\n",
+    "print(\"LightGBM Classification Baseline (Early Stopping)\")\n",
+    "print(\"============================================================\\n\")\n",
+    "\n",
+    "for target in class_targets:\n",
+    "    for dir_name, (df_sub, feat_cols) in directions.items():\n",
+    "        print(f\"--- Training {target} | {dir_name} ---\")\n",
+    "        \n",
+    "        # 1. Sort the main dataframe using 'checked_at_utc' directly, THEN slice and drop NAs\n",
+    "        df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target]].dropna()\n",
+    "        \n",
+    "        X = df_clean[feat_cols].values\n",
+    "        y = df_clean[target].values\n",
+    "        \n",
+    "        # 2. Split the final 15% chronologically for Early Stopping validation\n",
+    "        split_idx = int(len(X) * 0.85)\n",
+    "        X_tr_es, y_tr_es = X[:split_idx], y[:split_idx]\n",
+    "        X_va_es, y_va_es = X[split_idx:], y[split_idx:]\n",
+    "        \n",
+    "        # 3. Initialize baseline model (constrained num_leaves for shallow dataset)\n",
+    "        es_model = LGBMClassifier(\n",
+    "            n_estimators=1500,\n",
+    "            learning_rate=0.05,\n",
+    "            num_leaves=15,\n",
+    "            random_state=42,\n",
+    "            n_jobs=-1\n",
+    "        )\n",
+    "        \n",
+    "        # 4. Fit with early stopping (patience = 50 rounds)\n",
+    "        es_model.fit(\n",
+    "            X_tr_es, y_tr_es,\n",
+    "            eval_set=[(X_va_es, y_va_es)],\n",
+    "            callbacks=[\n",
+    "                early_stopping(stopping_rounds=50, verbose=False),\n",
+    "                log_evaluation(period=0)\n",
+    "            ]\n",
+    "        )\n",
+    "        \n",
+    "        # 5. Extract the 1-indexed best iteration (No +1 needed for LightGBM)\n",
+    "        best_n = es_model.best_iteration_\n",
+    "        \n",
+    "        # Fallback in case early stopping never triggered\n",
+    "        if best_n is None or best_n <= 0:\n",
+    "            best_n = 100 \n",
+    "            \n",
+    "        print(f\"Optimal trees found: {best_n}\")\n",
+    "        \n",
+    "        # 6. Re-instantiate the model with the strictly fixed n_estimators\n",
+    "        final_model = LGBMClassifier(\n",
+    "            n_estimators=best_n,\n",
+    "            learning_rate=0.05,\n",
+    "            num_leaves=15,\n",
+    "            random_state=42,\n",
+    "            n_jobs=-1\n",
+    "        )\n",
+    "        \n",
+    "        # 7. Evaluate using our standardized walk-forward CV framework\n",
+    "        cv_scores = cv_no_scaling(\n",
+    "            model=final_model, \n",
+    "            df_subset=df_clean, \n",
+    "            feature_cols=feat_cols, \n",
+    "            target_col=target, \n",
+    "            n_splits=5, \n",
+    "            gap=0\n",
+    "        )\n",
+    "        \n",
+    "        # 8. Store and report\n",
+    "        key = f\"{target}_{dir_name}\"\n",
+    "        lgbm_clf_results[key] = {\n",
+    "            'best_n': best_n,\n",
+    "            'cv_auc': cv_scores['auc'][0],\n",
+    "            'cv_precision': cv_scores['precision'][0],\n",
+    "            'cv_accuracy': cv_scores['accuracy'][0]\n",
+    "        }\n",
+    "        \n",
+    "        print(f\"CV AUC:       {cv_scores['auc'][0]:.4f} +/- {cv_scores['auc'][1]:.4f}\")\n",
+    "        print(f\"CV Precision: {cv_scores['precision'][0]:.4f}\")\n",
+    "        print(f\"CV Accuracy:  {cv_scores['accuracy'][0]:.4f}\\n\")"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 16,
-   "id": "53114a8d",
+   "cell_type": "markdown",
+   "id": "0c005b30",
    "metadata": {
+    "collapsed": true,
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.074483Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.074119Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.078962Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.077857Z"
+     "iopub.execute_input": "2026-07-29T22:48:44.897842Z",
+     "iopub.status.busy": "2026-07-29T22:48:44.897019Z",
+     "iopub.status.idle": "2026-07-29T22:48:45.006893Z",
+     "shell.execute_reply": "2026-07-29T22:48:45.005773Z",
+     "shell.execute_reply.started": "2026-07-29T22:48:44.897811Z"
+    },
+    "jupyter": {
+     "outputs_hidden": true
     },
     "papermill": {
-     "duration": 0.020552,
-     "end_time": "2026-07-29T00:07:33.080964+00:00",
+     "duration": 0.015467,
+     "end_time": "2026-07-30T01:33:45.307702+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.060412+00:00",
+     "start_time": "2026-07-30T01:33:45.292235+00:00",
      "status": "completed"
     },
     "tags": []
    },
-   "outputs": [],
+   "source": [
+    "## so i noticed lightgbm dropped a few features(redundant) that's why i am running this to confirm that\n",
+    "\n",
+    "# Rebuild the exact early-stopping training slice for class_target_1_LONG\n",
+    "target = 'class_target_1'\n",
+    "df_sub, feat_cols = df_short, feat_set_short\n",
+    "\n",
+    "df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target]].dropna()\n",
+    "split_idx = int(len(df_clean) * 0.85)\n",
+    "train_slice = df_clean.iloc[:split_idx]\n",
+    "\n",
+    "print(f\"Rows in this fold's training slice: {len(train_slice)}\")\n",
+    "\n",
+    "nun = train_slice[feat_cols].nunique().sort_values()\n",
+    "\n",
+    "# 1. Constant features (nunique == 1) -- these WILL be dropped by LightGBM\n",
+    "const_feats = nun[nun == 1]\n",
+    "print(f\"\\nConstant (nunique==1) in this exact slice: {len(const_feats)}\")\n",
+    "print(const_feats.index.tolist())\n",
+    "\n",
+    "# 2. Near-constant features (nunique == 2) -- check class balance within these\n",
+    "near_const = nun[nun == 2]\n",
+    "print(f\"\\nNunique==2 in this exact slice: {len(near_const)}\")\n",
+    "for col in near_const.index:\n",
+    "    vc = train_slice[col].value_counts()\n",
+    "    print(f\"  {col}: {vc.to_dict()}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4183f214",
+   "metadata": {
+    "collapsed": true,
+    "execution": {
+     "iopub.execute_input": "2026-07-29T23:24:33.153169Z",
+     "iopub.status.busy": "2026-07-29T23:24:33.152424Z",
+     "iopub.status.idle": "2026-07-29T23:26:15.926023Z",
+     "shell.execute_reply": "2026-07-29T23:26:15.925010Z",
+     "shell.execute_reply.started": "2026-07-29T23:24:33.153140Z"
+    },
+    "jupyter": {
+     "outputs_hidden": true
+    },
+    "papermill": {
+     "duration": 0.025631,
+     "end_time": "2026-07-30T01:33:45.350919+00:00",
+     "exception": false,
+     "start_time": "2026-07-30T01:33:45.325288+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
    "source": [
     "# ============================================================\n",
     "# TODO: Train LGBMRegressor with early stopping, per REG_TARGETS\n",
@@ -1667,18 +1822,1141 @@
     "# TODO: mirror the classifier loop above for all five REG_TARGETS, both directions.\n",
     "# TODO: use the STRING transform key ('log1p'/'log5p') from REG_TARGETS directly --\n",
     "#       do not reintroduce a boolean is_log flag.\n",
-    "lgbm_reg_results = {}\n"
+    "lgbm_reg_results = {}\n",
+    "# ============================================================\n",
+    "# PART B — Train LGBMRegressor with early stopping\n",
+    "# ============================================================\n",
+    "from lightgbm import LGBMRegressor, early_stopping, log_evaluation\n",
+    "import numpy as np\n",
+    "import warnings\n",
+    "\n",
+    "# Suppress LightGBM's default warning spam during CV\n",
+    "warnings.filterwarnings('ignore', category=UserWarning, module='lightgbm')\n",
+    "\n",
+    "# Utilizing the dictionaries established in Part A\n",
+    "directions = {'LONG': (df_long, feat_set_long), 'SHORT': (df_short, feat_set_short)}\n",
+    "\n",
+    "lgbm_reg_results = {}\n",
+    "\n",
+    "print(\"============================================================\")\n",
+    "print(\"LightGBM Regression Baseline (Early Stopping)\")\n",
+    "print(\"============================================================\\n\")\n",
+    "\n",
+    "for target_name, (target_col, transform_str) in REG_TARGETS.items():\n",
+    "    for dir_name, (df_sub, feat_cols) in directions.items():\n",
+    "        print(f\"--- Training {target_name} ({target_col}) | {dir_name} ---\")\n",
+    "        \n",
+    "        # 1. Sort using 'checked_at_utc' directly, THEN slice and drop NAs\n",
+    "        df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target_col]].dropna()\n",
+    "        \n",
+    "        X = df_clean[feat_cols].values\n",
+    "        y = df_clean[target_col].values\n",
+    "        \n",
+    "        # 2. Split the final 15% chronologically for Early Stopping validation\n",
+    "        split_idx = int(len(X) * 0.85)\n",
+    "        X_tr_es, y_tr_es = X[:split_idx], y[:split_idx]\n",
+    "        X_va_es, y_va_es = X[split_idx:], y[split_idx:]\n",
+    "        \n",
+    "        # 3. Explicit Target Transformation with Strict Assertion\n",
+    "        offset = {'log1p': 1, 'log5p': 5}.get(transform_str, None)\n",
+    "        \n",
+    "        if offset is not None:\n",
+    "            min_tr, min_va = y_tr_es.min(), y_va_es.min()\n",
+    "            assert min_tr + offset > 0 and min_va + offset > 0, (\n",
+    "                f\"{target_name}: offset={offset} insufficient, \"\n",
+    "                f\"min values are {min_tr:.4f} (train) / {min_va:.4f} (val) -- log() would produce NaN\"\n",
+    "            )\n",
+    "            y_tr_es_fit = np.log(y_tr_es + offset)\n",
+    "            y_va_es_fit = np.log(y_va_es + offset)\n",
+    "        else:\n",
+    "            y_tr_es_fit = y_tr_es\n",
+    "            y_va_es_fit = y_va_es\n",
+    "            \n",
+    "        # 4. Initialize baseline model (constrained num_leaves)\n",
+    "        es_model = LGBMRegressor(\n",
+    "            n_estimators=1500,\n",
+    "            learning_rate=0.05,\n",
+    "            num_leaves=15,\n",
+    "            random_state=42,\n",
+    "            n_jobs=-1\n",
+    "        )\n",
+    "        \n",
+    "        # 5. Fit with early stopping (patience = 50 rounds)\n",
+    "        es_model.fit(\n",
+    "            X_tr_es, y_tr_es_fit,\n",
+    "            eval_set=[(X_va_es, y_va_es_fit)],\n",
+    "            callbacks=[\n",
+    "                early_stopping(stopping_rounds=50, verbose=False),\n",
+    "                log_evaluation(period=0)\n",
+    "            ]\n",
+    "        )\n",
+    "        \n",
+    "        # 6. Extract the 1-indexed best iteration\n",
+    "        best_n = es_model.best_iteration_\n",
+    "        \n",
+    "        if best_n is None or best_n <= 0:\n",
+    "            best_n = 100 \n",
+    "            \n",
+    "        print(f\"Optimal trees found: {best_n}\")\n",
+    "        \n",
+    "        # 7. Re-instantiate the model with the strictly fixed n_estimators\n",
+    "        final_model = LGBMRegressor(\n",
+    "            n_estimators=best_n,\n",
+    "            learning_rate=0.05,\n",
+    "            num_leaves=15,\n",
+    "            random_state=42,\n",
+    "            n_jobs=-1\n",
+    "        )\n",
+    "        \n",
+    "        # 8. Evaluate using our standardized walk-forward CV framework\n",
+    "        target_info = (target_col, transform_str)\n",
+    "        \n",
+    "        cv_scores = cv_regression(\n",
+    "            model=final_model, \n",
+    "            df_subset=df_clean, \n",
+    "            feature_cols=feat_cols, \n",
+    "            target_info=target_info, \n",
+    "            n_splits=5, \n",
+    "            gap=0,\n",
+    "            scale=False # Trees remain scale-invariant\n",
+    "        )\n",
+    "        \n",
+    "        # 9. Store and report (Logging MAE specifically for your PnL shift)\n",
+    "        key = f\"{target_name}_{dir_name}\"\n",
+    "        lgbm_reg_results[key] = {\n",
+    "            'best_n': best_n,\n",
+    "            'cv_r2': cv_scores['r2'][0],\n",
+    "            'cv_rmse': cv_scores['rmse'][0],\n",
+    "            'cv_mae': cv_scores['mae'][0]\n",
+    "        }\n",
+    "        \n",
+    "        print(f\"CV R2:   {cv_scores['r2'][0]:.4f} +/- {cv_scores['r2'][1]:.4f}\")\n",
+    "        print(f\"CV RMSE: {cv_scores['rmse'][0]:.4f}\")\n",
+    "        print(f\"CV MAE:  {cv_scores['mae'][0]:.4f}\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "95835057",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-07-30T01:33:45.390374Z",
+     "iopub.status.busy": "2026-07-30T01:33:45.389673Z",
+     "iopub.status.idle": "2026-07-30T02:34:21.300463Z",
+     "shell.execute_reply": "2026-07-30T02:34:21.299357Z"
+    },
+    "papermill": {
+     "duration": 3635.933158,
+     "end_time": "2026-07-30T02:34:21.302588+00:00",
+     "exception": false,
+     "start_time": "2026-07-30T01:33:45.369430+00:00",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:33:51] INITIALIZING HARDENED LIGHTGBM GRID SWEEP\n",
+      "===================================================================================\n",
+      "\n",
+      "\n",
+      "[2026-07-30 01:33:51] Starting CLASSIFICATION sweep: class_target_1 | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:33:53,430] A new study created in RDB with name: lgbm_sweep1_clf_class_target_1_LONG\n",
+      "[I 2026-07-30 01:34:05,449] Trial 0 finished with value: 0.6932512723003544 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.6932512723003544.\n",
+      "[I 2026-07-30 01:34:19,258] Trial 1 finished with value: 0.698102322403369 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.698102322403369.\n",
+      "[I 2026-07-30 01:34:31,380] Trial 2 finished with value: 0.697604905306088 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.698102322403369.\n",
+      "[I 2026-07-30 01:34:39,845] Trial 3 finished with value: 0.6981812964513556 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.6981812964513556.\n",
+      "[I 2026-07-30 01:34:51,905] Trial 4 finished with value: 0.698689187239997 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 4 with value: 0.698689187239997.\n",
+      "[I 2026-07-30 01:35:03,069] Trial 5 finished with value: 0.6972464871319566 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.698689187239997.\n",
+      "[I 2026-07-30 01:35:16,747] Trial 6 finished with value: 0.6916962568768801 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.698689187239997.\n",
+      "[I 2026-07-30 01:35:25,010] Trial 7 finished with value: 0.7001638100137788 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7001638100137788.\n",
+      "[I 2026-07-30 01:35:34,890] Trial 8 finished with value: 0.7003726271021045 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7003726271021045.\n",
+      "[I 2026-07-30 01:35:46,765] Trial 9 finished with value: 0.6963842698613935 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7003726271021045.\n",
+      "[I 2026-07-30 01:35:57,897] Trial 10 finished with value: 0.6981907892626115 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 8 with value: 0.7003726271021045.\n",
+      "[I 2026-07-30 01:36:07,214] Trial 11 finished with value: 0.7004194403537426 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.7004194403537426.\n",
+      "[I 2026-07-30 01:36:16,975] Trial 12 finished with value: 0.6958126595189462 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.7004194403537426.\n",
+      "[I 2026-07-30 01:36:26,025] Trial 13 finished with value: 0.6951074365069486 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.7004194403537426.\n",
+      "[I 2026-07-30 01:36:36,117] Trial 14 finished with value: 0.6920945342606186 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.7004194403537426.\n",
+      "[I 2026-07-30 01:36:51,433] Trial 15 finished with value: 0.6934427980447446 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.7004194403537426.\n",
+      "[I 2026-07-30 01:37:03,304] Trial 16 finished with value: 0.7005249377527875 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7005249377527875.\n",
+      "[I 2026-07-30 01:37:14,625] Trial 17 finished with value: 0.698014185605645 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7005249377527875.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:37:17] -> Best AUC: 0.7005 (Trees: 426)\n",
+      "\n",
+      "[2026-07-30 01:37:17] Starting CLASSIFICATION sweep: class_target_1 | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:37:17,533] A new study created in RDB with name: lgbm_sweep1_clf_class_target_1_SHORT\n",
+      "[I 2026-07-30 01:37:28,244] Trial 0 finished with value: 0.7048999865510824 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.7048999865510824.\n",
+      "[I 2026-07-30 01:37:40,000] Trial 1 finished with value: 0.7080367630472081 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.7080367630472081.\n",
+      "[I 2026-07-30 01:37:50,168] Trial 2 finished with value: 0.7083808054483202 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:37:58,685] Trial 3 finished with value: 0.708111272165924 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:38:13,655] Trial 4 finished with value: 0.7042720172098562 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:38:27,339] Trial 5 finished with value: 0.7044091898717119 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:38:38,071] Trial 6 finished with value: 0.7041077062290084 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:38:50,583] Trial 7 finished with value: 0.7074802946000622 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.7083808054483202.\n",
+      "[I 2026-07-30 01:39:00,651] Trial 8 finished with value: 0.7105525022228878 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:10,892] Trial 9 finished with value: 0.7098352043329296 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:20,321] Trial 10 finished with value: 0.7095256955349699 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:31,027] Trial 11 finished with value: 0.7087986744208103 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:41,257] Trial 12 finished with value: 0.7064581493908357 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:50,815] Trial 13 finished with value: 0.7066929367346154 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:39:59,926] Trial 14 finished with value: 0.7049292642859313 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:40:08,871] Trial 15 finished with value: 0.7067670544855128 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 8 with value: 0.7105525022228878.\n",
+      "[I 2026-07-30 01:40:19,240] Trial 16 finished with value: 0.7114117684047139 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7114117684047139.\n",
+      "[I 2026-07-30 01:40:31,796] Trial 17 finished with value: 0.7102080610747354 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7114117684047139.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:40:34] -> Best AUC: 0.7114 (Trees: 317)\n",
+      "\n",
+      "[2026-07-30 01:40:34] Starting CLASSIFICATION sweep: class_target_2 | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:40:34,395] A new study created in RDB with name: lgbm_sweep1_clf_class_target_2_LONG\n",
+      "[I 2026-07-30 01:40:43,877] Trial 0 finished with value: 0.7527931892192405 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.7527931892192405.\n",
+      "[I 2026-07-30 01:40:54,240] Trial 1 finished with value: 0.7534197324445829 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.7534197324445829.\n",
+      "[I 2026-07-30 01:41:03,739] Trial 2 finished with value: 0.7543719391698036 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7543719391698036.\n",
+      "[I 2026-07-30 01:41:12,652] Trial 3 finished with value: 0.7538096643037189 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.7543719391698036.\n",
+      "[I 2026-07-30 01:41:22,764] Trial 4 finished with value: 0.7541506982397173 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.7543719391698036.\n",
+      "[I 2026-07-30 01:41:31,782] Trial 5 finished with value: 0.754004993099007 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7543719391698036.\n",
+      "[I 2026-07-30 01:41:41,330] Trial 6 finished with value: 0.7520286203429951 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.7543719391698036.\n",
+      "[I 2026-07-30 01:41:51,441] Trial 7 finished with value: 0.756041274341985 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:04,099] Trial 8 finished with value: 0.7545555467282461 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:14,045] Trial 9 finished with value: 0.7549332055780136 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:23,975] Trial 10 finished with value: 0.7545121389381764 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:36,791] Trial 11 finished with value: 0.7531440372404526 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:48,052] Trial 12 finished with value: 0.7520031604641417 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:42:58,101] Trial 13 finished with value: 0.7538788587019478 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:43:10,192] Trial 14 finished with value: 0.7523079500861775 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:43:21,000] Trial 15 finished with value: 0.7525213946257429 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.756041274341985.\n",
+      "[I 2026-07-30 01:43:33,712] Trial 16 finished with value: 0.7561646209115804 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7561646209115804.\n",
+      "[I 2026-07-30 01:43:47,420] Trial 17 finished with value: 0.7539822623368059 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7561646209115804.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:43:50] -> Best AUC: 0.7562 (Trees: 426)\n",
+      "\n",
+      "[2026-07-30 01:43:50] Starting CLASSIFICATION sweep: class_target_2 | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:43:50,304] A new study created in RDB with name: lgbm_sweep1_clf_class_target_2_SHORT\n",
+      "[I 2026-07-30 01:44:05,152] Trial 0 finished with value: 0.7596373673709959 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.7596373673709959.\n",
+      "[I 2026-07-30 01:44:19,348] Trial 1 finished with value: 0.761039245095881 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.761039245095881.\n",
+      "[I 2026-07-30 01:44:33,493] Trial 2 finished with value: 0.7599086462157958 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.761039245095881.\n",
+      "[I 2026-07-30 01:44:44,961] Trial 3 finished with value: 0.7605941454674353 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.761039245095881.\n",
+      "[I 2026-07-30 01:44:57,305] Trial 4 finished with value: 0.7612856182836978 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 4 with value: 0.7612856182836978.\n",
+      "[I 2026-07-30 01:45:09,266] Trial 5 finished with value: 0.7589564310184141 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.7612856182836978.\n",
+      "[I 2026-07-30 01:45:24,934] Trial 6 finished with value: 0.7567045773623472 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.7612856182836978.\n",
+      "[I 2026-07-30 01:45:37,155] Trial 7 finished with value: 0.7637501465843618 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:45:48,707] Trial 8 finished with value: 0.7610829795395997 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:46:00,585] Trial 9 finished with value: 0.7631849010075202 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:46:14,159] Trial 10 finished with value: 0.7598277084148881 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:46:23,865] Trial 11 finished with value: 0.7622735110009395 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:46:37,163] Trial 12 finished with value: 0.7588308169405638 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:46:52,720] Trial 13 finished with value: 0.758849590820003 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:47:05,290] Trial 14 finished with value: 0.7611719316041465 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:47:17,632] Trial 15 finished with value: 0.759019956528121 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.7637501465843618.\n",
+      "[I 2026-07-30 01:47:28,100] Trial 16 finished with value: 0.7637759268549205 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7637759268549205.\n",
+      "[I 2026-07-30 01:47:39,619] Trial 17 finished with value: 0.7636540712657185 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.7637759268549205.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:47:41] -> Best AUC: 0.7638 (Trees: 318)\n",
+      "\n",
+      "[2026-07-30 01:47:41] Starting CLASSIFICATION sweep: class_target_3_corrected | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:47:42,121] A new study created in RDB with name: lgbm_sweep1_clf_class_target_3_corrected_LONG\n",
+      "[I 2026-07-30 01:47:52,554] Trial 0 finished with value: 0.8798401398155535 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.8798401398155535.\n",
+      "[I 2026-07-30 01:48:00,729] Trial 1 finished with value: 0.8822867025444973 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:09,377] Trial 2 finished with value: 0.8805831486604487 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:16,870] Trial 3 finished with value: 0.8820745292255063 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:26,353] Trial 4 finished with value: 0.8809419445419939 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:35,342] Trial 5 finished with value: 0.881151819022811 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:45,590] Trial 6 finished with value: 0.879455780016337 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8822867025444973.\n",
+      "[I 2026-07-30 01:48:52,690] Trial 7 finished with value: 0.882833212809205 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:01,915] Trial 8 finished with value: 0.8815844816954529 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:08,516] Trial 9 finished with value: 0.8823605084945045 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:16,472] Trial 10 finished with value: 0.8822820381831438 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:23,714] Trial 11 finished with value: 0.8816509781986623 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:37,315] Trial 12 finished with value: 0.8787877919135554 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:46,262] Trial 13 finished with value: 0.8815899115568117 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:49:54,559] Trial 14 finished with value: 0.8814278079561102 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:50:04,441] Trial 15 finished with value: 0.8795140452281162 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.882833212809205.\n",
+      "[I 2026-07-30 01:50:11,765] Trial 16 finished with value: 0.8834659391463546 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.8834659391463546.\n",
+      "[I 2026-07-30 01:50:20,640] Trial 17 finished with value: 0.8833329240459431 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.8834659391463546.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:50:22] -> Best AUC: 0.8835 (Trees: 202)\n",
+      "\n",
+      "[2026-07-30 01:50:22] Starting CLASSIFICATION sweep: class_target_3_corrected | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:50:22,401] A new study created in RDB with name: lgbm_sweep1_clf_class_target_3_corrected_SHORT\n",
+      "[I 2026-07-30 01:50:32,053] Trial 0 finished with value: 0.8883740816679575 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.8883740816679575.\n",
+      "[I 2026-07-30 01:50:43,260] Trial 1 finished with value: 0.8889773250696613 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:50:54,262] Trial 2 finished with value: 0.888329802602497 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:51:05,185] Trial 3 finished with value: 0.8884559009147953 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:51:17,185] Trial 4 finished with value: 0.8881151251585706 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:51:26,638] Trial 5 finished with value: 0.8882304087954169 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:51:40,661] Trial 6 finished with value: 0.8872369347244012 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8889773250696613.\n",
+      "[I 2026-07-30 01:51:51,126] Trial 7 finished with value: 0.8899072207402879 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:01,651] Trial 8 finished with value: 0.8885519934354182 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:12,950] Trial 9 finished with value: 0.8894029209350351 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:23,083] Trial 10 finished with value: 0.8897211505808983 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:32,800] Trial 11 finished with value: 0.8885832043988229 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:48,109] Trial 12 finished with value: 0.887832068043218 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:52:56,084] Trial 13 finished with value: 0.8888636044531125 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:53:06,807] Trial 14 finished with value: 0.8883662850023019 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:53:18,653] Trial 15 finished with value: 0.8873579151011443 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:53:27,286] Trial 16 finished with value: 0.8897755562775209 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n",
+      "[I 2026-07-30 01:53:37,763] Trial 17 finished with value: 0.8888663583890043 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8899072207402879.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:53:39] -> Best AUC: 0.8899 (Trees: 208)\n",
+      "\n",
+      "[2026-07-30 01:53:39] Starting CLASSIFICATION sweep: class_target_bad | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:53:40,264] A new study created in RDB with name: lgbm_sweep1_clf_class_target_bad_LONG\n",
+      "[I 2026-07-30 01:53:47,905] Trial 0 finished with value: 0.8390639294583053 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.8390639294583053.\n",
+      "[I 2026-07-30 01:53:55,286] Trial 1 finished with value: 0.8416186052098953 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:04,859] Trial 2 finished with value: 0.8391625933109725 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:13,799] Trial 3 finished with value: 0.8401028848017905 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:24,510] Trial 4 finished with value: 0.8391526100641492 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:32,830] Trial 5 finished with value: 0.8402301854374314 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:42,358] Trial 6 finished with value: 0.8380800017317046 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8416186052098953.\n",
+      "[I 2026-07-30 01:54:51,172] Trial 7 finished with value: 0.8416314432498438 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:00,849] Trial 8 finished with value: 0.8402475901193107 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:09,433] Trial 9 finished with value: 0.8413647128654583 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:19,599] Trial 10 finished with value: 0.8404070130585257 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:28,907] Trial 11 finished with value: 0.8402473012297561 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:37,360] Trial 12 finished with value: 0.8373347945788117 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:44,255] Trial 13 finished with value: 0.8413294036449537 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:55:52,710] Trial 14 finished with value: 0.8400179473068988 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:56:01,379] Trial 15 finished with value: 0.8386817522270269 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8416314432498438.\n",
+      "[I 2026-07-30 01:56:09,787] Trial 16 finished with value: 0.8425966451683203 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.8425966451683203.\n",
+      "[I 2026-07-30 01:56:19,910] Trial 17 finished with value: 0.8409609525824535 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.8425966451683203.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:56:21] -> Best AUC: 0.8426 (Trees: 252)\n",
+      "\n",
+      "[2026-07-30 01:56:21] Starting CLASSIFICATION sweep: class_target_bad | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:56:21,918] A new study created in RDB with name: lgbm_sweep1_clf_class_target_bad_SHORT\n",
+      "[I 2026-07-30 01:56:32,465] Trial 0 finished with value: 0.848546290636602 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.848546290636602.\n",
+      "[I 2026-07-30 01:56:44,767] Trial 1 finished with value: 0.8496828389353599 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.8496828389353599.\n",
+      "[I 2026-07-30 01:56:55,596] Trial 2 finished with value: 0.8497895821724532 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.8497895821724532.\n",
+      "[I 2026-07-30 01:57:06,884] Trial 3 finished with value: 0.8490919770603437 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.8497895821724532.\n",
+      "[I 2026-07-30 01:57:21,880] Trial 4 finished with value: 0.8476103840578546 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.8497895821724532.\n",
+      "[I 2026-07-30 01:57:32,338] Trial 5 finished with value: 0.8495822156901209 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.8497895821724532.\n",
+      "[I 2026-07-30 01:57:45,645] Trial 6 finished with value: 0.8484148808067763 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.8497895821724532.\n",
+      "[I 2026-07-30 01:57:57,147] Trial 7 finished with value: 0.8511049993949011 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:58:09,021] Trial 8 finished with value: 0.8498530780992807 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:58:19,010] Trial 9 finished with value: 0.8497895947077421 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:58:30,838] Trial 10 finished with value: 0.8496976469607029 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:58:42,146] Trial 11 finished with value: 0.8503806514885659 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:58:54,913] Trial 12 finished with value: 0.8468131732819778 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:59:07,785] Trial 13 finished with value: 0.8499046993777417 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:59:18,782] Trial 14 finished with value: 0.8493469767089156 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:59:30,342] Trial 15 finished with value: 0.8477277062987121 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:59:42,091] Trial 16 finished with value: 0.8510168493093998 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n",
+      "[I 2026-07-30 01:59:54,716] Trial 17 finished with value: 0.8508528505566811 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.8511049993949011.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 01:59:57] -> Best AUC: 0.8511 (Trees: 234)\n",
+      "\n",
+      "[2026-07-30 01:59:57] Starting REGRESSION sweep: profit | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 01:59:57,604] A new study created in RDB with name: lgbm_sweep1_reg_profit_LONG\n",
+      "[I 2026-07-30 02:00:11,257] Trial 0 finished with value: 0.16906653770627786 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.16906653770627786.\n",
+      "[I 2026-07-30 02:00:25,875] Trial 1 finished with value: 0.16994261902209043 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:00:38,902] Trial 2 finished with value: 0.16704163441657036 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:00:52,322] Trial 3 finished with value: 0.16640439856219316 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:01:06,161] Trial 4 finished with value: 0.1646946297692788 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:01:17,925] Trial 5 finished with value: 0.1680958983549946 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:01:31,866] Trial 6 finished with value: 0.1632287697016322 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.16994261902209043.\n",
+      "[I 2026-07-30 02:01:44,629] Trial 7 finished with value: 0.17085547252845062 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.17085547252845062.\n",
+      "[I 2026-07-30 02:01:59,028] Trial 8 finished with value: 0.1695561583369042 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.17085547252845062.\n",
+      "[I 2026-07-30 02:02:13,729] Trial 9 finished with value: 0.17122021054663128 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.17122021054663128.\n",
+      "[I 2026-07-30 02:02:24,811] Trial 10 finished with value: 0.16797614402899322 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.17122021054663128.\n",
+      "[I 2026-07-30 02:02:37,449] Trial 11 finished with value: 0.16854957279576827 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.17122021054663128.\n",
+      "[I 2026-07-30 02:02:53,640] Trial 12 finished with value: 0.16307312365644325 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.17122021054663128.\n",
+      "[I 2026-07-30 02:03:06,888] Trial 13 finished with value: 0.17092514399875675 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.17122021054663128.\n",
+      "[I 2026-07-30 02:03:20,127] Trial 14 finished with value: 0.1735513153248417 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 14 with value: 0.1735513153248417.\n",
+      "[I 2026-07-30 02:03:32,606] Trial 15 finished with value: 0.16681697598279194 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 14 with value: 0.1735513153248417.\n",
+      "[I 2026-07-30 02:03:42,474] Trial 16 finished with value: 0.17449985392214726 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.17449985392214726.\n",
+      "[I 2026-07-30 02:03:54,954] Trial 17 finished with value: 0.17113592414629836 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.17449985392214726.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:03:57] -> Best R2: 0.1745 | MAE: 1.2723 (Trees: 309)\n",
+      "\n",
+      "[2026-07-30 02:03:57] Starting REGRESSION sweep: profit | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:03:57,361] A new study created in RDB with name: lgbm_sweep1_reg_profit_SHORT\n",
+      "[I 2026-07-30 02:04:11,437] Trial 0 finished with value: 0.1828869491146373 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.1828869491146373.\n",
+      "[I 2026-07-30 02:04:24,034] Trial 1 finished with value: 0.19721976666462213 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:04:34,620] Trial 2 finished with value: 0.19109009625322873 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:04:46,391] Trial 3 finished with value: 0.19094590431438146 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:04:57,906] Trial 4 finished with value: 0.19308206899713215 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:05:10,510] Trial 5 finished with value: 0.19234921619612946 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:05:25,942] Trial 6 finished with value: 0.1796193547182372 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.19721976666462213.\n",
+      "[I 2026-07-30 02:05:37,609] Trial 7 finished with value: 0.19728499956660564 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.19728499956660564.\n",
+      "[I 2026-07-30 02:05:51,606] Trial 8 finished with value: 0.19482021406290434 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.19728499956660564.\n",
+      "[I 2026-07-30 02:06:02,368] Trial 9 finished with value: 0.19802501366475705 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:06:13,351] Trial 10 finished with value: 0.19492835096425773 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:06:24,713] Trial 11 finished with value: 0.19657139803436804 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:06:41,587] Trial 12 finished with value: 0.1801285364058062 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:06:51,393] Trial 13 finished with value: 0.19338602616926936 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:07:03,771] Trial 14 finished with value: 0.18956263397255899 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:07:15,635] Trial 15 finished with value: 0.18571417265425877 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.19802501366475705.\n",
+      "[I 2026-07-30 02:07:26,160] Trial 16 finished with value: 0.20246601699531447 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.20246601699531447.\n",
+      "[I 2026-07-30 02:07:36,354] Trial 17 finished with value: 0.19653405233424423 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.20246601699531447.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:07:38] -> Best R2: 0.2025 | MAE: 1.2389 (Trees: 318)\n",
+      "\n",
+      "[2026-07-30 02:07:38] Starting REGRESSION sweep: quality | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:07:38,757] A new study created in RDB with name: lgbm_sweep1_reg_quality_LONG\n",
+      "[I 2026-07-30 02:07:48,200] Trial 0 finished with value: 0.08513961480320453 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.08513961480320453.\n",
+      "[I 2026-07-30 02:07:55,469] Trial 1 finished with value: 0.0895823634792591 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.0895823634792591.\n",
+      "[I 2026-07-30 02:08:04,600] Trial 2 finished with value: 0.09034553142441855 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 2 with value: 0.09034553142441855.\n",
+      "[I 2026-07-30 02:08:14,465] Trial 3 finished with value: 0.0802351545623728 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 2 with value: 0.09034553142441855.\n",
+      "[I 2026-07-30 02:08:23,932] Trial 4 finished with value: 0.09053110157327093 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 4 with value: 0.09053110157327093.\n",
+      "[I 2026-07-30 02:08:30,948] Trial 5 finished with value: 0.08774318479611867 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.09053110157327093.\n",
+      "[I 2026-07-30 02:08:40,054] Trial 6 finished with value: 0.0830303243982277 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.09053110157327093.\n",
+      "[I 2026-07-30 02:08:47,955] Trial 7 finished with value: 0.0916042733772168 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:08:55,959] Trial 8 finished with value: 0.090842392581054 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:03,786] Trial 9 finished with value: 0.08594355603450114 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:13,263] Trial 10 finished with value: 0.09147852073337363 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:21,160] Trial 11 finished with value: 0.08819421361561261 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:30,194] Trial 12 finished with value: 0.08691829787129343 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:38,051] Trial 13 finished with value: 0.08814142837337806 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:45,987] Trial 14 finished with value: 0.08799196434735161 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:09:55,042] Trial 15 finished with value: 0.08710157365762199 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.0916042733772168.\n",
+      "[I 2026-07-30 02:10:03,326] Trial 16 finished with value: 0.09570724571039597 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.09570724571039597.\n",
+      "[I 2026-07-30 02:10:11,581] Trial 17 finished with value: 0.08881053914415313 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.09570724571039597.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:10:13] -> Best R2: 0.0957 | MAE: 1.1722 (Trees: 246)\n",
+      "\n",
+      "[2026-07-30 02:10:13] Starting REGRESSION sweep: quality | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:10:13,454] A new study created in RDB with name: lgbm_sweep1_reg_quality_SHORT\n",
+      "[I 2026-07-30 02:10:22,847] Trial 0 finished with value: 0.105895697616228 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.105895697616228.\n",
+      "[I 2026-07-30 02:10:31,286] Trial 1 finished with value: 0.10832329739241356 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.10832329739241356.\n",
+      "[I 2026-07-30 02:10:40,408] Trial 2 finished with value: 0.10739428934021802 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.10832329739241356.\n",
+      "[I 2026-07-30 02:10:49,501] Trial 3 finished with value: 0.10554187561563141 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.10832329739241356.\n",
+      "[I 2026-07-30 02:10:57,774] Trial 4 finished with value: 0.11066862836616238 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 4 with value: 0.11066862836616238.\n",
+      "[I 2026-07-30 02:11:07,455] Trial 5 finished with value: 0.10657525059449487 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.11066862836616238.\n",
+      "[I 2026-07-30 02:11:18,086] Trial 6 finished with value: 0.10522108961315887 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 4 with value: 0.11066862836616238.\n",
+      "[I 2026-07-30 02:11:26,121] Trial 7 finished with value: 0.11207125341852912 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.11207125341852912.\n",
+      "[I 2026-07-30 02:11:34,956] Trial 8 finished with value: 0.11105199192042345 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.11207125341852912.\n",
+      "[I 2026-07-30 02:11:42,332] Trial 9 finished with value: 0.10691918577005981 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.11207125341852912.\n",
+      "[I 2026-07-30 02:11:49,491] Trial 10 finished with value: 0.10831399582929309 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 7 with value: 0.11207125341852912.\n",
+      "[I 2026-07-30 02:11:59,143] Trial 11 finished with value: 0.11240821752289161 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:06,217] Trial 12 finished with value: 0.10565421435139859 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:15,562] Trial 13 finished with value: 0.10566902724968856 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:23,612] Trial 14 finished with value: 0.10442141194408638 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:31,683] Trial 15 finished with value: 0.10373406678993613 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:39,551] Trial 16 finished with value: 0.1120305736083094 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.11240821752289161.\n",
+      "[I 2026-07-30 02:12:49,216] Trial 17 finished with value: 0.1098277965116667 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 11 with value: 0.11240821752289161.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:12:51] -> Best R2: 0.1124 | MAE: 1.1129 (Trees: 190)\n",
+      "\n",
+      "[2026-07-30 02:12:51] Starting REGRESSION sweep: danger | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:12:51,322] A new study created in RDB with name: lgbm_sweep1_reg_danger_LONG\n",
+      "[I 2026-07-30 02:13:07,486] Trial 0 finished with value: 0.5706760047046889 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5706760047046889.\n",
+      "[I 2026-07-30 02:13:20,598] Trial 1 finished with value: 0.5651091606789349 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5706760047046889.\n",
+      "[I 2026-07-30 02:13:36,960] Trial 2 finished with value: 0.5582023226631693 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5706760047046889.\n",
+      "[I 2026-07-30 02:13:50,280] Trial 3 finished with value: 0.574484218238538 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:14:05,676] Trial 4 finished with value: 0.5678115987055337 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:14:20,026] Trial 5 finished with value: 0.5665238235811931 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:14:36,273] Trial 6 finished with value: 0.5669047221354238 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:14:49,473] Trial 7 finished with value: 0.5618405311625103 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:15:01,879] Trial 8 finished with value: 0.5562750891962958 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.574484218238538.\n",
+      "[I 2026-07-30 02:15:12,805] Trial 9 finished with value: 0.5765961298220417 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:15:27,414] Trial 10 finished with value: 0.5615590154981305 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:15:39,393] Trial 11 finished with value: 0.5694452665383742 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:15:52,328] Trial 12 finished with value: 0.5692893447628651 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:16:06,237] Trial 13 finished with value: 0.5697295831905862 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:16:19,376] Trial 14 finished with value: 0.5749378676272976 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:16:33,960] Trial 15 finished with value: 0.5636661024120697 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:16:46,050] Trial 16 finished with value: 0.5633534933135118 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5765961298220417.\n",
+      "[I 2026-07-30 02:17:01,288] Trial 17 finished with value: 0.571665927088885 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5765961298220417.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:17:03] -> Best R2: 0.5766 | MAE: 0.3094 (Trees: 365)\n",
+      "\n",
+      "[2026-07-30 02:17:03] Starting REGRESSION sweep: danger | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:17:03,784] A new study created in RDB with name: lgbm_sweep1_reg_danger_SHORT\n",
+      "[I 2026-07-30 02:17:21,557] Trial 0 finished with value: 0.5285922207653557 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5285922207653557.\n",
+      "[I 2026-07-30 02:17:37,471] Trial 1 finished with value: 0.5274897918121403 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5285922207653557.\n",
+      "[I 2026-07-30 02:17:58,755] Trial 2 finished with value: 0.5226409704155766 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.5285922207653557.\n",
+      "[I 2026-07-30 02:18:15,006] Trial 3 finished with value: 0.5318295362295118 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:18:39,161] Trial 4 finished with value: 0.5279781428708672 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:18:57,133] Trial 5 finished with value: 0.5274780403360286 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:19:14,070] Trial 6 finished with value: 0.5256334590102594 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:19:31,846] Trial 7 finished with value: 0.5246577758803705 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:19:49,729] Trial 8 finished with value: 0.5241952725503582 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 3 with value: 0.5318295362295118.\n",
+      "[I 2026-07-30 02:20:05,929] Trial 9 finished with value: 0.5330652386495747 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:20:24,937] Trial 10 finished with value: 0.5251270704311312 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:20:46,114] Trial 11 finished with value: 0.52906116215096 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:21:09,894] Trial 12 finished with value: 0.52675112198659 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:21:29,063] Trial 13 finished with value: 0.5273968104624192 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:21:46,403] Trial 14 finished with value: 0.5301975111508254 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:22:06,621] Trial 15 finished with value: 0.5259150643961302 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:22:26,011] Trial 16 finished with value: 0.5248188484012456 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5330652386495747.\n",
+      "[I 2026-07-30 02:22:44,383] Trial 17 finished with value: 0.5318997146628505 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.5330652386495747.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:22:47] -> Best R2: 0.5331 | MAE: 0.3113 (Trees: 595)\n",
+      "\n",
+      "[2026-07-30 02:22:47] Starting REGRESSION sweep: entry_timing | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:22:48,061] A new study created in RDB with name: lgbm_sweep1_reg_entry_timing_LONG\n",
+      "[I 2026-07-30 02:22:54,373] Trial 0 finished with value: 0.01382080175398397 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.01382080175398397.\n",
+      "[I 2026-07-30 02:23:00,045] Trial 1 finished with value: 0.018647357749042227 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:08,143] Trial 2 finished with value: 0.014859900017553884 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:16,604] Trial 3 finished with value: 0.010591908944579754 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:23,139] Trial 4 finished with value: 0.015122037560070023 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:28,883] Trial 5 finished with value: 0.01710627581115436 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:34,843] Trial 6 finished with value: 0.01348098101389079 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:42,276] Trial 7 finished with value: 0.017042564421176465 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:49,026] Trial 8 finished with value: 0.017435049583551954 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:23:54,715] Trial 9 finished with value: 0.01693379485466744 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:00,539] Trial 10 finished with value: 0.01784309239077462 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:06,580] Trial 11 finished with value: 0.016546207226216293 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:13,369] Trial 12 finished with value: 0.012943466454463181 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:19,117] Trial 13 finished with value: 0.018284360527815725 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:24,741] Trial 14 finished with value: 0.016931096886377818 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:31,483] Trial 15 finished with value: 0.014316695987142736 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.018647357749042227.\n",
+      "[I 2026-07-30 02:24:38,401] Trial 16 finished with value: 0.0187361603399528 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.0187361603399528.\n",
+      "[I 2026-07-30 02:24:43,980] Trial 17 finished with value: 0.018277037620751703 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.0187361603399528.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:24:45] -> Best R2: 0.0187 | MAE: 1.4606 (Trees: 179)\n",
+      "\n",
+      "[2026-07-30 02:24:45] Starting REGRESSION sweep: entry_timing | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:24:45,657] A new study created in RDB with name: lgbm_sweep1_reg_entry_timing_SHORT\n",
+      "[I 2026-07-30 02:24:50,689] Trial 0 finished with value: 0.015973226249347428 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.015973226249347428.\n",
+      "[I 2026-07-30 02:24:55,348] Trial 1 finished with value: 0.017256113620934443 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:01,252] Trial 2 finished with value: 0.01566188552958665 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:06,384] Trial 3 finished with value: 0.01603182977089146 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:11,090] Trial 4 finished with value: 0.014318664967998385 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:16,398] Trial 5 finished with value: 0.016354875312678985 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:21,852] Trial 6 finished with value: 0.013208453099336891 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.017256113620934443.\n",
+      "[I 2026-07-30 02:25:27,309] Trial 7 finished with value: 0.01725751173712986 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.01725751173712986.\n",
+      "[I 2026-07-30 02:25:32,231] Trial 8 finished with value: 0.017010696241397727 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.01725751173712986.\n",
+      "[I 2026-07-30 02:25:37,155] Trial 9 finished with value: 0.017464078884521284 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:25:42,211] Trial 10 finished with value: 0.01696112151153808 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:25:47,018] Trial 11 finished with value: 0.015910929442818224 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:25:53,478] Trial 12 finished with value: 0.013268250562084583 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:25:57,780] Trial 13 finished with value: 0.016612663306674234 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:26:02,549] Trial 14 finished with value: 0.01638928956786876 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:26:09,300] Trial 15 finished with value: 0.013179768653047019 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.017464078884521284.\n",
+      "[I 2026-07-30 02:26:14,807] Trial 16 finished with value: 0.017640129801164806 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 16 with value: 0.017640129801164806.\n",
+      "[I 2026-07-30 02:26:19,280] Trial 17 finished with value: 0.01766819155965771 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 17 with value: 0.01766819155965771.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:26:20] -> Best R2: 0.0177 | MAE: 1.3360 (Trees: 60)\n",
+      "\n",
+      "[2026-07-30 02:26:20] Starting REGRESSION sweep: exit_timing | LONG\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:26:20,440] A new study created in RDB with name: lgbm_sweep1_reg_exit_timing_LONG\n",
+      "[I 2026-07-30 02:26:32,676] Trial 0 finished with value: 0.039826383668226883 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.039826383668226883.\n",
+      "[I 2026-07-30 02:26:48,936] Trial 1 finished with value: 0.04124688428722993 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:27:04,072] Trial 2 finished with value: 0.03698138172311778 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:27:17,197] Trial 3 finished with value: 0.03749936720921117 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:27:30,990] Trial 4 finished with value: 0.030543208068782857 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:27:44,686] Trial 5 finished with value: 0.03901061456652586 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:28:00,772] Trial 6 finished with value: 0.021345507627736193 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04124688428722993.\n",
+      "[I 2026-07-30 02:28:10,517] Trial 7 finished with value: 0.052577095808072814 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.052577095808072814.\n",
+      "[I 2026-07-30 02:28:23,381] Trial 8 finished with value: 0.04563652919880756 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 7 with value: 0.052577095808072814.\n",
+      "[I 2026-07-30 02:28:32,700] Trial 9 finished with value: 0.05574780931443759 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:28:44,625] Trial 10 finished with value: 0.04597548671962515 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:28:56,601] Trial 11 finished with value: 0.04335600294570763 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:29:08,314] Trial 12 finished with value: 0.03792391073469024 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:29:18,476] Trial 13 finished with value: 0.05326471477015802 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:29:30,153] Trial 14 finished with value: 0.04668682589365327 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:29:44,091] Trial 15 finished with value: 0.032322410255381184 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:29:56,475] Trial 16 finished with value: 0.04948594861390343 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.05574780931443759.\n",
+      "[I 2026-07-30 02:30:05,097] Trial 17 finished with value: 0.059287616307651336 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 17 with value: 0.059287616307651336.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:30:06] -> Best R2: 0.0593 | MAE: 9.1202 (Trees: 248)\n",
+      "\n",
+      "[2026-07-30 02:30:06] Starting REGRESSION sweep: exit_timing | SHORT\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[I 2026-07-30 02:30:07,140] A new study created in RDB with name: lgbm_sweep1_reg_exit_timing_SHORT\n",
+      "[I 2026-07-30 02:30:19,551] Trial 0 finished with value: 0.03797657915523811 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 0 with value: 0.03797657915523811.\n",
+      "[I 2026-07-30 02:30:32,746] Trial 1 finished with value: 0.04496382299709674 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:30:47,248] Trial 2 finished with value: 0.03212493220903516 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:31:03,249] Trial 3 finished with value: 0.02880836817768928 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:31:18,181] Trial 4 finished with value: 0.0252953320693035 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:31:31,947] Trial 5 finished with value: 0.03470668577228275 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:31:49,708] Trial 6 finished with value: 0.01383226275795808 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:32:02,330] Trial 7 finished with value: 0.041702827734512705 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:32:17,309] Trial 8 finished with value: 0.03489821481529056 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 1 with value: 0.04496382299709674.\n",
+      "[I 2026-07-30 02:32:28,779] Trial 9 finished with value: 0.050449925126300046 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:32:39,953] Trial 10 finished with value: 0.04513837436164412 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 100, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:32:53,835] Trial 11 finished with value: 0.03550889292121497 and parameters: {'num_leaves': 31, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:33:07,165] Trial 12 finished with value: 0.029624685964123643 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 20, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:33:25,943] Trial 13 finished with value: 0.030401706759367486 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:33:37,067] Trial 14 finished with value: 0.050132284721402146 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 20, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:33:48,264] Trial 15 finished with value: 0.03557754254854841 and parameters: {'num_leaves': 63, 'min_data_in_leaf': 50, 'bagging_fraction': 1.0}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:34:03,429] Trial 16 finished with value: 0.04000754619294964 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 100, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.050449925126300046.\n",
+      "[I 2026-07-30 02:34:15,423] Trial 17 finished with value: 0.04662387543707989 and parameters: {'num_leaves': 15, 'min_data_in_leaf': 50, 'bagging_fraction': 0.8}. Best is trial 9 with value: 0.050449925126300046.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2026-07-30 02:34:17] -> Best R2: 0.0504 | MAE: 8.4645 (Trees: 367)\n",
+      "\n",
+      "[2026-07-30 02:34:17] ALL SWEEPS SAVED TO JSON.\n",
+      "[save_progress] Changes to be committed:\n",
+      "?? LGBM-wk_8_models/\n",
+      "?? Week_8_results/lightgbm_sweep_1.json\n",
+      "?? lgbm_sweep1_clf_class_target_1_LONG.db\n",
+      "?? lgbm_sweep1_clf_class_target_1_SHORT.db\n",
+      "?? lgbm_sweep1_clf_class_target_2_LONG.db\n",
+      "?? lgbm_sweep1_clf_class_target_2_SHORT.db\n",
+      "?? lgbm_sweep1_clf_class_target_3_corrected_LONG.db\n",
+      "?? lgbm_sweep1_clf_class_target_3_corrected_SHORT.db\n",
+      "?? lgbm_sweep1_clf_class_target_bad_LONG.db\n",
+      "?? lgbm_sweep1_clf_class_target_bad_SHORT.db\n",
+      "?? lgbm_sweep1_reg_danger_LONG.db\n",
+      "?? lgbm_sweep1_reg_danger_SHORT.db\n",
+      "?? lgbm_sweep1_reg_entry_timing_LONG.db\n",
+      "?? lgbm_sweep1_reg_entry_timing_SHORT.db\n",
+      "?? lgbm_sweep1_reg_exit_timing_LONG.db\n",
+      "?? lgbm_sweep1_reg_exit_timing_SHORT.db\n",
+      "?? lgbm_sweep1_reg_profit_LONG.db\n",
+      "?? lgbm_sweep1_reg_profit_SHORT.db\n",
+      "?? lgbm_sweep1_reg_quality_LONG.db\n",
+      "?? lgbm_sweep1_reg_quality_SHORT.db\n",
+      "\n",
+      "[main afa9e51] Completed full LightGBM sweep 1 (all targets) with hardened error handling and resume logic.\n",
+      " 37 files changed, 248 insertions(+)\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_LONG_class_target_1_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_LONG_class_target_2_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_LONG_class_target_3_corrected_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_LONG_class_target_bad_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_SHORT_class_target_1_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_SHORT_class_target_2_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_SHORT_class_target_3_corrected_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_CLF_SHORT_class_target_bad_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_LONG_danger_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_LONG_entry_timing_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/[save_progress] Pulling latest from origin/main to check for divergence...\n",
+      "LGBM_REG_LONG_exit_timing_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_LONG_profit_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_LONG_quality_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_SHORT_danger_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_SHORT_entry_timing_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_SHORT_exit_timing_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_SHORT_profit_sweep1.joblib\n",
+      " create mode 100644 LGBM-wk_8_models/LGBM_REG_SHORT_quality_sweep1.joblib\n",
+      " create mode 100644 Week_8_results/lightgbm_sweep_1.json\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_1_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_1_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_2_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_2_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_3_corrected_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_3_corrected_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_bad_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_clf_class_target_bad_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_reg_danger_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_reg_danger_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_reg_entry_timing_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_reg_entry_timing_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_reg_exit_timing_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_reg_exit_timing_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_reg_profit_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_reg_profit_SHORT.db\n",
+      " create mode 100644 lgbm_sweep1_reg_quality_LONG.db\n",
+      " create mode 100644 lgbm_sweep1_reg_quality_SHORT.db\n",
+      "PULL STDOUT: Already up to date.\n",
+      "\n",
+      "[save_progress] Successfully pushed to GitHub at 02:34:21\n",
+      "Git state synced.\n",
+      "===================================================================================\n"
+     ]
+    }
+   ],
+   "source": [
+    "# ============================================================\n",
+    "# PART B — Full LightGBM Grid Sweep (Fully Hardened)\n",
+    "# ============================================================\n",
+    "import optuna\n",
+    "import time\n",
+    "import numpy as np\n",
+    "import traceback\n",
+    "from lightgbm import LGBMClassifier, LGBMRegressor\n",
+    "from lightgbm.callback import early_stopping\n",
+    "from optuna.trial import TrialState\n",
+    "\n",
+    "print(f\"[{time.strftime('%Y-%m-%d %H:%M:%S')}] INITIALIZING HARDENED LIGHTGBM GRID SWEEP\")\n",
+    "print(\"===================================================================================\\n\")\n",
+    "\n",
+    "# 1. Define the exact, fixed search space (18 total combinations)\n",
+    "search_space = {\n",
+    "    \"num_leaves\": [15, 31, 63],\n",
+    "    \"min_data_in_leaf\": [20, 50, 100],\n",
+    "    \"bagging_fraction\": [1.0, 0.8]\n",
+    "}\n",
+    "TOTAL_GRID_SIZE = 18\n",
+    "\n",
+    "# 2. Setup targets and mapping from Part A\n",
+    "class_targets = ['class_target_1', 'class_target_2', 'class_target_3_corrected', 'class_target_bad']\n",
+    "reg_targets = list(REG_TARGETS.keys())\n",
+    "direction_map = {\n",
+    "    'LONG': (df_long, feat_set_long),\n",
+    "    'SHORT': (df_short, feat_set_short)\n",
+    "}\n",
+    "\n",
+    "# Dictionary to hold the final compiled results\n",
+    "lightgbm_sweep_1 = {\n",
+    "    'classification': {'LONG': {}, 'SHORT': {}},\n",
+    "    'regression': {'LONG': {}, 'SHORT': {}}\n",
+    "}\n",
+    "\n",
+    "# ============================================================\n",
+    "# OBJECTIVE: CLASSIFICATION\n",
+    "# ============================================================\n",
+    "def objective_clf(trial, df_sub, feat_cols, target_col):\n",
+    "    df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target_col]].dropna()\n",
+    "    X = df_clean[feat_cols].values\n",
+    "    y = df_clean[target_col].values\n",
+    "    \n",
+    "    # Chronological 85/15 split for Early Stopping (Finding best_n)\n",
+    "    split_idx = int(len(X) * 0.85)\n",
+    "    X_tr_es, X_val_es = X[:split_idx], X[split_idx:]\n",
+    "    y_tr_es, y_val_es = y[:split_idx], y[split_idx:]\n",
+    "    \n",
+    "    params = {\n",
+    "        \"num_leaves\": trial.suggest_categorical(\"num_leaves\", search_space[\"num_leaves\"]),\n",
+    "        \"min_data_in_leaf\": trial.suggest_categorical(\"min_data_in_leaf\", search_space[\"min_data_in_leaf\"]),\n",
+    "        \"bagging_fraction\": trial.suggest_categorical(\"bagging_fraction\", search_space[\"bagging_fraction\"]),\n",
+    "        \"learning_rate\": 0.05,\n",
+    "        \"n_estimators\": 2000,\n",
+    "        \"bagging_freq\": 1,\n",
+    "        \"random_state\": 42,\n",
+    "        \"n_jobs\": -1,\n",
+    "        \"verbose\": -1\n",
+    "    }\n",
+    "    \n",
+    "    # Find best_n via early stopping\n",
+    "    es_model = LGBMClassifier(**params)\n",
+    "    es_model.fit(\n",
+    "        X_tr_es, y_tr_es,\n",
+    "        eval_set=[(X_val_es, y_val_es)],\n",
+    "        eval_metric='auc',\n",
+    "        callbacks=[early_stopping(stopping_rounds=50, verbose=False)]\n",
+    "    )\n",
+    "    \n",
+    "    # Fallback safety if early stopping fails to yield a valid best_iteration\n",
+    "    best_n = es_model.best_iteration_\n",
+    "    if best_n is None or best_n <= 0:\n",
+    "        print(f\"    [Warning] CLF Early stopping yielded invalid best_iteration ({best_n}). Defaulting to 100.\")\n",
+    "        best_n = 100\n",
+    "        \n",
+    "    # Inject best_n and run full walk-forward CV\n",
+    "    params[\"n_estimators\"] = best_n\n",
+    "    cv_model = LGBMClassifier(**params)\n",
+    "    \n",
+    "    cv_scores = cv_no_scaling(\n",
+    "        model=cv_model,\n",
+    "        df_subset=df_clean,\n",
+    "        feature_cols=feat_cols,\n",
+    "        target_col=target_col,\n",
+    "        n_splits=5, gap=0\n",
+    "    )\n",
+    "    \n",
+    "    trial.set_user_attr(\"best_n\", best_n)\n",
+    "    trial.set_user_attr(\"cv_accuracy\", cv_scores['accuracy'][0])\n",
+    "    trial.set_user_attr(\"cv_precision\", cv_scores['precision'][0])\n",
+    "    \n",
+    "    return cv_scores['auc'][0]\n",
+    "\n",
+    "# ============================================================\n",
+    "# OBJECTIVE: REGRESSION\n",
+    "# ============================================================\n",
+    "def objective_reg(trial, df_sub, feat_cols, target_info):\n",
+    "    target_col, transform_str = target_info\n",
+    "    df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target_col]].replace([np.inf, -np.inf], np.nan).dropna()\n",
+    "    X = df_clean[feat_cols].values\n",
+    "    y = df_clean[target_col].values\n",
+    "    \n",
+    "    # Chronological 85/15 split for Early Stopping\n",
+    "    split_idx = int(len(X) * 0.85)\n",
+    "    X_tr_es, X_val_es = X[:split_idx], X[split_idx:]\n",
+    "    y_tr_es_raw, y_val_es_raw = y[:split_idx], y[split_idx:]\n",
+    "    \n",
+    "    # Apply identical log transformations with domain assertions\n",
+    "    if transform_str == 'log1p':\n",
+    "        assert np.all(y_tr_es_raw > -1.0) and np.all(y_val_es_raw > -1.0), f\"log1p domain error on {target_col}\"\n",
+    "        y_tr_es = np.log1p(y_tr_es_raw)\n",
+    "        y_val_es = np.log1p(y_val_es_raw)\n",
+    "    elif transform_str == 'log5p':\n",
+    "        assert np.all(y_tr_es_raw > -5.0) and np.all(y_val_es_raw > -5.0), f\"log5p domain error on {target_col}\"\n",
+    "        y_tr_es = np.log(y_tr_es_raw + 5)\n",
+    "        y_val_es = np.log(y_val_es_raw + 5)\n",
+    "    else:\n",
+    "        y_tr_es, y_val_es = y_tr_es_raw, y_val_es_raw\n",
+    "    \n",
+    "    params = {\n",
+    "        \"num_leaves\": trial.suggest_categorical(\"num_leaves\", search_space[\"num_leaves\"]),\n",
+    "        \"min_data_in_leaf\": trial.suggest_categorical(\"min_data_in_leaf\", search_space[\"min_data_in_leaf\"]),\n",
+    "        \"bagging_fraction\": trial.suggest_categorical(\"bagging_fraction\", search_space[\"bagging_fraction\"]),\n",
+    "        \"learning_rate\": 0.05,\n",
+    "        \"n_estimators\": 2000, \n",
+    "        \"bagging_freq\": 1,\n",
+    "        \"random_state\": 42,\n",
+    "        \"n_jobs\": -1,\n",
+    "        \"verbose\": -1\n",
+    "    }\n",
+    "    \n",
+    "    # Find best_n via early stopping\n",
+    "    es_model = LGBMRegressor(**params)\n",
+    "    es_model.fit(\n",
+    "        X_tr_es, y_tr_es,\n",
+    "        eval_set=[(X_val_es, y_val_es)],\n",
+    "        eval_metric='rmse',\n",
+    "        callbacks=[early_stopping(stopping_rounds=50, verbose=False)]\n",
+    "    )\n",
+    "    \n",
+    "    # Fallback safety if early stopping fails to yield a valid best_iteration\n",
+    "    best_n = es_model.best_iteration_\n",
+    "    if best_n is None or best_n <= 0:\n",
+    "        print(f\"    [Warning] REG Early stopping yielded invalid best_iteration ({best_n}). Defaulting to 100.\")\n",
+    "        best_n = 100\n",
+    "        \n",
+    "    # Inject best_n and run full walk-forward CV\n",
+    "    params[\"n_estimators\"] = best_n\n",
+    "    cv_model = LGBMRegressor(**params)\n",
+    "    \n",
+    "    cv_scores = cv_regression(\n",
+    "        model=cv_model,\n",
+    "        df_subset=df_clean,\n",
+    "        feature_cols=feat_cols,\n",
+    "        target_info=target_info,\n",
+    "        n_splits=5, gap=0, scale=False\n",
+    "    )\n",
+    "    \n",
+    "    trial.set_user_attr(\"best_n\", best_n)\n",
+    "    trial.set_user_attr(\"cv_mae\", cv_scores['mae'][0])\n",
+    "    \n",
+    "    return cv_scores['r2'][0]\n",
+    "\n",
+    "# ============================================================\n",
+    "# EXECUTE LOOPS\n",
+    "# ============================================================\n",
+    "\n",
+    "# --- 1. CLASSIFICATION SWEEPS ---\n",
+    "for c_target in class_targets:\n",
+    "    for direction in ['LONG', 'SHORT']:\n",
+    "        print(f\"\\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Starting CLASSIFICATION sweep: {c_target} | {direction}\")\n",
+    "        \n",
+    "        try:\n",
+    "            df_sub, feat_cols = direction_map[direction]\n",
+    "            study_name = f\"lgbm_sweep1_clf_{c_target}_{direction}\"\n",
+    "            storage_name = f\"sqlite:///{study_name}.db\"\n",
+    "            \n",
+    "            study = optuna.create_study(\n",
+    "                study_name=study_name, storage=storage_name,\n",
+    "                sampler=optuna.samplers.GridSampler(search_space),\n",
+    "                direction=\"maximize\", load_if_exists=True\n",
+    "            )\n",
+    "            \n",
+    "            # Resume safety: Only run the remaining trials needed to hit exactly 18\n",
+    "            completed_trials = len([t for t in study.trials if t.state == TrialState.COMPLETE])\n",
+    "            remaining = TOTAL_GRID_SIZE - completed_trials\n",
+    "            \n",
+    "            if remaining > 0:\n",
+    "                study.optimize(lambda trial: objective_clf(trial, df_sub, feat_cols, c_target), n_trials=remaining)\n",
+    "            else:\n",
+    "                print(f\"    [Skip] Sweep already completed {completed_trials}/{TOTAL_GRID_SIZE} trials.\")\n",
+    "            \n",
+    "            # Log Best Results\n",
+    "            best_p = study.best_params\n",
+    "            best_n = study.best_trial.user_attrs.get(\"best_n\")\n",
+    "            best_p[\"n_estimators\"] = best_n if best_n else 100\n",
+    "            best_p[\"learning_rate\"] = 0.05\n",
+    "            best_p[\"bagging_freq\"] = 1\n",
+    "            \n",
+    "            lightgbm_sweep_1['classification'][direction][c_target] = {\n",
+    "                'Best_AUC': study.best_value,\n",
+    "                'Best_Precision': study.best_trial.user_attrs.get(\"cv_precision\"),\n",
+    "                'best_n': best_n,\n",
+    "                'Params': best_p\n",
+    "            }\n",
+    "            \n",
+    "            # Train final model on full dataset and write to disk\n",
+    "            final_model = LGBMClassifier(**best_p, random_state=42, n_jobs=-1, verbose=-1)\n",
+    "            df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [c_target]].dropna()\n",
+    "            final_model.fit(df_clean[feat_cols].values, df_clean[c_target].values)\n",
+    "            \n",
+    "            model_name = f\"LGBM_CLF_{direction}_{c_target}_sweep1\"\n",
+    "            save_model(final_model, model_name)\n",
+    "            \n",
+    "            print(f\"[{time.strftime('%Y-%m-%d %H:%M:%S')}] -> Best AUC: {study.best_value:.4f} (Trees: {best_p['n_estimators']})\")\n",
+    "            \n",
+    "        except Exception as e:\n",
+    "            print(f\"\\nCRITICAL ERROR on CLASSIFICATION {c_target} | {direction}. Moving to next.\")\n",
+    "            traceback.print_exc()\n",
+    "            continue\n",
+    "\n",
+    "# --- 2. REGRESSION SWEEPS ---\n",
+    "for r_target in reg_targets:\n",
+    "    for direction in ['LONG', 'SHORT']:\n",
+    "        print(f\"\\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Starting REGRESSION sweep: {r_target} | {direction}\")\n",
+    "        \n",
+    "        try:\n",
+    "            df_sub, feat_cols = direction_map[direction]\n",
+    "            target_info = REG_TARGETS[r_target]\n",
+    "            \n",
+    "            study_name = f\"lgbm_sweep1_reg_{r_target}_{direction}\"\n",
+    "            storage_name = f\"sqlite:///{study_name}.db\"\n",
+    "            \n",
+    "            study = optuna.create_study(\n",
+    "                study_name=study_name, storage=storage_name,\n",
+    "                sampler=optuna.samplers.GridSampler(search_space),\n",
+    "                direction=\"maximize\", load_if_exists=True\n",
+    "            )\n",
+    "            \n",
+    "            # Resume safety\n",
+    "            completed_trials = len([t for t in study.trials if t.state == TrialState.COMPLETE])\n",
+    "            remaining = TOTAL_GRID_SIZE - completed_trials\n",
+    "            \n",
+    "            if remaining > 0:\n",
+    "                study.optimize(lambda trial: objective_reg(trial, df_sub, feat_cols, target_info), n_trials=remaining)\n",
+    "            else:\n",
+    "                print(f\"    [Skip] Sweep already completed {completed_trials}/{TOTAL_GRID_SIZE} trials.\")\n",
+    "            \n",
+    "            # Log Best Results\n",
+    "            best_p = study.best_params\n",
+    "            best_n = study.best_trial.user_attrs.get(\"best_n\")\n",
+    "            best_p[\"n_estimators\"] = best_n if best_n else 100\n",
+    "            best_p[\"learning_rate\"] = 0.05\n",
+    "            best_p[\"bagging_freq\"] = 1\n",
+    "            \n",
+    "            lightgbm_sweep_1['regression'][direction][r_target] = {\n",
+    "                'Best_R2': study.best_value,\n",
+    "                'Best_MAE': study.best_trial.user_attrs.get(\"cv_mae\"),\n",
+    "                'best_n': best_n,\n",
+    "                'Params': best_p\n",
+    "            }\n",
+    "            \n",
+    "            # Train final model on full dataset and write to disk\n",
+    "            final_model = LGBMRegressor(**best_p, random_state=42, n_jobs=-1, verbose=-1)\n",
+    "            target_col, transform_str = target_info\n",
+    "            df_clean = df_sub.sort_values('checked_at_utc')[feat_cols + [target_col]].replace([np.inf, -np.inf], np.nan).dropna()\n",
+    "            \n",
+    "            y_final = df_clean[target_col].values\n",
+    "            if transform_str == 'log1p': y_final = np.log1p(y_final)\n",
+    "            elif transform_str == 'log5p': y_final = np.log(y_final + 5)\n",
+    "            \n",
+    "            final_model.fit(df_clean[feat_cols].values, y_final)\n",
+    "            \n",
+    "            model_name = f\"LGBM_REG_{direction}_{r_target}_sweep1\"\n",
+    "            save_model(final_model, model_name)\n",
+    "            \n",
+    "            cv_mae = study.best_trial.user_attrs.get('cv_mae')\n",
+    "            print(f\"[{time.strftime('%Y-%m-%d %H:%M:%S')}] -> Best R2: {study.best_value:.4f} | MAE: {cv_mae:.4f} (Trees: {best_p['n_estimators']})\")\n",
+    "            \n",
+    "        except Exception as e:\n",
+    "            print(f\"\\nCRITICAL ERROR on REGRESSION {r_target} | {direction}. Moving to next.\")\n",
+    "            traceback.print_exc()\n",
+    "            continue\n",
+    "\n",
+    "# 3. Save the comprehensive sweep dictionary and git state\n",
+    "try:\n",
+    "    save_result_dict(lightgbm_sweep_1, \"lightgbm_sweep_1\")\n",
+    "    print(f\"\\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] ALL SWEEPS SAVED TO JSON.\")\n",
+    "    \n",
+    "    # Save git progress immediately\n",
+    "    save_progress(\"Completed full LightGBM sweep 1 (all targets) with hardened error handling and resume logic.\")\n",
+    "    print(\"Git state synced.\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    print(f\"\\nCRITICAL ERROR saving results or pushing to GitHub: {e}\")\n",
+    "\n",
+    "print(\"===================================================================================\")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "c9453804",
+   "id": "32ac5c99",
    "metadata": {
     "papermill": {
-     "duration": 0.011977,
-     "end_time": "2026-07-29T00:07:33.105345+00:00",
+     "duration": 0.027997,
+     "end_time": "2026-07-30T02:34:21.358631+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.093368+00:00",
+     "start_time": "2026-07-30T02:34:21.330634+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1688,43 +2966,124 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 17,
-   "id": "66784223",
+   "cell_type": "markdown",
+   "id": "10a0ac98",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.130654Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.130305Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.134424Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.133537Z"
+     "iopub.execute_input": "2026-07-30T00:56:17.961373Z",
+     "iopub.status.busy": "2026-07-30T00:56:17.960637Z",
+     "iopub.status.idle": "2026-07-30T00:59:33.550191Z",
+     "shell.execute_reply": "2026-07-30T00:59:33.549296Z",
+     "shell.execute_reply.started": "2026-07-30T00:56:17.961341Z"
     },
     "papermill": {
-     "duration": 0.018942,
-     "end_time": "2026-07-29T00:07:33.136170+00:00",
+     "duration": 0.028023,
+     "end_time": "2026-07-30T02:34:21.413963+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.117228+00:00",
+     "start_time": "2026-07-30T02:34:21.385940+00:00",
      "status": "completed"
     },
     "tags": []
    },
-   "outputs": [],
    "source": [
-    "# TODO: time-test ONE representative config before committing to a sweep size\n",
-    "#       (Week 6's sweeps ran 2-3x longer than estimated more than once -- don't repeat that here).\n",
-    "# TODO: sweep num_leaves / min_data_in_leaf jointly, not one-at-a-time -- Week 6 found\n",
-    "#       max_depth and min_samples_leaf interact, not independent levers. Assume the same\n",
-    "#       is true here until you've checked.\n"
+    "## ============================================================\n",
+    "# PART B — Joint Parameter Sweep for 'quality' (LONG)\n",
+    "# ============================================================\n",
+    "import optuna\n",
+    "from lightgbm import LGBMRegressor\n",
+    "\n",
+    "print(\"============================================================\")\n",
+    "print(\"Optuna Grid Sweep: 'quality' | LONG\")\n",
+    "print(\"============================================================\\n\")\n",
+    "\n",
+    "# 1. Setup Data strictly from Part A variables\n",
+    "target_name = 'quality'\n",
+    "target_col, transform_str = REG_TARGETS[target_name]\n",
+    "\n",
+    "# Sort chronologically and drop NAs using df_long and feat_set_long directly\n",
+    "df_clean = df_long.sort_values('checked_at_utc')[feat_set_long + [target_col]].dropna()\n",
+    "\n",
+    "# 2. Define the discrete search space explicitly\n",
+    "search_space = {\n",
+    "    \"num_leaves\": [15, 31, 63],\n",
+    "    \"min_data_in_leaf\": [20, 50, 100],\n",
+    "    \"bagging_fraction\": [1.0, 0.8]\n",
+    "}\n",
+    "\n",
+    "# 3. Define the Objective Function\n",
+    "def objective(trial):\n",
+    "    # Fetch parameters from the defined search space\n",
+    "    num_leaves = trial.suggest_categorical(\"num_leaves\", search_space[\"num_leaves\"])\n",
+    "    min_data_in_leaf = trial.suggest_categorical(\"min_data_in_leaf\", search_space[\"min_data_in_leaf\"])\n",
+    "    bagging_fraction = trial.suggest_categorical(\"bagging_fraction\", search_space[\"bagging_fraction\"])\n",
+    "    \n",
+    "    # Initialize model with fixed learning rate and verbose=-1 (silence clutter)\n",
+    "    model = LGBMRegressor(\n",
+    "        n_estimators=300,        # Standard fixed tree count for the sweep\n",
+    "        learning_rate=0.05,\n",
+    "        num_leaves=num_leaves,\n",
+    "        min_data_in_leaf=min_data_in_leaf,\n",
+    "        bagging_fraction=bagging_fraction,\n",
+    "        bagging_freq=1,          # MANDATORY: Required for bagging_fraction to activate\n",
+    "        random_state=42,\n",
+    "        n_jobs=-1,\n",
+    "        verbose=-1\n",
+    "    )\n",
+    "    \n",
+    "    # Run standardized CV from Part A\n",
+    "    target_info = (target_col, transform_str)\n",
+    "    cv_scores = cv_regression(\n",
+    "        model=model, \n",
+    "        df_subset=df_clean, \n",
+    "        feature_cols=feat_set_long, \n",
+    "        target_info=target_info, \n",
+    "        n_splits=5, \n",
+    "        gap=0,\n",
+    "        scale=False\n",
+    "    )\n",
+    "    \n",
+    "    # Log the MAE as user-defined tracking metric, but optimize on R2\n",
+    "    trial.set_user_attr(\"cv_mae\", cv_scores['mae'][0])\n",
+    "    \n",
+    "    # We return R2 to the optimizer to maximize it\n",
+    "    return cv_scores['r2'][0]\n",
+    "\n",
+    "# 4. Initialize SQLite Persistent Storage and GridSampler\n",
+    "study_name = \"lgbm_quality_long_sweep\"\n",
+    "storage_name = f\"sqlite:///{study_name}.db\"\n",
+    "\n",
+    "# Optuna's GridSampler ensures exactly 18 distinct runs with no overlapping/wasted trials\n",
+    "study = optuna.create_study(\n",
+    "    study_name=study_name,\n",
+    "    storage=storage_name,\n",
+    "    sampler=optuna.samplers.GridSampler(search_space),\n",
+    "    direction=\"maximize\",\n",
+    "    load_if_exists=True\n",
+    ")\n",
+    "\n",
+    "# 5. Execute the Sweep\n",
+    "print(\"Starting grid sweep (18 distinct combinations)...\")\n",
+    "# We pass n_trials=18 to cover the exact grid size; it will automatically stop if already complete.\n",
+    "study.optimize(objective, n_trials=18)\n",
+    "\n",
+    "# 6. Report Best Results\n",
+    "print(\"\\n--- SWEEP COMPLETE ---\")\n",
+    "print(f\"Best Trial Score (R2): {study.best_value:.4f}\")\n",
+    "print(f\"Best Trial MAE: {study.best_trial.user_attrs.get('cv_mae'):.4f}\")\n",
+    "print(\"Best Parameters:\")\n",
+    "for key, value in study.best_params.items():\n",
+    "    print(f\"    {key}: {value}\")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "6a4e4eb7",
+   "id": "e417a8b2",
    "metadata": {
     "papermill": {
-     "duration": 0.011674,
-     "end_time": "2026-07-29T00:07:33.159749+00:00",
+     "duration": 0.027472,
+     "end_time": "2026-07-30T02:34:21.469117+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.148075+00:00",
+     "start_time": "2026-07-30T02:34:21.441645+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1735,13 +3094,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "e6ef1144",
+   "id": "e2bfbb6c",
    "metadata": {
     "papermill": {
-     "duration": 0.011774,
-     "end_time": "2026-07-29T00:07:33.183305+00:00",
+     "duration": 0.027831,
+     "end_time": "2026-07-30T02:34:21.524629+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.171531+00:00",
+     "start_time": "2026-07-30T02:34:21.496798+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1752,13 +3111,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "57193cd6",
+   "id": "d6440a59",
    "metadata": {
     "papermill": {
-     "duration": 0.01178,
-     "end_time": "2026-07-29T00:07:33.206980+00:00",
+     "duration": 0.027985,
+     "end_time": "2026-07-30T02:34:21.580736+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.195200+00:00",
+     "start_time": "2026-07-30T02:34:21.552751+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1769,13 +3128,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "6409dc7a",
+   "id": "c284fdd8",
    "metadata": {
     "papermill": {
-     "duration": 0.012009,
-     "end_time": "2026-07-29T00:07:33.230862+00:00",
+     "duration": 0.027775,
+     "end_time": "2026-07-30T02:34:21.636374+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.218853+00:00",
+     "start_time": "2026-07-30T02:34:21.608599+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1786,13 +3145,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "ca5e22cb",
+   "id": "3344e51c",
    "metadata": {
     "papermill": {
-     "duration": 0.011697,
-     "end_time": "2026-07-29T00:07:33.254422+00:00",
+     "duration": 0.02768,
+     "end_time": "2026-07-30T02:34:21.692140+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.242725+00:00",
+     "start_time": "2026-07-30T02:34:21.664460+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1803,13 +3162,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "b6ac2955",
+   "id": "b40f3610",
    "metadata": {
     "papermill": {
-     "duration": 0.011682,
-     "end_time": "2026-07-29T00:07:33.277953+00:00",
+     "duration": 0.027379,
+     "end_time": "2026-07-30T02:34:21.747465+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.266271+00:00",
+     "start_time": "2026-07-30T02:34:21.720086+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1820,20 +3179,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
-   "id": "2fee7d5a",
+   "execution_count": 16,
+   "id": "df2744ed",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.304585Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.304212Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.309464Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.308503Z"
+     "iopub.execute_input": "2026-07-30T02:34:21.804851Z",
+     "iopub.status.busy": "2026-07-30T02:34:21.803573Z",
+     "iopub.status.idle": "2026-07-30T02:34:21.808609Z",
+     "shell.execute_reply": "2026-07-30T02:34:21.807880Z"
     },
     "papermill": {
-     "duration": 0.020994,
-     "end_time": "2026-07-29T00:07:33.311584+00:00",
+     "duration": 0.035538,
+     "end_time": "2026-07-30T02:34:21.810215+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.290590+00:00",
+     "start_time": "2026-07-30T02:34:21.774677+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1852,13 +3211,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "66eb6238",
+   "id": "7c5d9125",
    "metadata": {
     "papermill": {
-     "duration": 0.01241,
-     "end_time": "2026-07-29T00:07:33.336746+00:00",
+     "duration": 0.027853,
+     "end_time": "2026-07-30T02:34:21.865321+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.324336+00:00",
+     "start_time": "2026-07-30T02:34:21.837468+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1869,20 +3228,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
-   "id": "17abb2dd",
+   "execution_count": 17,
+   "id": "3e1d3686",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.362853Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.362169Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.366321Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.365499Z"
+     "iopub.execute_input": "2026-07-30T02:34:21.923561Z",
+     "iopub.status.busy": "2026-07-30T02:34:21.923111Z",
+     "iopub.status.idle": "2026-07-30T02:34:21.928066Z",
+     "shell.execute_reply": "2026-07-30T02:34:21.926900Z"
     },
     "papermill": {
-     "duration": 0.019529,
-     "end_time": "2026-07-29T00:07:33.368282+00:00",
+     "duration": 0.037234,
+     "end_time": "2026-07-30T02:34:21.930042+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.348753+00:00",
+     "start_time": "2026-07-30T02:34:21.892808+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1897,13 +3256,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "3be4f841",
+   "id": "e05a26d4",
    "metadata": {
     "papermill": {
-     "duration": 0.011934,
-     "end_time": "2026-07-29T00:07:33.392276+00:00",
+     "duration": 0.028208,
+     "end_time": "2026-07-30T02:34:21.986244+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.380342+00:00",
+     "start_time": "2026-07-30T02:34:21.958036+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1914,20 +3273,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
-   "id": "441f1bd5",
+   "execution_count": 18,
+   "id": "9d38ec07",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.418785Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.418379Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.422914Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.421884Z"
+     "iopub.execute_input": "2026-07-30T02:34:22.046060Z",
+     "iopub.status.busy": "2026-07-30T02:34:22.045577Z",
+     "iopub.status.idle": "2026-07-30T02:34:22.050259Z",
+     "shell.execute_reply": "2026-07-30T02:34:22.049195Z"
     },
     "papermill": {
-     "duration": 0.02064,
-     "end_time": "2026-07-29T00:07:33.425102+00:00",
+     "duration": 0.036252,
+     "end_time": "2026-07-30T02:34:22.052442+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.404462+00:00",
+     "start_time": "2026-07-30T02:34:22.016190+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1941,13 +3300,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "e5c104cc",
+   "id": "17566ef3",
    "metadata": {
     "papermill": {
-     "duration": 0.011886,
-     "end_time": "2026-07-29T00:07:33.448949+00:00",
+     "duration": 0.027785,
+     "end_time": "2026-07-30T02:34:22.107711+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.437063+00:00",
+     "start_time": "2026-07-30T02:34:22.079926+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1958,13 +3317,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "2668aeac",
+   "id": "9520be57",
    "metadata": {
     "papermill": {
-     "duration": 0.012652,
-     "end_time": "2026-07-29T00:07:33.477944+00:00",
+     "duration": 0.027988,
+     "end_time": "2026-07-30T02:34:22.163575+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.465292+00:00",
+     "start_time": "2026-07-30T02:34:22.135587+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1975,13 +3334,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "4096e286",
+   "id": "3acc6063",
    "metadata": {
     "papermill": {
-     "duration": 0.012484,
-     "end_time": "2026-07-29T00:07:33.502692+00:00",
+     "duration": 0.028049,
+     "end_time": "2026-07-30T02:34:22.220013+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.490208+00:00",
+     "start_time": "2026-07-30T02:34:22.191964+00:00",
      "status": "completed"
     },
     "tags": []
@@ -1992,13 +3351,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "3cc1d19f",
+   "id": "c6bc5f9b",
    "metadata": {
     "papermill": {
-     "duration": 0.011992,
-     "end_time": "2026-07-29T00:07:33.526739+00:00",
+     "duration": 0.028559,
+     "end_time": "2026-07-30T02:34:22.277620+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.514747+00:00",
+     "start_time": "2026-07-30T02:34:22.249061+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2009,13 +3368,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "225153c3",
+   "id": "0e1a2207",
    "metadata": {
     "papermill": {
-     "duration": 0.011968,
-     "end_time": "2026-07-29T00:07:33.550695+00:00",
+     "duration": 0.02756,
+     "end_time": "2026-07-30T02:34:22.332949+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.538727+00:00",
+     "start_time": "2026-07-30T02:34:22.305389+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2028,13 +3387,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "8a76efd9",
+   "id": "8c294b00",
    "metadata": {
     "papermill": {
-     "duration": 0.011749,
-     "end_time": "2026-07-29T00:07:33.575333+00:00",
+     "duration": 0.027536,
+     "end_time": "2026-07-30T02:34:22.388007+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.563584+00:00",
+     "start_time": "2026-07-30T02:34:22.360471+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2045,20 +3404,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
-   "id": "d53b7c91",
+   "execution_count": 19,
+   "id": "fe26fe37",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.601079Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.600747Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.605161Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.604287Z"
+     "iopub.execute_input": "2026-07-30T02:34:22.445733Z",
+     "iopub.status.busy": "2026-07-30T02:34:22.445257Z",
+     "iopub.status.idle": "2026-07-30T02:34:22.449634Z",
+     "shell.execute_reply": "2026-07-30T02:34:22.448762Z"
     },
     "papermill": {
-     "duration": 0.01965,
-     "end_time": "2026-07-29T00:07:33.607150+00:00",
+     "duration": 0.035407,
+     "end_time": "2026-07-30T02:34:22.451481+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.587500+00:00",
+     "start_time": "2026-07-30T02:34:22.416074+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2073,13 +3432,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "95679ccc",
+   "id": "23b7bd37",
    "metadata": {
     "papermill": {
-     "duration": 0.012251,
-     "end_time": "2026-07-29T00:07:33.631341+00:00",
+     "duration": 0.027851,
+     "end_time": "2026-07-30T02:34:22.506963+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.619090+00:00",
+     "start_time": "2026-07-30T02:34:22.479112+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2090,20 +3449,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
-   "id": "5052ef58",
+   "execution_count": 20,
+   "id": "a242a33d",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.658649Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.658267Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.662836Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.661823Z"
+     "iopub.execute_input": "2026-07-30T02:34:22.564727Z",
+     "iopub.status.busy": "2026-07-30T02:34:22.564261Z",
+     "iopub.status.idle": "2026-07-30T02:34:22.568459Z",
+     "shell.execute_reply": "2026-07-30T02:34:22.567489Z"
     },
     "papermill": {
-     "duration": 0.019984,
-     "end_time": "2026-07-29T00:07:33.664894+00:00",
+     "duration": 0.035303,
+     "end_time": "2026-07-30T02:34:22.570224+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.644910+00:00",
+     "start_time": "2026-07-30T02:34:22.534921+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2119,13 +3478,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "e8715ba5",
+   "id": "575487a9",
    "metadata": {
     "papermill": {
-     "duration": 0.014016,
-     "end_time": "2026-07-29T00:07:33.693870+00:00",
+     "duration": 0.027578,
+     "end_time": "2026-07-30T02:34:22.625263+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.679854+00:00",
+     "start_time": "2026-07-30T02:34:22.597685+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2136,13 +3495,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "5777ab59",
+   "id": "dd526cc9",
    "metadata": {
     "papermill": {
-     "duration": 0.014645,
-     "end_time": "2026-07-29T00:07:33.727835+00:00",
+     "duration": 0.027623,
+     "end_time": "2026-07-30T02:34:22.681215+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.713190+00:00",
+     "start_time": "2026-07-30T02:34:22.653592+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2153,13 +3512,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "ea23fbbc",
+   "id": "9740bc04",
    "metadata": {
     "papermill": {
-     "duration": 0.014461,
-     "end_time": "2026-07-29T00:07:33.761550+00:00",
+     "duration": 0.028192,
+     "end_time": "2026-07-30T02:34:22.861061+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.747089+00:00",
+     "start_time": "2026-07-30T02:34:22.832869+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2170,13 +3529,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "da75aa5a",
+   "id": "778f0ca5",
    "metadata": {
     "papermill": {
-     "duration": 0.011774,
-     "end_time": "2026-07-29T00:07:33.785413+00:00",
+     "duration": 0.028025,
+     "end_time": "2026-07-30T02:34:22.917505+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.773639+00:00",
+     "start_time": "2026-07-30T02:34:22.889480+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2187,13 +3546,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "804e2d2a",
+   "id": "820350de",
    "metadata": {
     "papermill": {
-     "duration": 0.011977,
-     "end_time": "2026-07-29T00:07:33.809377+00:00",
+     "duration": 0.028212,
+     "end_time": "2026-07-30T02:34:22.974099+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.797400+00:00",
+     "start_time": "2026-07-30T02:34:22.945887+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2204,13 +3563,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "59ce35ee",
+   "id": "afe47937",
    "metadata": {
     "papermill": {
-     "duration": 0.011849,
-     "end_time": "2026-07-29T00:07:33.833210+00:00",
+     "duration": 0.030179,
+     "end_time": "2026-07-30T02:34:23.032771+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.821361+00:00",
+     "start_time": "2026-07-30T02:34:23.002592+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2221,20 +3580,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
-   "id": "b1b377d9",
+   "execution_count": 21,
+   "id": "de45dae3",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.858630Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.858284Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.862568Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.861579Z"
+     "iopub.execute_input": "2026-07-30T02:34:23.091531Z",
+     "iopub.status.busy": "2026-07-30T02:34:23.090856Z",
+     "iopub.status.idle": "2026-07-30T02:34:23.095518Z",
+     "shell.execute_reply": "2026-07-30T02:34:23.094507Z"
     },
     "papermill": {
-     "duration": 0.019254,
-     "end_time": "2026-07-29T00:07:33.864425+00:00",
+     "duration": 0.036818,
+     "end_time": "2026-07-30T02:34:23.097452+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.845171+00:00",
+     "start_time": "2026-07-30T02:34:23.060634+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2250,13 +3609,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "b3a53a1f",
+   "id": "098335e8",
    "metadata": {
     "papermill": {
-     "duration": 0.01239,
-     "end_time": "2026-07-29T00:07:33.889066+00:00",
+     "duration": 0.028113,
+     "end_time": "2026-07-30T02:34:23.153230+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.876676+00:00",
+     "start_time": "2026-07-30T02:34:23.125117+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2267,20 +3626,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
-   "id": "c79a72fa",
+   "execution_count": 22,
+   "id": "48d54c9d",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.915401Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.915063Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.919288Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.918312Z"
+     "iopub.execute_input": "2026-07-30T02:34:23.212975Z",
+     "iopub.status.busy": "2026-07-30T02:34:23.212495Z",
+     "iopub.status.idle": "2026-07-30T02:34:23.216857Z",
+     "shell.execute_reply": "2026-07-30T02:34:23.215895Z"
     },
     "papermill": {
-     "duration": 0.019561,
-     "end_time": "2026-07-29T00:07:33.921159+00:00",
+     "duration": 0.037052,
+     "end_time": "2026-07-30T02:34:23.218726+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.901598+00:00",
+     "start_time": "2026-07-30T02:34:23.181674+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2293,13 +3652,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "0fb5ffbd",
+   "id": "3289b908",
    "metadata": {
     "papermill": {
-     "duration": 0.011941,
-     "end_time": "2026-07-29T00:07:33.945155+00:00",
+     "duration": 0.028002,
+     "end_time": "2026-07-30T02:34:23.274400+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.933214+00:00",
+     "start_time": "2026-07-30T02:34:23.246398+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2310,20 +3669,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
-   "id": "2ae70a31",
+   "execution_count": 23,
+   "id": "fb59d441",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:33.970907Z",
-     "iopub.status.busy": "2026-07-29T00:07:33.970571Z",
-     "iopub.status.idle": "2026-07-29T00:07:33.974637Z",
-     "shell.execute_reply": "2026-07-29T00:07:33.973796Z"
+     "iopub.execute_input": "2026-07-30T02:34:23.332686Z",
+     "iopub.status.busy": "2026-07-30T02:34:23.332139Z",
+     "iopub.status.idle": "2026-07-30T02:34:23.336740Z",
+     "shell.execute_reply": "2026-07-30T02:34:23.335684Z"
     },
     "papermill": {
-     "duration": 0.019209,
-     "end_time": "2026-07-29T00:07:33.976338+00:00",
+     "duration": 0.036237,
+     "end_time": "2026-07-30T02:34:23.338721+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.957129+00:00",
+     "start_time": "2026-07-30T02:34:23.302484+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2337,13 +3696,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "c006d87f",
+   "id": "21fb0b4f",
    "metadata": {
     "papermill": {
-     "duration": 0.012995,
-     "end_time": "2026-07-29T00:07:34.001411+00:00",
+     "duration": 0.028572,
+     "end_time": "2026-07-30T02:34:23.394877+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:33.988416+00:00",
+     "start_time": "2026-07-30T02:34:23.366305+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2355,20 +3714,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 26,
-   "id": "f78afe49",
+   "execution_count": 24,
+   "id": "628682b7",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:34.027350Z",
-     "iopub.status.busy": "2026-07-29T00:07:34.027011Z",
-     "iopub.status.idle": "2026-07-29T00:07:34.031685Z",
-     "shell.execute_reply": "2026-07-29T00:07:34.030808Z"
+     "iopub.execute_input": "2026-07-30T02:34:23.453355Z",
+     "iopub.status.busy": "2026-07-30T02:34:23.452507Z",
+     "iopub.status.idle": "2026-07-30T02:34:23.457263Z",
+     "shell.execute_reply": "2026-07-30T02:34:23.456256Z"
     },
     "papermill": {
-     "duration": 0.020289,
-     "end_time": "2026-07-29T00:07:34.033788+00:00",
+     "duration": 0.036165,
+     "end_time": "2026-07-30T02:34:23.459038+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.013499+00:00",
+     "start_time": "2026-07-30T02:34:23.422873+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2385,13 +3744,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "619f8a98",
+   "id": "dd76e500",
    "metadata": {
     "papermill": {
-     "duration": 0.011985,
-     "end_time": "2026-07-29T00:07:34.058080+00:00",
+     "duration": 0.028584,
+     "end_time": "2026-07-30T02:34:23.515549+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.046095+00:00",
+     "start_time": "2026-07-30T02:34:23.486965+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2402,13 +3761,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "d28e378b",
+   "id": "ab0d066e",
    "metadata": {
     "papermill": {
-     "duration": 0.011886,
-     "end_time": "2026-07-29T00:07:34.082074+00:00",
+     "duration": 0.028195,
+     "end_time": "2026-07-30T02:34:23.571855+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.070188+00:00",
+     "start_time": "2026-07-30T02:34:23.543660+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2419,13 +3778,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "74947b9b",
+   "id": "cd2e65b2",
    "metadata": {
     "papermill": {
-     "duration": 0.011993,
-     "end_time": "2026-07-29T00:07:34.106405+00:00",
+     "duration": 0.029038,
+     "end_time": "2026-07-30T02:34:23.629048+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.094412+00:00",
+     "start_time": "2026-07-30T02:34:23.600010+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2436,13 +3795,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "f64a492e",
+   "id": "e2ce19a3",
    "metadata": {
     "papermill": {
-     "duration": 0.012829,
-     "end_time": "2026-07-29T00:07:34.131389+00:00",
+     "duration": 0.028385,
+     "end_time": "2026-07-30T02:34:23.686431+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.118560+00:00",
+     "start_time": "2026-07-30T02:34:23.658046+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2453,20 +3812,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
-   "id": "8403eb58",
+   "execution_count": 25,
+   "id": "e1d109bb",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:34.158504Z",
-     "iopub.status.busy": "2026-07-29T00:07:34.158132Z",
-     "iopub.status.idle": "2026-07-29T00:07:34.162706Z",
-     "shell.execute_reply": "2026-07-29T00:07:34.161663Z"
+     "iopub.execute_input": "2026-07-30T02:34:23.745349Z",
+     "iopub.status.busy": "2026-07-30T02:34:23.744845Z",
+     "iopub.status.idle": "2026-07-30T02:34:23.748907Z",
+     "shell.execute_reply": "2026-07-30T02:34:23.748182Z"
     },
     "papermill": {
-     "duration": 0.020852,
-     "end_time": "2026-07-29T00:07:34.164999+00:00",
+     "duration": 0.035998,
+     "end_time": "2026-07-30T02:34:23.750996+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.144147+00:00",
+     "start_time": "2026-07-30T02:34:23.714998+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2481,13 +3840,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "dc7ce50f",
+   "id": "9e8938b8",
    "metadata": {
     "papermill": {
-     "duration": 0.011968,
-     "end_time": "2026-07-29T00:07:34.189945+00:00",
+     "duration": 0.028227,
+     "end_time": "2026-07-30T02:34:23.807247+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.177977+00:00",
+     "start_time": "2026-07-30T02:34:23.779020+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2498,13 +3857,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "2226f9c8",
+   "id": "b931d36c",
    "metadata": {
     "papermill": {
-     "duration": 0.012011,
-     "end_time": "2026-07-29T00:07:34.214143+00:00",
+     "duration": 0.028816,
+     "end_time": "2026-07-30T02:34:23.864136+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.202132+00:00",
+     "start_time": "2026-07-30T02:34:23.835320+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2515,13 +3874,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "e85c8a35",
+   "id": "57de2b9b",
    "metadata": {
     "papermill": {
-     "duration": 0.01193,
-     "end_time": "2026-07-29T00:07:34.238196+00:00",
+     "duration": 0.02796,
+     "end_time": "2026-07-30T02:34:23.920444+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.226266+00:00",
+     "start_time": "2026-07-30T02:34:23.892484+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2532,13 +3891,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "0a649ee2",
+   "id": "73c85494",
    "metadata": {
     "papermill": {
-     "duration": 0.011935,
-     "end_time": "2026-07-29T00:07:34.262179+00:00",
+     "duration": 0.028009,
+     "end_time": "2026-07-30T02:34:23.976841+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.250244+00:00",
+     "start_time": "2026-07-30T02:34:23.948832+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2549,20 +3908,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
-   "id": "f3a54cc5",
+   "execution_count": 26,
+   "id": "858a111f",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:34.288706Z",
-     "iopub.status.busy": "2026-07-29T00:07:34.288340Z",
-     "iopub.status.idle": "2026-07-29T00:07:34.294237Z",
-     "shell.execute_reply": "2026-07-29T00:07:34.293286Z"
+     "iopub.execute_input": "2026-07-30T02:34:24.036952Z",
+     "iopub.status.busy": "2026-07-30T02:34:24.036440Z",
+     "iopub.status.idle": "2026-07-30T02:34:24.042010Z",
+     "shell.execute_reply": "2026-07-30T02:34:24.041231Z"
     },
     "papermill": {
-     "duration": 0.022085,
-     "end_time": "2026-07-29T00:07:34.296204+00:00",
+     "duration": 0.039704,
+     "end_time": "2026-07-30T02:34:24.044426+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.274119+00:00",
+     "start_time": "2026-07-30T02:34:24.004722+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2667,20 +4026,20 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
-   "id": "fc266965",
+   "execution_count": 27,
+   "id": "7eb32bc2",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-07-29T00:07:34.323707Z",
-     "iopub.status.busy": "2026-07-29T00:07:34.322820Z",
-     "iopub.status.idle": "2026-07-29T00:07:34.327363Z",
-     "shell.execute_reply": "2026-07-29T00:07:34.326518Z"
+     "iopub.execute_input": "2026-07-30T02:34:24.103815Z",
+     "iopub.status.busy": "2026-07-30T02:34:24.102606Z",
+     "iopub.status.idle": "2026-07-30T02:34:24.108212Z",
+     "shell.execute_reply": "2026-07-30T02:34:24.106981Z"
     },
     "papermill": {
-     "duration": 0.02055,
-     "end_time": "2026-07-29T00:07:34.329276+00:00",
+     "duration": 0.037761,
+     "end_time": "2026-07-30T02:34:24.110094+00:00",
      "exception": false,
-     "start_time": "2026-07-29T00:07:34.308726+00:00",
+     "start_time": "2026-07-30T02:34:24.072333+00:00",
      "status": "completed"
     },
     "tags": []
@@ -2718,14 +4077,14 @@
   },
   "papermill": {
    "default_parameters": {},
-   "duration": 56.120672,
-   "end_time": "2026-07-29T00:07:35.161944+00:00",
+   "duration": 3695.882612,
+   "end_time": "2026-07-30T02:34:27.210343+00:00",
    "environment_variables": {},
    "exception": null,
    "input_path": "__notebook__.ipynb",
    "output_path": "__notebook__.ipynb",
    "parameters": {},
-   "start_time": "2026-07-29T00:06:39.041272+00:00",
+   "start_time": "2026-07-30T01:32:51.327731+00:00",
    "version": "2.7.0"
   }
  },
