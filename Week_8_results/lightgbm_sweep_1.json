@@ -1,0 +1,248 @@
+{
+  "classification": {
+    "LONG": {
+      "class_target_1": {
+        "Best_AUC": 0.7005249377527875,
+        "Best_Precision": 0.5971612984095035,
+        "best_n": 426,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 426,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_2": {
+        "Best_AUC": 0.7561646209115804,
+        "Best_Precision": 0.650570595806282,
+        "best_n": 426,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 426,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_3_corrected": {
+        "Best_AUC": 0.8834659391463546,
+        "Best_Precision": 0.7608387719038985,
+        "best_n": 202,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 202,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_bad": {
+        "Best_AUC": 0.8425966451683203,
+        "Best_Precision": 0.635243855151108,
+        "best_n": 252,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 252,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    },
+    "SHORT": {
+      "class_target_1": {
+        "Best_AUC": 0.7114117684047139,
+        "Best_Precision": 0.6256436422859439,
+        "best_n": 317,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 317,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_2": {
+        "Best_AUC": 0.7637759268549205,
+        "Best_Precision": 0.6652425285258523,
+        "best_n": 318,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 318,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_3_corrected": {
+        "Best_AUC": 0.8899072207402879,
+        "Best_Precision": 0.7760193442740071,
+        "best_n": 208,
+        "Params": {
+          "num_leaves": 31,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 208,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "class_target_bad": {
+        "Best_AUC": 0.8511049993949011,
+        "Best_Precision": 0.6582374283379157,
+        "best_n": 234,
+        "Params": {
+          "num_leaves": 31,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 234,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    }
+  },
+  "regression": {
+    "LONG": {
+      "profit": {
+        "Best_R2": 0.17449985392214726,
+        "Best_MAE": 1.2723182463375886,
+        "best_n": 309,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 309,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "quality": {
+        "Best_R2": 0.09570724571039597,
+        "Best_MAE": 1.17221706801126,
+        "best_n": 246,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 246,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "danger": {
+        "Best_R2": 0.5765961298220417,
+        "Best_MAE": 0.3094286057923854,
+        "best_n": 365,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 20,
+          "bagging_fraction": 0.8,
+          "n_estimators": 365,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "entry_timing": {
+        "Best_R2": 0.0187361603399528,
+        "Best_MAE": 1.4606274115244617,
+        "best_n": 179,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 179,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "exit_timing": {
+        "Best_R2": 0.059287616307651336,
+        "Best_MAE": 9.120211249917716,
+        "best_n": 248,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 50,
+          "bagging_fraction": 0.8,
+          "n_estimators": 248,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    },
+    "SHORT": {
+      "profit": {
+        "Best_R2": 0.20246601699531447,
+        "Best_MAE": 1.238869242439515,
+        "best_n": 318,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 100,
+          "bagging_fraction": 0.8,
+          "n_estimators": 318,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "quality": {
+        "Best_R2": 0.11240821752289161,
+        "Best_MAE": 1.1129062058021486,
+        "best_n": 190,
+        "Params": {
+          "num_leaves": 31,
+          "min_data_in_leaf": 50,
+          "bagging_fraction": 0.8,
+          "n_estimators": 190,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "danger": {
+        "Best_R2": 0.5330652386495747,
+        "Best_MAE": 0.3112814059548664,
+        "best_n": 595,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 20,
+          "bagging_fraction": 0.8,
+          "n_estimators": 595,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "entry_timing": {
+        "Best_R2": 0.01766819155965771,
+        "Best_MAE": 1.3360406327044199,
+        "best_n": 60,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 50,
+          "bagging_fraction": 0.8,
+          "n_estimators": 60,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      },
+      "exit_timing": {
+        "Best_R2": 0.050449925126300046,
+        "Best_MAE": 8.464498331359561,
+        "best_n": 367,
+        "Params": {
+          "num_leaves": 15,
+          "min_data_in_leaf": 20,
+          "bagging_fraction": 0.8,
+          "n_estimators": 367,
+          "learning_rate": 0.05,
+          "bagging_freq": 1
+        }
+      }
+    }
+  }
+}
