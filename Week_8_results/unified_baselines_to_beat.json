@@ -6,7 +6,13 @@
     "primary_metric": "auc",
     "best_score": 0.7033,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 200,
+      "max_depth": 25,
+      "min_samples_leaf": 20,
+      "class_weight": "balanced"
+    },
+    "xgb_params": {
       "learning_rate": 0.03193900275479015,
       "max_depth": 3,
       "min_child_weight": 3,
@@ -23,7 +29,13 @@
     "primary_metric": "auc",
     "best_score": 0.712,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 200,
+      "max_depth": 20,
+      "min_samples_leaf": 20,
+      "class_weight": null
+    },
+    "xgb_params": {
       "learning_rate": 0.028144818575484794,
       "max_depth": 4,
       "min_child_weight": 2,
@@ -40,7 +52,13 @@
     "primary_metric": "auc",
     "best_score": 0.7595,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 200,
+      "max_depth": 20,
+      "min_samples_leaf": 20,
+      "class_weight": null
+    },
+    "xgb_params": {
       "learning_rate": 0.06690593189214605,
       "max_depth": 3,
       "min_child_weight": 8,
@@ -57,7 +75,13 @@
     "primary_metric": "auc",
     "best_score": 0.7653,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 200,
+      "max_depth": 15,
+      "min_samples_leaf": 20,
+      "class_weight": null
+    },
+    "xgb_params": {
       "learning_rate": 0.04273487104783263,
       "max_depth": 4,
       "min_child_weight": 5,
@@ -74,7 +98,13 @@
     "primary_metric": "auc",
     "best_score": 0.884,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 30,
+      "class_weight": "balanced"
+    },
+    "xgb_params": {
       "learning_rate": 0.018694343039862876,
       "max_depth": 4,
       "min_child_weight": 2,
@@ -91,7 +121,13 @@
     "primary_metric": "auc",
     "best_score": 0.8903,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 10,
+      "class_weight": null
+    },
+    "xgb_params": {
       "learning_rate": 0.023284440703042975,
       "max_depth": 5,
       "min_child_weight": 4,
@@ -108,7 +144,13 @@
     "primary_metric": "auc",
     "best_score": 0.843,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 20,
+      "min_samples_leaf": 30,
+      "class_weight": null
+    },
+    "xgb_params": {
       "learning_rate": 0.02153816843812914,
       "max_depth": 4,
       "min_child_weight": 3,
@@ -125,7 +167,13 @@
     "primary_metric": "auc",
     "best_score": 0.853,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 20,
+      "min_samples_leaf": 30,
+      "class_weight": "balanced"
+    },
+    "xgb_params": {
       "learning_rate": 0.024699249159249228,
       "max_depth": 4,
       "min_child_weight": 1,
@@ -142,7 +190,12 @@
     "primary_metric": "r2",
     "best_score": 0.5751,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 150,
+      "max_depth": 15,
+      "min_samples_leaf": 10
+    },
+    "xgb_params": {
       "learning_rate": 0.046483534089626126,
       "max_depth": 3,
       "min_child_weight": 11,
@@ -159,7 +212,12 @@
     "primary_metric": "r2",
     "best_score": 0.5364,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 150,
+      "max_depth": 13,
+      "min_samples_leaf": 10
+    },
+    "xgb_params": {
       "learning_rate": 0.05735890911316965,
       "max_depth": 3,
       "min_child_weight": 5,
@@ -176,7 +234,12 @@
     "primary_metric": "r2",
     "best_score": 0.0191,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 9,
+      "min_samples_leaf": 30
+    },
+    "xgb_params": {
       "learning_rate": 0.06931046941852473,
       "max_depth": 2,
       "min_child_weight": 6,
@@ -191,9 +254,22 @@
     "direction": "SHORT",
     "task": "regression",
     "primary_metric": "r2",
-    "best_score": 0.0167,
-    "best_model": "RF",
-    "params": null
+    "best_score": 0.0161,
+    "best_model": "XGBoost",
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 11,
+      "min_samples_leaf": 30
+    },
+    "xgb_params": {
+      "learning_rate": 0.01381569917568476,
+      "max_depth": 4,
+      "min_child_weight": 7,
+      "subsample": 0.8112655327580548,
+      "colsample_bytree": 0.9624156925196973,
+      "reg_alpha": 8.27437385348141,
+      "reg_lambda": 0.001542415939377877
+    }
   },
   "exit_timing_LONG": {
     "target": "exit_timing",
@@ -202,7 +278,12 @@
     "primary_metric": "r2",
     "best_score": 0.0634,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 13,
+      "min_samples_leaf": 30
+    },
+    "xgb_params": {
       "learning_rate": 0.019114542270718432,
       "max_depth": 3,
       "min_child_weight": 4,
@@ -219,7 +300,12 @@
     "primary_metric": "r2",
     "best_score": 0.057,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 30
+    },
+    "xgb_params": {
       "learning_rate": 0.01589807545227361,
       "max_depth": 3,
       "min_child_weight": 3,
@@ -236,7 +322,12 @@
     "primary_metric": "r2",
     "best_score": 0.1778,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 150,
+      "max_depth": 13,
+      "min_samples_leaf": 20
+    },
+    "xgb_params": {
       "learning_rate": 0.03723119927251687,
       "max_depth": 4,
       "min_child_weight": 10,
@@ -253,7 +344,12 @@
     "primary_metric": "r2",
     "best_score": 0.2036,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 150,
+      "max_depth": 15,
+      "min_samples_leaf": 20
+    },
+    "xgb_params": {
       "learning_rate": 0.03236534518126892,
       "max_depth": 3,
       "min_child_weight": 11,
@@ -270,7 +366,12 @@
     "primary_metric": "r2",
     "best_score": 0.0966,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 11,
+      "min_samples_leaf": 30
+    },
+    "xgb_params": {
       "learning_rate": 0.03191288112443416,
       "max_depth": 6,
       "min_child_weight": 4,
@@ -287,7 +388,12 @@
     "primary_metric": "r2",
     "best_score": 0.1125,
     "best_model": "XGBoost",
-    "params": {
+    "rf_params": {
+      "n_estimators": 100,
+      "max_depth": 13,
+      "min_samples_leaf": 20
+    },
+    "xgb_params": {
       "learning_rate": 0.018837948577922224,
       "max_depth": 5,
       "min_child_weight": 7,
