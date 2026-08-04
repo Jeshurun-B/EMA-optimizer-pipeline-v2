@@ -1,0 +1,110 @@
+{
+  "class_target_1_LONG": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.7239169382230883
+  },
+  "class_target_1_SHORT": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "Stacked",
+    "best_score": 0.7272185583452357
+  },
+  "class_target_2_LONG": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.7656479496847475
+  },
+  "class_target_2_SHORT": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "Stacked",
+    "best_score": 0.7742147898397899
+  },
+  "class_target_3_corrected_LONG": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.9010308572889777
+  },
+  "class_target_3_corrected_SHORT": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.8758290116626946
+  },
+  "class_target_bad_LONG": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.8848956094819319
+  },
+  "class_target_bad_SHORT": {
+    "task": "classification",
+    "metric": "auc",
+    "best_model": "LightGBM",
+    "best_score": 0.8624066570976944
+  },
+  "profit_LONG": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LightGBM",
+    "best_score": 0.1510053384555221
+  },
+  "profit_SHORT": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LightGBM",
+    "best_score": 0.1352111784385167
+  },
+  "quality_LONG": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "Stacked",
+    "best_score": 0.09719209284246555
+  },
+  "quality_SHORT": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LinReg",
+    "best_score": 0.0851604424264244
+  },
+  "danger_LONG": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LightGBM",
+    "best_score": 0.5732095622409189
+  },
+  "danger_SHORT": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LightGBM",
+    "best_score": 0.49901744511457335
+  },
+  "entry_timing_LONG": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "LightGBM",
+    "best_score": 0.02311279696402968
+  },
+  "entry_timing_SHORT": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "Stacked",
+    "best_score": 0.022726519030675907
+  },
+  "exit_timing_LONG": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "Stacked",
+    "best_score": 0.060185839216489234
+  },
+  "exit_timing_SHORT": {
+    "task": "regression",
+    "metric": "r2",
+    "best_model": "Stacked",
+    "best_score": 0.060708322651711
+  }
+}
