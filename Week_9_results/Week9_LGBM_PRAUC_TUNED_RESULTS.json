@@ -1,242 +1,26 @@
 {
   "class_target_1__LONG": {
-    "model_type": "lgb",
-    "target": "class_target_1",
-    "direction": "LONG",
-    "best_pr_auc": 0.5705144112537003,
-    "pr_auc_std": 0.021477008532050444,
-    "roc_auc": 0.6899002904963571,
-    "f1_score": 0.4723301850526,
-    "precision": 0.6002637493785308,
-    "recall": 0.39182673608728824,
-    "accuracy": 0.6698419051430858,
-    "best_n_trees_mean": 117.0,
-    "best_n_trees_per_fold": [
-      111,
-      96,
-      139,
-      132,
-      107
-    ],
-    "best_params": {
-      "num_leaves": 43,
-      "min_data_in_leaf": 150,
-      "subsample": 0.8280663321727724,
-      "colsample_bytree": 0.8828665350312589,
-      "reg_alpha": 9.102614441125768e-07,
-      "reg_lambda": 0.0005167508078190213
-    },
-    "elapsed_time_seconds": 542.76,
-    "timestamp_utc": "2026-08-05 05:13:39"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_1__SHORT": {
-    "model_type": "lgb",
-    "target": "class_target_1",
-    "direction": "SHORT",
-    "best_pr_auc": 0.6019809798946294,
-    "pr_auc_std": 0.03349917793554856,
-    "roc_auc": 0.6993810217605871,
-    "f1_score": 0.49819059634533486,
-    "precision": 0.62297437740294,
-    "recall": 0.41928673885699547,
-    "accuracy": 0.6707858428314337,
-    "best_n_trees_mean": 131.8,
-    "best_n_trees_per_fold": [
-      59,
-      90,
-      198,
-      187,
-      125
-    ],
-    "best_params": {
-      "num_leaves": 22,
-      "min_data_in_leaf": 95,
-      "subsample": 0.828004561227752,
-      "colsample_bytree": 0.8791273575282901,
-      "reg_alpha": 1.2407118814167412e-08,
-      "reg_lambda": 1.5244362517347566e-07
-    },
-    "elapsed_time_seconds": 547.26,
-    "timestamp_utc": "2026-08-05 05:22:51"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_2__LONG": {
-    "model_type": "lgb",
-    "target": "class_target_2",
-    "direction": "LONG",
-    "best_pr_auc": 0.6576961954873621,
-    "pr_auc_std": 0.04201005470175023,
-    "roc_auc": 0.750051651651303,
-    "f1_score": 0.5670307522939424,
-    "precision": 0.6546605235307409,
-    "recall": 0.5039213755687848,
-    "accuracy": 0.7059035421252753,
-    "best_n_trees_mean": 199.6,
-    "best_n_trees_per_fold": [
-      105,
-      154,
-      241,
-      272,
-      226
-    ],
-    "best_params": {
-      "num_leaves": 16,
-      "min_data_in_leaf": 106,
-      "subsample": 0.845073388212883,
-      "colsample_bytree": 0.7263695712935272,
-      "reg_alpha": 4.040797054592075e-08,
-      "reg_lambda": 0.0002826480480502403
-    },
-    "elapsed_time_seconds": 560.88,
-    "timestamp_utc": "2026-08-05 05:32:17"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_2__SHORT": {
-    "model_type": "lgb",
-    "target": "class_target_2",
-    "direction": "SHORT",
-    "best_pr_auc": 0.6813696678551354,
-    "pr_auc_std": 0.0361035705487007,
-    "roc_auc": 0.7553404778550533,
-    "f1_score": 0.5960586718385492,
-    "precision": 0.6674628375483824,
-    "recall": 0.5423122757149711,
-    "accuracy": 0.7072185562887423,
-    "best_n_trees_mean": 164.4,
-    "best_n_trees_per_fold": [
-      47,
-      138,
-      185,
-      196,
-      256
-    ],
-    "best_params": {
-      "num_leaves": 20,
-      "min_data_in_leaf": 140,
-      "subsample": 0.902856807572421,
-      "colsample_bytree": 0.8688106253627143,
-      "reg_alpha": 2.5690100385543448e-05,
-      "reg_lambda": 0.00558367290776445
-    },
-    "elapsed_time_seconds": 629.36,
-    "timestamp_utc": "2026-08-05 05:42:52"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_3_corrected__LONG": {
-    "model_type": "lgb",
-    "target": "class_target_3_corrected",
-    "direction": "LONG",
-    "best_pr_auc": 0.7801370733399848,
-    "pr_auc_std": 0.06086994221149926,
-    "roc_auc": 0.87706226674703,
-    "f1_score": 0.6833803966464636,
-    "precision": 0.7598526455851997,
-    "recall": 0.6232092384361663,
-    "accuracy": 0.8355013007804682,
-    "best_n_trees_mean": 181.6,
-    "best_n_trees_per_fold": [
-      99,
-      115,
-      181,
-      233,
-      280
-    ],
-    "best_params": {
-      "num_leaves": 16,
-      "min_data_in_leaf": 55,
-      "subsample": 0.7031211505574634,
-      "colsample_bytree": 0.9134135326558854,
-      "reg_alpha": 5.458670058314826e-07,
-      "reg_lambda": 4.803062324395304
-    },
-    "elapsed_time_seconds": 531.07,
-    "timestamp_utc": "2026-08-05 05:51:49"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_3_corrected__SHORT": {
-    "model_type": "lgb",
-    "target": "class_target_3_corrected",
-    "direction": "SHORT",
-    "best_pr_auc": 0.7965589507562897,
-    "pr_auc_std": 0.05759720559481764,
-    "roc_auc": 0.8873506630712302,
-    "f1_score": 0.7060689843803197,
-    "precision": 0.7786731872392846,
-    "recall": 0.6468737150083633,
-    "accuracy": 0.8453509298140374,
-    "best_n_trees_mean": 181.8,
-    "best_n_trees_per_fold": [
-      68,
-      55,
-      209,
-      338,
-      239
-    ],
-    "best_params": {
-      "num_leaves": 18,
-      "min_data_in_leaf": 184,
-      "subsample": 0.8331800325589082,
-      "colsample_bytree": 0.877180641832191,
-      "reg_alpha": 0.0004138077618819147,
-      "reg_lambda": 7.567469475877755
-    },
-    "elapsed_time_seconds": 527.27,
-    "timestamp_utc": "2026-08-05 06:00:42"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_bad__LONG": {
-    "model_type": "lgb",
-    "target": "class_target_bad",
-    "direction": "LONG",
-    "best_pr_auc": 0.5969050595576632,
-    "pr_auc_std": 0.03370171132070461,
-    "roc_auc": 0.8291171172480596,
-    "f1_score": 0.5312450200388819,
-    "precision": 0.6227374448003551,
-    "recall": 0.4701608496668781,
-    "accuracy": 0.8055633380028017,
-    "best_n_trees_mean": 148.6,
-    "best_n_trees_per_fold": [
-      79,
-      85,
-      193,
-      197,
-      189
-    ],
-    "best_params": {
-      "num_leaves": 28,
-      "min_data_in_leaf": 160,
-      "subsample": 0.7785528813707666,
-      "colsample_bytree": 0.7790454860912724,
-      "reg_alpha": 0.010098873517192556,
-      "reg_lambda": 0.11397382291261697
-    },
-    "elapsed_time_seconds": 534.34,
-    "timestamp_utc": "2026-08-05 06:09:42"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   },
   "class_target_bad__SHORT": {
-    "model_type": "lgb",
-    "target": "class_target_bad",
-    "direction": "SHORT",
-    "best_pr_auc": 0.6181566940889403,
-    "pr_auc_std": 0.040356485303111075,
-    "roc_auc": 0.8401821289046951,
-    "f1_score": 0.49509080264746314,
-    "precision": 0.6559087313960468,
-    "recall": 0.41687483417485505,
-    "accuracy": 0.8010797840431915,
-    "best_n_trees_mean": 188.2,
-    "best_n_trees_per_fold": [
-      22,
-      126,
-      322,
-      169,
-      302
-    ],
-    "best_params": {
-      "num_leaves": 16,
-      "min_data_in_leaf": 179,
-      "subsample": 0.8885411015627842,
-      "colsample_bytree": 0.7951326251659873,
-      "reg_alpha": 1.0140665998703233e-08,
-      "reg_lambda": 0.2590855677516828
-    },
-    "elapsed_time_seconds": 532.0,
-    "timestamp_utc": "2026-08-05 06:18:39"
+    "error": "name 'cv_no_scaling_leakfree_prauc' is not defined"
   }
 }
