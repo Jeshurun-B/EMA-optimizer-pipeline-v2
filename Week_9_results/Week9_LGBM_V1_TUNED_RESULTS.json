@@ -46,5 +46,53 @@
     },
     "elapsed_time_sec": 1089.86,
     "timestamp_utc": "2026-08-08 02:28:45"
+  },
+  "target_profit_v1__SHORT": {
+    "model_type": "lgb",
+    "target": "target_profit_v1",
+    "direction": "SHORT",
+    "opt_cv_score": 0.22780989938181123,
+    "oos_score": 0.19476133229374593,
+    "full_metrics": {
+      "r2": [
+        0.22780989938181123,
+        0.03572321479908598
+      ],
+      "rmse": [
+        1.3502284851470372,
+        0.19863226264148093
+      ],
+      "mse": [
+        1.8625717378645366,
+        0.564345962561121
+      ],
+      "mae": [
+        0.970902974787883,
+        0.17595182324456418
+      ],
+      "spearman_rank": [
+        0.4916726068164099,
+        0.036159021131312
+      ],
+      "best_n_per_fold": [
+        144,
+        203,
+        197,
+        237,
+        272
+      ],
+      "best_n_mean": 210.6
+    },
+    "best_params": {
+      "num_leaves": 14,
+      "min_data_in_leaf": 72,
+      "subsample": 0.8632352827068609,
+      "colsample_bytree": 0.8596622335464299,
+      "reg_alpha": 0.0006271494472089048,
+      "reg_lambda": 3.373476301873342,
+      "subsample_freq": 1
+    },
+    "elapsed_time_sec": 1112.34,
+    "timestamp_utc": "2026-08-08 02:47:25"
   }
 }
