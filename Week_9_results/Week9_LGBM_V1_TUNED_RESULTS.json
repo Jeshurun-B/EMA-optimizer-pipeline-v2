@@ -286,5 +286,57 @@
     },
     "elapsed_time_sec": 1332.02,
     "timestamp_utc": "2026-08-08 04:03:24"
+  },
+  "target_entry_v1__LONG": {
+    "model_type": "lgb",
+    "target": "target_entry_v1",
+    "direction": "LONG",
+    "opt_cv_score": 0.379964023877104,
+    "oos_score": 0.3631267321106642,
+    "full_metrics": {
+      "pr_auc": [
+        0.379964023877104,
+        0.01151987769144737
+      ],
+      "roc_auc": [
+        0.63575061974156,
+        0.01179108079998771
+      ],
+      "f1": [
+        0.015202253273025865,
+        0.02967146961322688
+      ],
+      "precision": [
+        0.3009345794392523,
+        0.40047137916537057
+      ],
+      "recall": [
+        0.008195509674917912,
+        0.016024027187558656
+      ],
+      "accuracy": [
+        0.7288773263958375,
+        0.0031702455630678956
+      ],
+      "best_n_per_fold": [
+        17,
+        39,
+        70,
+        32,
+        20
+      ],
+      "best_n_mean": 35.6
+    },
+    "best_params": {
+      "num_leaves": 11,
+      "min_data_in_leaf": 223,
+      "subsample": 0.6192718350099337,
+      "colsample_bytree": 0.8927278472424528,
+      "reg_alpha": 0.09811611019147809,
+      "reg_lambda": 0.7488941262428447,
+      "subsample_freq": 1
+    },
+    "elapsed_time_sec": 433.82,
+    "timestamp_utc": "2026-08-08 04:10:42"
   }
 }
