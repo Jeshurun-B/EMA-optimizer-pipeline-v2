@@ -190,5 +190,53 @@
     },
     "elapsed_time_sec": 900.85,
     "timestamp_utc": "2026-08-08 03:17:38"
+  },
+  "target_danger_v1__LONG": {
+    "model_type": "lgb",
+    "target": "target_danger_v1",
+    "direction": "LONG",
+    "opt_cv_score": 0.5877212295138545,
+    "oos_score": 0.5962938819337724,
+    "full_metrics": {
+      "r2": [
+        0.5877212295138545,
+        0.018804610513455482
+      ],
+      "rmse": [
+        0.3732357443299264,
+        0.0397079161318689
+      ],
+      "mse": [
+        0.14088163944904972,
+        0.031189764928610617
+      ],
+      "mae": [
+        0.26172077445375364,
+        0.035389837725903955
+      ],
+      "spearman_rank": [
+        0.7648687027500163,
+        0.009540047238573253
+      ],
+      "best_n_per_fold": [
+        193,
+        343,
+        341,
+        324,
+        486
+      ],
+      "best_n_mean": 337.4
+    },
+    "best_params": {
+      "num_leaves": 15,
+      "min_data_in_leaf": 50,
+      "subsample": 0.811017986979613,
+      "colsample_bytree": 0.7039437380435997,
+      "reg_alpha": 3.0848173833616324,
+      "reg_lambda": 0.0003401793043053607,
+      "subsample_freq": 1
+    },
+    "elapsed_time_sec": 1393.44,
+    "timestamp_utc": "2026-08-08 03:41:03"
   }
 }
