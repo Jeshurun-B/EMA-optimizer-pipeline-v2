@@ -1,0 +1,158 @@
+{
+  "target_profit_v1__LONG": {
+    "target": "target_profit_v1",
+    "direction": "LONG",
+    "target_type": "regression",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.21716628571799687,
+    "oos_score_to_beat": 0.1810074562375179,
+    "spearman_rank_to_beat": 0.4803595704312157,
+    "winning_params": {
+      "depth": 4,
+      "l2_leaf_reg": 8.11804183889902,
+      "subsample": 0.6025996083405214
+    }
+  },
+  "target_profit_v1__SHORT": {
+    "target": "target_profit_v1",
+    "direction": "SHORT",
+    "target_type": "regression",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.22980981669855338,
+    "oos_score_to_beat": 0.19985106329942393,
+    "spearman_rank_to_beat": 0.4955310726213832,
+    "winning_params": {
+      "depth": 5,
+      "l2_leaf_reg": 5.980319628945257,
+      "subsample": 0.6483774418019311
+    }
+  },
+  "target_quality_v1__LONG": {
+    "target": "target_quality_v1",
+    "direction": "LONG",
+    "target_type": "regression",
+    "best_model": "LightGBM",
+    "cv_score_to_beat": 0.09053494093687997,
+    "oos_score_to_beat": 0.14558633000362908,
+    "spearman_rank_to_beat": 0.29317192615701826,
+    "winning_params": {
+      "num_leaves": 32,
+      "min_data_in_leaf": 176,
+      "subsample": 0.8679434070005002,
+      "colsample_bytree": 0.6896265953641592,
+      "reg_alpha": 2.232386772007675,
+      "reg_lambda": 0.1577104112161674,
+      "subsample_freq": 1
+    }
+  },
+  "target_quality_v1__SHORT": {
+    "target": "target_quality_v1",
+    "direction": "SHORT",
+    "target_type": "regression",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.11049722577869255,
+    "oos_score_to_beat": 0.11277082379051306,
+    "spearman_rank_to_beat": 0.30494136892088075,
+    "winning_params": {
+      "depth": 7,
+      "l2_leaf_reg": 3.6819372867170097,
+      "subsample": 0.6633389919918673
+    }
+  },
+  "target_danger_v1__LONG": {
+    "target": "target_danger_v1",
+    "direction": "LONG",
+    "target_type": "regression",
+    "best_model": "LightGBM",
+    "cv_score_to_beat": 0.5877212295138545,
+    "oos_score_to_beat": 0.5962938819337724,
+    "spearman_rank_to_beat": 0.7648687027500163,
+    "winning_params": {
+      "num_leaves": 15,
+      "min_data_in_leaf": 50,
+      "subsample": 0.811017986979613,
+      "colsample_bytree": 0.7039437380435997,
+      "reg_alpha": 3.0848173833616324,
+      "reg_lambda": 0.0003401793043053607,
+      "subsample_freq": 1
+    }
+  },
+  "target_danger_v1__SHORT": {
+    "target": "target_danger_v1",
+    "direction": "SHORT",
+    "target_type": "regression",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.5972190666751226,
+    "oos_score_to_beat": 0.5576886047610345,
+    "spearman_rank_to_beat": 0.775634209171241,
+    "winning_params": {
+      "depth": 5,
+      "l2_leaf_reg": 4.879183876685876,
+      "subsample": 0.5936463870961198,
+      "thread_count": -1
+    }
+  },
+  "target_entry_v1__LONG": {
+    "target": "target_entry_v1",
+    "direction": "LONG",
+    "target_type": "binary_classification",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.3783535676284033,
+    "oos_score_to_beat": 0.37328005400706255,
+    "spearman_rank_to_beat": null,
+    "winning_params": {
+      "depth": 3,
+      "l2_leaf_reg": 3.33426535455788,
+      "subsample": 0.7927271909172042,
+      "thread_count": -1
+    }
+  },
+  "target_entry_v1__SHORT": {
+    "target": "target_entry_v1",
+    "direction": "SHORT",
+    "target_type": "binary_classification",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.3483157710229253,
+    "oos_score_to_beat": 0.401298453286055,
+    "spearman_rank_to_beat": null,
+    "winning_params": {
+      "depth": 4,
+      "l2_leaf_reg": 2.709281717274508,
+      "subsample": 0.6712462573350172,
+      "thread_count": -1
+    }
+  },
+  "target_exit_v1__LONG": {
+    "target": "target_exit_v1",
+    "direction": "LONG",
+    "target_type": "regression",
+    "best_model": "LightGBM",
+    "cv_score_to_beat": 0.07150796490510943,
+    "oos_score_to_beat": 0.09201241478773492,
+    "spearman_rank_to_beat": 0.3100254379666567,
+    "winning_params": {
+      "num_leaves": 37,
+      "min_data_in_leaf": 158,
+      "subsample": 0.891361258409407,
+      "colsample_bytree": 0.7875395642369877,
+      "reg_alpha": 0.00033435745276823146,
+      "reg_lambda": 0.00011410910504153865,
+      "subsample_freq": 1
+    }
+  },
+  "target_exit_v1__SHORT": {
+    "target": "target_exit_v1",
+    "direction": "SHORT",
+    "target_type": "regression",
+    "best_model": "CatBoost",
+    "cv_score_to_beat": 0.06573244471141863,
+    "oos_score_to_beat": 0.08021694225910736,
+    "spearman_rank_to_beat": 0.29492723830536116,
+    "winning_params": {
+      "depth": 4,
+      "l2_leaf_reg": 5.475843474130491,
+      "subsample": 0.7401555867403677,
+      "thread_count": -1
+    }
+  }
+}
