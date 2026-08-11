@@ -1,0 +1,8 @@
+{
+  "SVR_linear": {
+    "error": "\"['target_profit_v1'] not in index\""
+  },
+  "SVR_rbf": {
+    "error": "\"['target_profit_v1'] not in index\""
+  }
+}
