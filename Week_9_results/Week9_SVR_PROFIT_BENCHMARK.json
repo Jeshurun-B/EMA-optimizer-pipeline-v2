@@ -1,8 +1,15 @@
 {
   "SVR_linear": {
-    "error": "\"['target_profit_v1'] not in index\""
+    "error": "Unsupported set of arguments: The combination of penalty='l2' and loss='epsilon_insensitive' are not supported when dual=False, Parameters: penalty='l2', loss='epsilon_insensitive', dual=False"
   },
   "SVR_rbf": {
-    "error": "\"['target_profit_v1'] not in index\""
+    "model_type": "SVR_rbf",
+    "cv_r2": 0.11435409796667446,
+    "cv_r2_std": 0.042988560442123826,
+    "oos_r2": 0.10928542600792401,
+    "oos_rmse": 1.0604499801178102,
+    "oos_mae": 0.6143028677426613,
+    "oos_spearman_rank": 0.4554712449539727,
+    "elapsed_time_sec": 180.63
   }
 }
