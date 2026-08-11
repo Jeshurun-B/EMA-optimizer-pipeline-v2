@@ -10,6 +10,6 @@
     "oos_rmse": 1.0604499801178102,
     "oos_mae": 0.6143028677426613,
     "oos_spearman_rank": 0.4554712449539727,
-    "elapsed_time_sec": 180.63
+    "elapsed_time_sec": 187.41
   }
 }
