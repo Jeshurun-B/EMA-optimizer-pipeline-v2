@@ -1,0 +1,21 @@
+{
+  "target": "target_entry_v1",
+  "direction": "LONG",
+  "model_architecture": "SimpleMLP (64 -> 32 -> 1)",
+  "shuffled_model": {
+    "best_epoch": 7,
+    "best_val_loss": 0.569042,
+    "oos_pr_auc": 0.362761,
+    "oos_roc_auc": 0.633995,
+    "oos_brier_loss": 0.186945
+  },
+  "sequential_model": {
+    "best_epoch": 7,
+    "best_val_loss": 0.57097,
+    "oos_pr_auc": 0.358017,
+    "oos_roc_auc": 0.626694,
+    "oos_brier_loss": 0.188363
+  },
+  "delta_pr_auc": 0.004744,
+  "oos_base_rate": 0.265233
+}
