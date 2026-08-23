@@ -1,0 +1,11 @@
+Target,Dir,Winning Arch,Family,Depth,Dims,Seq (L),LR,Mean PR-AUC,Win% (Prec),F1
+target_danger_v1,LONG,2L_Standard_GRU_L30_lr5e4,GRU,2L,"[64, 32]",30,0.0005,0.8448 +/- 0.0694,78.7%,0.7594
+target_danger_v1,SHORT,2L_Compact_GRU_L15_lr1e3,GRU,2L,"[32, 16]",15,0.001,0.8537 +/- 0.0623,77.8%,0.7688
+target_entry_v1,LONG,2L_Wide_GRU_L15_lr1e3,GRU,2L,"[128, 64]",15,0.001,0.3385 +/- 0.0140,35.3%,0.0123
+target_entry_v1,SHORT,2L_Standard_GRU_L30_lr5e4,GRU,2L,"[64, 32]",30,0.0005,0.3067 +/- 0.0165,33.0%,0.0136
+target_exit_v1,LONG,2L_Standard_GRU_L15_lr1e3,GRU,2L,"[64, 32]",15,0.001,0.6937 +/- 0.0340,65.8%,0.6456
+target_exit_v1,SHORT,2L_Standard_GRU_L30_lr5e4,GRU,2L,"[64, 32]",30,0.0005,0.7236 +/- 0.0340,65.6%,0.7014
+target_profit_v1,LONG,3L_GRU_L30_lr5e4,GRU,3L,"[64, 32, 16]",30,0.0005,0.7490 +/- 0.0513,70.8%,0.6723
+target_profit_v1,SHORT,3L_GRU_L30_lr5e4,GRU,3L,"[64, 32, 16]",30,0.0005,0.7547 +/- 0.0498,69.4%,0.6850
+target_quality_v1,LONG,2L_Standard_GRU_L30_lr5e4,GRU,2L,"[64, 32]",30,0.0005,0.6874 +/- 0.0229,65.4%,0.6472
+target_quality_v1,SHORT,2L_Standard_GRU_L30_lr5e4,GRU,2L,"[64, 32]",30,0.0005,0.7074 +/- 0.0266,65.7%,0.6735
