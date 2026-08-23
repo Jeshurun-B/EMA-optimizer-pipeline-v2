@@ -1,0 +1,542 @@
+{
+  "experiment_metadata": {
+    "target": "target_profit_b50",
+    "direction": "LONG",
+    "profit_p50_cutoff": 0.65,
+    "lookback_depth": 15,
+    "device": "cuda",
+    "timestamp_utc": "2026-08-23 16:56:28",
+    "top_16_shap_features": [
+      "ema_separation_4h",
+      "rsi_4h",
+      "FE_rsi_mtf_ratio",
+      "ema_fast_slope",
+      "ema_slow_slope",
+      "atr_pct",
+      "price_to_atr",
+      "FE_macd_x_volume",
+      "FE_adx_x_htf1d",
+      "adx_4h",
+      "volume_ratio",
+      "FE_rsi_x_htf4h",
+      "adx_slope",
+      "FE_ema_sep_x_adx",
+      "day_of_week",
+      "FE_prev_quality_score"
+    ],
+    "top_20_shap_features": [
+      "ema_separation_4h",
+      "rsi_4h",
+      "FE_rsi_mtf_ratio",
+      "ema_fast_slope",
+      "ema_slow_slope",
+      "atr_pct",
+      "price_to_atr",
+      "FE_macd_x_volume",
+      "FE_adx_x_htf1d",
+      "adx_4h",
+      "volume_ratio",
+      "FE_rsi_x_htf4h",
+      "adx_slope",
+      "FE_ema_sep_x_adx",
+      "day_of_week",
+      "FE_prev_quality_score",
+      "macd_histogram_ltf",
+      "bb_width_ltf",
+      "ema_separation",
+      "FE_adx_x_atr_pct"
+    ],
+    "top_30_shap_features": [
+      "ema_separation_4h",
+      "rsi_4h",
+      "FE_rsi_mtf_ratio",
+      "ema_fast_slope",
+      "ema_slow_slope",
+      "atr_pct",
+      "price_to_atr",
+      "FE_macd_x_volume",
+      "FE_adx_x_htf1d",
+      "adx_4h",
+      "volume_ratio",
+      "FE_rsi_x_htf4h",
+      "adx_slope",
+      "FE_ema_sep_x_adx",
+      "day_of_week",
+      "FE_prev_quality_score",
+      "macd_histogram_ltf",
+      "bb_width_ltf",
+      "ema_separation",
+      "FE_adx_x_atr_pct",
+      "macd_histogram_4h",
+      "FE_spread_to_atr_ratio",
+      "volume_trend",
+      "FE_adx_x_volume",
+      "FE_asia_x_volume",
+      "FE_price_to_bb",
+      "FE_rsi4h_x_htf1d",
+      "hour_of_day",
+      "atr_ltf",
+      "FE_adx_4h_ratio"
+    ]
+  },
+  "per_symbol_metrics": {
+    "BTCUSDT": {
+      "sample_count": 513,
+      "base_rate": 0.3665,
+      "arms": {
+        "1. Raw Top 16 SHAP": {
+          "pr_auc": 0.71008,
+          "roc_auc": 0.81201,
+          "precision": 0.71918,
+          "recall": 0.55851,
+          "f1": 0.62874,
+          "brier": 0.16688
+        },
+        "2. Raw Top 20 SHAP": {
+          "pr_auc": 0.7037,
+          "roc_auc": 0.80771,
+          "precision": 0.66467,
+          "recall": 0.59043,
+          "f1": 0.62535,
+          "brier": 0.16992
+        },
+        "3. Raw Top 30 SHAP": {
+          "pr_auc": 0.69292,
+          "roc_auc": 0.79589,
+          "precision": 0.66467,
+          "recall": 0.59043,
+          "f1": 0.62535,
+          "brier": 0.17464
+        },
+        "4. Raw All 81 Features": {
+          "pr_auc": 0.66915,
+          "roc_auc": 0.78473,
+          "precision": 0.70629,
+          "recall": 0.53723,
+          "f1": 0.61027,
+          "brier": 0.17794
+        },
+        "5. Unsupervised AE (81)": {
+          "pr_auc": 0.56168,
+          "roc_auc": 0.70527,
+          "precision": 0.5641,
+          "recall": 0.35106,
+          "f1": 0.43279,
+          "brier": 0.20772
+        },
+        "6. Supervised AE (81)": {
+          "pr_auc": 0.62566,
+          "roc_auc": 0.74858,
+          "precision": 0.60248,
+          "recall": 0.51596,
+          "f1": 0.55587,
+          "brier": 0.19473
+        },
+        "7. Unsupervised AE (30)": {
+          "pr_auc": 0.60262,
+          "roc_auc": 0.72388,
+          "precision": 0.55758,
+          "recall": 0.48936,
+          "f1": 0.52125,
+          "brier": 0.20243
+        },
+        "8. Supervised AE (30)": {
+          "pr_auc": 0.6864,
+          "roc_auc": 0.79642,
+          "precision": 0.6686,
+          "recall": 0.6117,
+          "f1": 0.63889,
+          "brier": 0.17391
+        }
+      }
+    },
+    "DOGEUSDT": {
+      "sample_count": 518,
+      "base_rate": 0.4672,
+      "arms": {
+        "1. Raw Top 16 SHAP": {
+          "pr_auc": 0.76437,
+          "roc_auc": 0.79638,
+          "precision": 0.7177,
+          "recall": 0.61983,
+          "f1": 0.66519,
+          "brier": 0.18448
+        },
+        "2. Raw Top 20 SHAP": {
+          "pr_auc": 0.76559,
+          "roc_auc": 0.78954,
+          "precision": 0.70306,
+          "recall": 0.66529,
+          "f1": 0.68365,
+          "brier": 0.1868
+        },
+        "3. Raw Top 30 SHAP": {
+          "pr_auc": 0.75945,
+          "roc_auc": 0.78926,
+          "precision": 0.73604,
+          "recall": 0.59917,
+          "f1": 0.66059,
+          "brier": 0.18777
+        },
+        "4. Raw All 81 Features": {
+          "pr_auc": 0.74105,
+          "roc_auc": 0.77259,
+          "precision": 0.70192,
+          "recall": 0.60331,
+          "f1": 0.64889,
+          "brier": 0.19424
+        },
+        "5. Unsupervised AE (81)": {
+          "pr_auc": 0.67614,
+          "roc_auc": 0.72164,
+          "precision": 0.68783,
+          "recall": 0.53719,
+          "f1": 0.60325,
+          "brier": 0.21469
+        },
+        "6. Supervised AE (81)": {
+          "pr_auc": 0.75347,
+          "roc_auc": 0.7534,
+          "precision": 0.67713,
+          "recall": 0.62397,
+          "f1": 0.64946,
+          "brier": 0.20089
+        },
+        "7. Unsupervised AE (30)": {
+          "pr_auc": 0.72361,
+          "roc_auc": 0.75894,
+          "precision": 0.67382,
+          "recall": 0.64876,
+          "f1": 0.66105,
+          "brier": 0.19908
+        },
+        "8. Supervised AE (30)": {
+          "pr_auc": 0.76496,
+          "roc_auc": 0.79831,
+          "precision": 0.72294,
+          "recall": 0.69008,
+          "f1": 0.70613,
+          "brier": 0.18333
+        }
+      }
+    },
+    "ETHUSDT": {
+      "sample_count": 514,
+      "base_rate": 0.4222,
+      "arms": {
+        "1. Raw Top 16 SHAP": {
+          "pr_auc": 0.7352,
+          "roc_auc": 0.7757,
+          "precision": 0.70455,
+          "recall": 0.57143,
+          "f1": 0.63104,
+          "brier": 0.18696
+        },
+        "2. Raw Top 20 SHAP": {
+          "pr_auc": 0.72468,
+          "roc_auc": 0.76319,
+          "precision": 0.65686,
+          "recall": 0.61751,
+          "f1": 0.63658,
+          "brier": 0.19321
+        },
+        "3. Raw Top 30 SHAP": {
+          "pr_auc": 0.71781,
+          "roc_auc": 0.75739,
+          "precision": 0.65341,
+          "recall": 0.52995,
+          "f1": 0.58524,
+          "brier": 0.19632
+        },
+        "4. Raw All 81 Features": {
+          "pr_auc": 0.68721,
+          "roc_auc": 0.74315,
+          "precision": 0.64171,
+          "recall": 0.553,
+          "f1": 0.59406,
+          "brier": 0.20214
+        },
+        "5. Unsupervised AE (81)": {
+          "pr_auc": 0.58965,
+          "roc_auc": 0.67003,
+          "precision": 0.59091,
+          "recall": 0.41935,
+          "f1": 0.49057,
+          "brier": 0.22566
+        },
+        "6. Supervised AE (81)": {
+          "pr_auc": 0.68832,
+          "roc_auc": 0.7312,
+          "precision": 0.62827,
+          "recall": 0.553,
+          "f1": 0.58824,
+          "brier": 0.20876
+        },
+        "7. Unsupervised AE (30)": {
+          "pr_auc": 0.63166,
+          "roc_auc": 0.71214,
+          "precision": 0.62121,
+          "recall": 0.56682,
+          "f1": 0.59277,
+          "brier": 0.2144
+        },
+        "8. Supervised AE (30)": {
+          "pr_auc": 0.74365,
+          "roc_auc": 0.76453,
+          "precision": 0.66502,
+          "recall": 0.62212,
+          "f1": 0.64286,
+          "brier": 0.19241
+        }
+      }
+    },
+    "SOLUSDT": {
+      "sample_count": 515,
+      "base_rate": 0.4563,
+      "arms": {
+        "1. Raw Top 16 SHAP": {
+          "pr_auc": 0.76574,
+          "roc_auc": 0.78295,
+          "precision": 0.70192,
+          "recall": 0.62128,
+          "f1": 0.65914,
+          "brier": 0.18804
+        },
+        "2. Raw Top 20 SHAP": {
+          "pr_auc": 0.76289,
+          "roc_auc": 0.78201,
+          "precision": 0.68619,
+          "recall": 0.69787,
+          "f1": 0.69198,
+          "brier": 0.18917
+        },
+        "3. Raw Top 30 SHAP": {
+          "pr_auc": 0.75988,
+          "roc_auc": 0.78096,
+          "precision": 0.705,
+          "recall": 0.6,
+          "f1": 0.64828,
+          "brier": 0.18965
+        },
+        "4. Raw All 81 Features": {
+          "pr_auc": 0.72742,
+          "roc_auc": 0.75616,
+          "precision": 0.66832,
+          "recall": 0.57447,
+          "f1": 0.61785,
+          "brier": 0.2006
+        },
+        "5. Unsupervised AE (81)": {
+          "pr_auc": 0.65423,
+          "roc_auc": 0.70599,
+          "precision": 0.65842,
+          "recall": 0.56596,
+          "f1": 0.6087,
+          "brier": 0.21695
+        },
+        "6. Supervised AE (81)": {
+          "pr_auc": 0.7183,
+          "roc_auc": 0.755,
+          "precision": 0.65678,
+          "recall": 0.65957,
+          "f1": 0.65817,
+          "brier": 0.20127
+        },
+        "7. Unsupervised AE (30)": {
+          "pr_auc": 0.67914,
+          "roc_auc": 0.73141,
+          "precision": 0.62869,
+          "recall": 0.63404,
+          "f1": 0.63136,
+          "brier": 0.20978
+        },
+        "8. Supervised AE (30)": {
+          "pr_auc": 0.75587,
+          "roc_auc": 0.78167,
+          "precision": 0.67857,
+          "recall": 0.64681,
+          "f1": 0.66231,
+          "brier": 0.18979
+        }
+      }
+    },
+    "XRPUSDT": {
+      "sample_count": 514,
+      "base_rate": 0.4105,
+      "arms": {
+        "1. Raw Top 16 SHAP": {
+          "pr_auc": 0.70779,
+          "roc_auc": 0.76707,
+          "precision": 0.66667,
+          "recall": 0.55924,
+          "f1": 0.60825,
+          "brier": 0.1916
+        },
+        "2. Raw Top 20 SHAP": {
+          "pr_auc": 0.70875,
+          "roc_auc": 0.77232,
+          "precision": 0.67742,
+          "recall": 0.59716,
+          "f1": 0.63476,
+          "brier": 0.18929
+        },
+        "3. Raw Top 30 SHAP": {
+          "pr_auc": 0.6885,
+          "roc_auc": 0.76857,
+          "precision": 0.67097,
+          "recall": 0.49289,
+          "f1": 0.56831,
+          "brier": 0.19436
+        },
+        "4. Raw All 81 Features": {
+          "pr_auc": 0.65932,
+          "roc_auc": 0.75166,
+          "precision": 0.64151,
+          "recall": 0.48341,
+          "f1": 0.55135,
+          "brier": 0.20034
+        },
+        "5. Unsupervised AE (81)": {
+          "pr_auc": 0.61774,
+          "roc_auc": 0.69929,
+          "precision": 0.58088,
+          "recall": 0.37441,
+          "f1": 0.45533,
+          "brier": 0.21461
+        },
+        "6. Supervised AE (81)": {
+          "pr_auc": 0.67387,
+          "roc_auc": 0.73378,
+          "precision": 0.64706,
+          "recall": 0.57346,
+          "f1": 0.60804,
+          "brier": 0.20376
+        },
+        "7. Unsupervised AE (30)": {
+          "pr_auc": 0.64405,
+          "roc_auc": 0.73295,
+          "precision": 0.61714,
+          "recall": 0.51185,
+          "f1": 0.55959,
+          "brier": 0.20539
+        },
+        "8. Supervised AE (30)": {
+          "pr_auc": 0.70269,
+          "roc_auc": 0.77451,
+          "precision": 0.67021,
+          "recall": 0.59716,
+          "f1": 0.63158,
+          "brier": 0.19033
+        }
+      }
+    }
+  },
+  "overall_oos_metrics": {
+    "1. Raw Top 16 SHAP": {
+      "pr_auc": 0.73871,
+      "roc_auc": 0.7888,
+      "precision": 0.70197,
+      "recall": 0.58829,
+      "f1": 0.64012,
+      "brier": 0.1836,
+      "input_dim": 16,
+      "best_epoch": 12,
+      "sub_val_loss": 0.55788
+    },
+    "2. Raw Top 20 SHAP": {
+      "pr_auc": 0.73445,
+      "roc_auc": 0.78458,
+      "precision": 0.67902,
+      "recall": 0.63678,
+      "f1": 0.65722,
+      "brier": 0.18569,
+      "input_dim": 20,
+      "best_epoch": 8,
+      "sub_val_loss": 0.5585
+    },
+    "3. Raw Top 30 SHAP": {
+      "pr_auc": 0.72399,
+      "roc_auc": 0.77919,
+      "precision": 0.68827,
+      "recall": 0.56359,
+      "f1": 0.61972,
+      "brier": 0.18855,
+      "input_dim": 30,
+      "best_epoch": 8,
+      "sub_val_loss": 0.56014
+    },
+    "4. Raw All 81 Features": {
+      "pr_auc": 0.69782,
+      "roc_auc": 0.76338,
+      "precision": 0.67186,
+      "recall": 0.55261,
+      "f1": 0.60643,
+      "brier": 0.19506,
+      "input_dim": 81,
+      "best_epoch": 6,
+      "sub_val_loss": 0.57793
+    },
+    "5. Unsupervised AE (81)": {
+      "pr_auc": 0.62346,
+      "roc_auc": 0.70316,
+      "precision": 0.62531,
+      "recall": 0.45654,
+      "f1": 0.52776,
+      "brier": 0.21593,
+      "input_dim": 16,
+      "best_epoch": 6,
+      "sub_val_loss": 0.62237
+    },
+    "6. Supervised AE (81)": {
+      "pr_auc": 0.69482,
+      "roc_auc": 0.74589,
+      "precision": 0.64529,
+      "recall": 0.5892,
+      "f1": 0.61597,
+      "brier": 0.20188,
+      "input_dim": 16,
+      "best_epoch": 2,
+      "sub_val_loss": 0.59626
+    },
+    "7. Unsupervised AE (30)": {
+      "pr_auc": 0.65762,
+      "roc_auc": 0.73334,
+      "precision": 0.62401,
+      "recall": 0.57548,
+      "f1": 0.59876,
+      "brier": 0.20621,
+      "input_dim": 16,
+      "best_epoch": 15,
+      "sub_val_loss": 0.60169
+    },
+    "8. Supervised AE (30)": {
+      "pr_auc": 0.73289,
+      "roc_auc": 0.78445,
+      "precision": 0.68271,
+      "recall": 0.63586,
+      "f1": 0.65846,
+      "brier": 0.18595,
+      "input_dim": 16,
+      "best_epoch": 15,
+      "sub_val_loss": 0.5612
+    }
+  },
+  "autoencoder_diagnostics": {
+    "unsup_ae_81": {
+      "mse": 5.023364067077637,
+      "r2": -2181949686808576.0
+    },
+    "sup_ae_81": {
+      "mse": 5.004196643829346,
+      "r2": -8889189793792.0
+    },
+    "unsup_ae_30": {
+      "mse": 0.047140203416347504,
+      "r2": 0.9448865056037903
+    },
+    "sup_ae_30": {
+      "mse": 0.03831665217876434,
+      "r2": 0.9531875848770142
+    }
+  }
+}
