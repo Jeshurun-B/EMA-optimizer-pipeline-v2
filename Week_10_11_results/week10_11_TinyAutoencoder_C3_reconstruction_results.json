@@ -1,0 +1,70 @@
+{
+  "architecture": "TinyAutoencoder (81 -> 48 -> 16 -> 48 -> 81)",
+  "parameters": 9505,
+  "final_train_mse": 0.067992,
+  "final_val_mse": 0.205245,
+  "overall_r2_score": 0.81,
+  "latent_dimensions": 16,
+  "top_features_r2": [
+    {
+      "feature": "ema_slow_ltf",
+      "r2_score": 0.995
+    },
+    {
+      "feature": "DUM_rsi_2",
+      "r2_score": 0.995
+    },
+    {
+      "feature": "swing_low",
+      "r2_score": 0.995
+    },
+    {
+      "feature": "ema_fast_ltf",
+      "r2_score": 0.9949
+    },
+    {
+      "feature": "swing_high",
+      "r2_score": 0.9949
+    },
+    {
+      "feature": "FE_rsi_zone",
+      "r2_score": 0.9948
+    },
+    {
+      "feature": "DUM_rsi_3",
+      "r2_score": 0.9913
+    },
+    {
+      "feature": "FE_rsi_overbought",
+      "r2_score": 0.9892
+    },
+    {
+      "feature": "FE_bb_squeeze_regime",
+      "r2_score": 0.9855
+    },
+    {
+      "feature": "FE_prev_bb_squeeze",
+      "r2_score": 0.9855
+    },
+    {
+      "feature": "FE_rsi4h_x_htf1d",
+      "r2_score": 0.9802
+    },
+    {
+      "feature": "atr_ltf",
+      "r2_score": 0.9798
+    },
+    {
+      "feature": "atr_stop_distance",
+      "r2_score": 0.9796
+    },
+    {
+      "feature": "FE_momentum_divergence_bear",
+      "r2_score": 0.9785
+    },
+    {
+      "feature": "FE_high_volume",
+      "r2_score": 0.9773
+    }
+  ]
+}
