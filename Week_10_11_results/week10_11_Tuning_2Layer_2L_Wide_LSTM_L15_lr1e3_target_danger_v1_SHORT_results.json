@@ -1,0 +1,18 @@
+{
+  "target": "target_danger_v1",
+  "direction": "SHORT",
+  "arch_name": "2L_Wide_LSTM_L15_lr1e3",
+  "model_family": "LSTM",
+  "funnel_width": "Wide (128->64)",
+  "seq_len": 15,
+  "learning_rate": 0.001,
+  "batch_size": 256,
+  "pr_auc_mean": 0.85099,
+  "pr_auc_std": 0.06555,
+  "roc_auc_mean": 0.86764,
+  "precision_mean": 0.77229,
+  "recall_mean": 0.75319,
+  "f1_mean": 0.76244,
+  "best_epoch_mean": 11.0,
+  "train_time_sec": 38.08
+}

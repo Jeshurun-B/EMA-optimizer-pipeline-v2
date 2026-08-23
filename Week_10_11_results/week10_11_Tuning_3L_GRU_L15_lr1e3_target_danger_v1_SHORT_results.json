@@ -1,0 +1,18 @@
+{
+  "target": "target_danger_v1",
+  "direction": "SHORT",
+  "arch_name": "3L_GRU_L15_lr1e3",
+  "model_family": "GRU",
+  "depth": 3,
+  "seq_len": 15,
+  "learning_rate": 0.001,
+  "batch_size": 256,
+  "pr_auc_mean": 0.85258,
+  "pr_auc_std": 0.0631,
+  "roc_auc_mean": 0.86703,
+  "precision_mean": 0.77023,
+  "recall_mean": 0.76507,
+  "f1_mean": 0.76699,
+  "best_epoch_mean": 14.8,
+  "train_time_sec": 47.54
+}

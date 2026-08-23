@@ -1,0 +1,18 @@
+{
+  "target": "target_exit_v1",
+  "direction": "SHORT",
+  "arch_name": "4L_LSTM_L30_lr5e4",
+  "model_family": "LSTM",
+  "depth": 4,
+  "seq_len": 30,
+  "learning_rate": 0.0005,
+  "batch_size": 256,
+  "pr_auc_mean": 0.6915,
+  "pr_auc_std": 0.06606,
+  "roc_auc_mean": 0.65622,
+  "precision_mean": 0.64626,
+  "recall_mean": 0.76686,
+  "f1_mean": 0.69366,
+  "best_epoch_mean": 17.4,
+  "train_time_sec": 65.49
+}

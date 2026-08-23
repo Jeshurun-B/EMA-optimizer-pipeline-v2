@@ -1,0 +1,18 @@
+{
+  "target": "target_entry_v1",
+  "direction": "SHORT",
+  "arch_name": "3L_GRU_L30_lr5e4",
+  "model_family": "GRU",
+  "depth": 3,
+  "seq_len": 30,
+  "learning_rate": 0.0005,
+  "batch_size": 256,
+  "pr_auc_mean": 0.30314,
+  "pr_auc_std": 0.01171,
+  "roc_auc_mean": 0.57899,
+  "precision_mean": 0.42693,
+  "recall_mean": 0.01878,
+  "f1_mean": 0.02929,
+  "best_epoch_mean": 19.2,
+  "train_time_sec": 50.45
+}

@@ -1,0 +1,18 @@
+{
+  "target": "target_danger_v1",
+  "direction": "SHORT",
+  "arch_name": "3L_LSTM_L30_lr5e4",
+  "model_family": "LSTM",
+  "depth": 3,
+  "seq_len": 30,
+  "learning_rate": 0.0005,
+  "batch_size": 256,
+  "pr_auc_mean": 0.84757,
+  "pr_auc_std": 0.06304,
+  "roc_auc_mean": 0.86318,
+  "precision_mean": 0.76987,
+  "recall_mean": 0.76106,
+  "f1_mean": 0.765,
+  "best_epoch_mean": 26.2,
+  "train_time_sec": 63.64
+}

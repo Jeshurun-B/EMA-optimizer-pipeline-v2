@@ -1,0 +1,18 @@
+{
+  "target": "target_entry_v1",
+  "direction": "SHORT",
+  "arch_name": "2L_Compact_GRU_L15_lr1e3",
+  "model_family": "GRU",
+  "funnel_width": "Compact (32->16)",
+  "seq_len": 15,
+  "learning_rate": 0.001,
+  "batch_size": 256,
+  "pr_auc_mean": 0.30504,
+  "pr_auc_std": 0.01124,
+  "roc_auc_mean": 0.57855,
+  "precision_mean": 0.24372,
+  "recall_mean": 0.01716,
+  "f1_mean": 0.02881,
+  "best_epoch_mean": 15.6,
+  "train_time_sec": 37.59
+}
