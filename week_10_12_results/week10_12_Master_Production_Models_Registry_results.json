@@ -1,0 +1,943 @@
+{
+  "metadata": {
+    "description": "Master Production Dual-Engine Registry (10 CatBoost + 40 Neural Network Models)",
+    "total_models": 50,
+    "catboost_models_count": 10,
+    "neural_network_models_count": 40,
+    "models_directory": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models",
+    "results_directory": "/kaggle/working/EMA-optimizer-pipeline-v2/week_10_12_results",
+    "timestamp_utc": "2026-08-27 02:27:48"
+  },
+  "catboost_models": {
+    "target_profit_v1__LONG": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_profit_v1_LONG_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_profit_v1_LONG_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 4,
+        "l2_reg": 8.12,
+        "subsample": 0.6,
+        "iterations": 553
+      }
+    },
+    "target_profit_v1__SHORT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_profit_v1_SHORT_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_profit_v1_SHORT_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 5,
+        "l2_reg": 5.98,
+        "subsample": 0.65,
+        "iterations": 519
+      }
+    },
+    "target_quality_v1__LONG": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_quality_v1_LONG_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_quality_v1_LONG_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 5,
+        "l2_reg": 1.36,
+        "subsample": 0.65,
+        "iterations": 349
+      }
+    },
+    "target_quality_v1__SHORT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_quality_v1_SHORT_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_quality_v1_SHORT_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 7,
+        "l2_reg": 3.68,
+        "subsample": 0.66,
+        "iterations": 357
+      }
+    },
+    "target_danger_v1__LONG": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_danger_v1_LONG_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_danger_v1_LONG_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 4,
+        "l2_reg": 4.0,
+        "subsample": 0.62,
+        "iterations": 628
+      }
+    },
+    "target_danger_v1__SHORT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_danger_v1_SHORT_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_danger_v1_SHORT_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 5,
+        "l2_reg": 4.88,
+        "subsample": 0.59,
+        "iterations": 634
+      }
+    },
+    "target_entry_v1__LONG": {
+      "target": "target_entry_v1",
+      "direction": "LONG",
+      "model_type": "cls",
+      "model_file": "week10_12_CatBoost_target_entry_v1_LONG_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_entry_v1_LONG_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "cls",
+        "depth": 3,
+        "l2_reg": 3.33,
+        "subsample": 0.79,
+        "iterations": 188
+      }
+    },
+    "target_entry_v1__SHORT": {
+      "target": "target_entry_v1",
+      "direction": "SHORT",
+      "model_type": "cls",
+      "model_file": "week10_12_CatBoost_target_entry_v1_SHORT_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_entry_v1_SHORT_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "cls",
+        "depth": 4,
+        "l2_reg": 2.71,
+        "subsample": 0.67,
+        "iterations": 168
+      }
+    },
+    "target_exit_v1__LONG": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_exit_v1_LONG_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_exit_v1_LONG_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 6,
+        "l2_reg": 4.34,
+        "subsample": 0.62,
+        "iterations": 365
+      }
+    },
+    "target_exit_v1__SHORT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "model_type": "reg",
+      "model_file": "week10_12_CatBoost_target_exit_v1_SHORT_models.cbm",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_CatBoost_target_exit_v1_SHORT_models.cbm",
+      "features_count": 81,
+      "specs": {
+        "type": "reg",
+        "depth": 4,
+        "l2_reg": 5.48,
+        "subsample": 0.74,
+        "iterations": 404
+      }
+    }
+  },
+  "neural_network_models": {
+    "target_profit_v1__LONG__BTCUSDT": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.44,
+      "model_file": "week10_12_GRU_target_profit_v1_LONG_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_LONG_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.76663,
+      "honest_oos_pr_auc": 0.75346,
+      "honest_oos_prec": 0.71674
+    },
+    "target_profit_v1__LONG__DOGEUSDT": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.65,
+      "model_file": "week10_12_GRU_target_profit_v1_LONG_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_LONG_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.78965,
+      "honest_oos_pr_auc": 0.72957,
+      "honest_oos_prec": 0.68
+    },
+    "target_profit_v1__LONG__ETHUSDT": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.54,
+      "model_file": "week10_12_GRU_target_profit_v1_LONG_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_LONG_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.76784,
+      "honest_oos_pr_auc": 0.7156,
+      "honest_oos_prec": 0.65939
+    },
+    "target_profit_v1__LONG__SOLUSDT": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "symbol": "SOLUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.96,
+      "model_file": "week10_12_LSTM_target_profit_v1_LONG_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_profit_v1_LONG_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.69721,
+      "honest_oos_pr_auc": 0.58619,
+      "honest_oos_prec": 0.58125
+    },
+    "target_profit_v1__LONG__XRPUSDT": {
+      "target": "target_profit_v1",
+      "direction": "LONG",
+      "symbol": "XRPUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.65,
+      "model_file": "week10_12_GRU_target_profit_v1_LONG_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_LONG_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.75368,
+      "honest_oos_pr_auc": 0.67899,
+      "honest_oos_prec": 0.67778
+    },
+    "target_profit_v1__SHORT__BTCUSDT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "symbol": "BTCUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.46,
+      "model_file": "week10_12_LSTM_target_profit_v1_SHORT_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_profit_v1_SHORT_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.69199,
+      "honest_oos_pr_auc": 0.72819,
+      "honest_oos_prec": 0.72959
+    },
+    "target_profit_v1__SHORT__DOGEUSDT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.68,
+      "model_file": "week10_12_GRU_target_profit_v1_SHORT_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_SHORT_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.82205,
+      "honest_oos_pr_auc": 0.68142,
+      "honest_oos_prec": 0.66667
+    },
+    "target_profit_v1__SHORT__ETHUSDT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.56,
+      "model_file": "week10_12_GRU_target_profit_v1_SHORT_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_SHORT_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.77964,
+      "honest_oos_pr_auc": 0.77271,
+      "honest_oos_prec": 0.72197
+    },
+    "target_profit_v1__SHORT__SOLUSDT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 1.02,
+      "model_file": "week10_12_GRU_target_profit_v1_SHORT_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_profit_v1_SHORT_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.72826,
+      "honest_oos_pr_auc": 0.66466,
+      "honest_oos_prec": 0.70588
+    },
+    "target_profit_v1__SHORT__XRPUSDT": {
+      "target": "target_profit_v1",
+      "direction": "SHORT",
+      "symbol": "XRPUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.68,
+      "model_file": "week10_12_LSTM_target_profit_v1_SHORT_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_profit_v1_SHORT_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.7311,
+      "honest_oos_pr_auc": 0.71309,
+      "honest_oos_prec": 0.66667
+    },
+    "target_quality_v1__LONG__BTCUSDT": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.06561403393659589,
+      "model_file": "week10_12_GRU_target_quality_v1_LONG_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_LONG_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.72707,
+      "honest_oos_pr_auc": 0.74381,
+      "honest_oos_prec": 0.71374
+    },
+    "target_quality_v1__LONG__DOGEUSDT": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.1199999962500001,
+      "model_file": "week10_12_GRU_target_quality_v1_LONG_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_LONG_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.73822,
+      "honest_oos_pr_auc": 0.6804,
+      "honest_oos_prec": 0.65
+    },
+    "target_quality_v1__LONG__ETHUSDT": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "symbol": "ETHUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.1199999962500001,
+      "model_file": "week10_12_LSTM_target_quality_v1_LONG_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_quality_v1_LONG_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.69932,
+      "honest_oos_pr_auc": 0.66829,
+      "honest_oos_prec": 0.63492
+    },
+    "target_quality_v1__LONG__SOLUSDT": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.1900729913133358,
+      "model_file": "week10_12_GRU_target_quality_v1_LONG_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_LONG_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.72971,
+      "honest_oos_pr_auc": 0.6009,
+      "honest_oos_prec": 0.57959
+    },
+    "target_quality_v1__LONG__XRPUSDT": {
+      "target": "target_quality_v1",
+      "direction": "LONG",
+      "symbol": "XRPUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.1199999962500001,
+      "model_file": "week10_12_LSTM_target_quality_v1_LONG_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_quality_v1_LONG_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.71287,
+      "honest_oos_pr_auc": 0.59952,
+      "honest_oos_prec": 0.60976
+    },
+    "target_quality_v1__SHORT__BTCUSDT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.07720588178525088,
+      "model_file": "week10_12_GRU_target_quality_v1_SHORT_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_SHORT_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.70962,
+      "honest_oos_pr_auc": 0.72228,
+      "honest_oos_prec": 0.68792
+    },
+    "target_quality_v1__SHORT__DOGEUSDT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "symbol": "DOGEUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.13764705477508662,
+      "model_file": "week10_12_LSTM_target_quality_v1_SHORT_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_quality_v1_SHORT_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.76264,
+      "honest_oos_pr_auc": 0.71576,
+      "honest_oos_prec": 0.64338
+    },
+    "target_quality_v1__SHORT__ETHUSDT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.13764705477508662,
+      "model_file": "week10_12_GRU_target_quality_v1_SHORT_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_SHORT_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.72897,
+      "honest_oos_pr_auc": 0.76444,
+      "honest_oos_prec": 0.725
+    },
+    "target_quality_v1__SHORT__SOLUSDT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "symbol": "SOLUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.21534578954560663,
+      "model_file": "week10_12_LSTM_target_quality_v1_SHORT_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_quality_v1_SHORT_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.7183,
+      "honest_oos_pr_auc": 0.63975,
+      "honest_oos_prec": 0.62397
+    },
+    "target_quality_v1__SHORT__XRPUSDT": {
+      "target": "target_quality_v1",
+      "direction": "SHORT",
+      "symbol": "XRPUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.13764705477508662,
+      "model_file": "week10_12_GRU_target_quality_v1_SHORT_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_quality_v1_SHORT_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.72785,
+      "honest_oos_pr_auc": 0.71609,
+      "honest_oos_prec": 0.66935
+    },
+    "target_danger_v1__LONG__BTCUSDT": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.4355,
+      "model_file": "week10_12_GRU_target_danger_v1_LONG_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_LONG_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.85277,
+      "honest_oos_pr_auc": 0.84805,
+      "honest_oos_prec": 0.78636
+    },
+    "target_danger_v1__LONG__DOGEUSDT": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.81662,
+      "model_file": "week10_12_GRU_target_danger_v1_LONG_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_LONG_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.85962,
+      "honest_oos_pr_auc": 0.77098,
+      "honest_oos_prec": 0.74834
+    },
+    "target_danger_v1__LONG__ETHUSDT": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.5437,
+      "model_file": "week10_12_GRU_target_danger_v1_LONG_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_LONG_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.8842,
+      "honest_oos_pr_auc": 0.85703,
+      "honest_oos_prec": 0.78095
+    },
+    "target_danger_v1__LONG__SOLUSDT": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.001,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.9022,
+      "model_file": "week10_12_GRU_target_danger_v1_LONG_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_LONG_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.76504,
+      "honest_oos_pr_auc": 0.73502,
+      "honest_oos_prec": 0.6748
+    },
+    "target_danger_v1__LONG__XRPUSDT": {
+      "target": "target_danger_v1",
+      "direction": "LONG",
+      "symbol": "XRPUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.6669,
+      "model_file": "week10_12_GRU_target_danger_v1_LONG_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_LONG_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.83355,
+      "honest_oos_pr_auc": 0.83388,
+      "honest_oos_prec": 0.7673
+    },
+    "target_danger_v1__SHORT__BTCUSDT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.4333,
+      "model_file": "week10_12_GRU_target_danger_v1_SHORT_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_SHORT_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.84533,
+      "honest_oos_pr_auc": 0.85273,
+      "honest_oos_prec": 0.78469
+    },
+    "target_danger_v1__SHORT__DOGEUSDT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 0.8070599999999999,
+      "model_file": "week10_12_GRU_target_danger_v1_SHORT_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_SHORT_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.85169,
+      "honest_oos_pr_auc": 0.73723,
+      "honest_oos_prec": 0.68702
+    },
+    "target_danger_v1__SHORT__ETHUSDT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.5358400000000002,
+      "model_file": "week10_12_GRU_target_danger_v1_SHORT_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_SHORT_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.89772,
+      "honest_oos_pr_auc": 0.84957,
+      "honest_oos_prec": 0.75758
+    },
+    "target_danger_v1__SHORT__SOLUSDT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.8995150000000001,
+      "model_file": "week10_12_GRU_target_danger_v1_SHORT_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_SHORT_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.76131,
+      "honest_oos_pr_auc": 0.71681,
+      "honest_oos_prec": 0.76289
+    },
+    "target_danger_v1__SHORT__XRPUSDT": {
+      "target": "target_danger_v1",
+      "direction": "SHORT",
+      "symbol": "XRPUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 0.6547499999999999,
+      "model_file": "week10_12_GRU_target_danger_v1_SHORT_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_danger_v1_SHORT_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.86683,
+      "honest_oos_pr_auc": 0.77229,
+      "honest_oos_prec": 0.768
+    },
+    "target_exit_v1__LONG__BTCUSDT": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 4.0,
+      "model_file": "week10_12_GRU_target_exit_v1_LONG_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_LONG_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.74201,
+      "honest_oos_pr_auc": 0.66707,
+      "honest_oos_prec": 0.63793
+    },
+    "target_exit_v1__LONG__DOGEUSDT": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "symbol": "DOGEUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Supervised_AE_30",
+      "p50_cutoff": 4.0,
+      "model_file": "week10_12_LSTM_target_exit_v1_LONG_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_exit_v1_LONG_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.73418,
+      "honest_oos_pr_auc": 0.70526,
+      "honest_oos_prec": 0.625
+    },
+    "target_exit_v1__LONG__ETHUSDT": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 4.0,
+      "model_file": "week10_12_GRU_target_exit_v1_LONG_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_LONG_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.72053,
+      "honest_oos_pr_auc": 0.6417,
+      "honest_oos_prec": 0.62821
+    },
+    "target_exit_v1__LONG__SOLUSDT": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 4.0,
+      "model_file": "week10_12_GRU_target_exit_v1_LONG_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_LONG_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.74735,
+      "honest_oos_pr_auc": 0.69816,
+      "honest_oos_prec": 0.69112
+    },
+    "target_exit_v1__LONG__XRPUSDT": {
+      "target": "target_exit_v1",
+      "direction": "LONG",
+      "symbol": "XRPUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 4.0,
+      "model_file": "week10_12_GRU_target_exit_v1_LONG_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_LONG_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.70046,
+      "honest_oos_pr_auc": 0.61993,
+      "honest_oos_prec": 0.55725
+    },
+    "target_exit_v1__SHORT__BTCUSDT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "symbol": "BTCUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 3.0,
+      "model_file": "week10_12_GRU_target_exit_v1_SHORT_BTCUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_SHORT_BTCUSDT_models.pt",
+      "sub_val_pr_auc": 0.77605,
+      "honest_oos_pr_auc": 0.74887,
+      "honest_oos_prec": 0.66771
+    },
+    "target_exit_v1__SHORT__DOGEUSDT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "symbol": "DOGEUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 3.0,
+      "model_file": "week10_12_GRU_target_exit_v1_SHORT_DOGEUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_SHORT_DOGEUSDT_models.pt",
+      "sub_val_pr_auc": 0.758,
+      "honest_oos_pr_auc": 0.72034,
+      "honest_oos_prec": 0.66172
+    },
+    "target_exit_v1__SHORT__ETHUSDT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "symbol": "ETHUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 5,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 3.0,
+      "model_file": "week10_12_GRU_target_exit_v1_SHORT_ETHUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_SHORT_ETHUSDT_models.pt",
+      "sub_val_pr_auc": 0.76267,
+      "honest_oos_pr_auc": 0.74616,
+      "honest_oos_prec": 0.69123
+    },
+    "target_exit_v1__SHORT__SOLUSDT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "symbol": "SOLUSDT",
+      "model_family": "GRU",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "seq_len": 30,
+      "learning_rate": 0.001,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 3.0,
+      "model_file": "week10_12_GRU_target_exit_v1_SHORT_SOLUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_GRU_target_exit_v1_SHORT_SOLUSDT_models.pt",
+      "sub_val_pr_auc": 0.79576,
+      "honest_oos_pr_auc": 0.72692,
+      "honest_oos_prec": 0.70482
+    },
+    "target_exit_v1__SHORT__XRPUSDT": {
+      "target": "target_exit_v1",
+      "direction": "SHORT",
+      "symbol": "XRPUSDT",
+      "model_family": "LSTM",
+      "hidden_dims": [
+        64,
+        32,
+        16
+      ],
+      "seq_len": 15,
+      "learning_rate": 0.0005,
+      "feature_technique": "Raw_SHAP16",
+      "p50_cutoff": 3.0,
+      "model_file": "week10_12_LSTM_target_exit_v1_SHORT_XRPUSDT_models.pt",
+      "model_path": "/kaggle/working/EMA-optimizer-pipeline-v2/NN_sprint_models/week10_12_LSTM_target_exit_v1_SHORT_XRPUSDT_models.pt",
+      "sub_val_pr_auc": 0.73718,
+      "honest_oos_pr_auc": 0.76969,
+      "honest_oos_prec": 0.69081
+    }
+  }
+}
