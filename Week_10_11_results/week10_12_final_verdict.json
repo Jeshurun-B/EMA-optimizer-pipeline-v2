@@ -1,0 +1,20 @@
+{
+  "verdict_text": "\n=================================================================================\nWEEKS 10-11 PROJECT CLOSE -- SIMULATOR / TESTNET VERDICT\n=================================================================================\n\nSUCCESS CRITERIA CHECK (End of Week 11):\n- Trade Win Rate > 60%                      : 77.96% -> [PASS]\n- Simulator Profit Factor > 1.5             : 101.93 -> [PASS]\n- Maximum Drawdown < 25.0%                  : 0.03% -> [PASS]\n- Realized Net PnL Survives Real Friction   : $+87.49 -> [PASS]\n\nFINAL VERDICT: [GO (DEPLOY TO TESTNET)]\n\nSYSTEM RETROSPECTIVE:\n1. Multi-Gate Risk Control: Gate 2 Danger Filter successfully protected against catastrophic\n   liquidation spikes, holding drawdown within controlled bounds.\n2. Friction Tax Impact: Friction (Fees + Slippage) consumed $6.68.\n   Dynamic TP scaling ensured winners covered transaction overhead.\n3. Decision Layer: 2-Layer Funnel GRU regime filters combined with CatBoost continuous\n   magnitude estimation delivered the intended risk-adjusted alpha.\n=================================================================================\n",
+  "metrics": {
+    "starting_capital": 100.0,
+    "final_capital": 187.49,
+    "total_net_pnl": 87.49,
+    "total_pnl_pct": 87.49,
+    "max_drawdown_pct": 0.03,
+    "win_rate_pct": 77.96,
+    "profit_factor": 101.93,
+    "annualized_sharpe": 11.84,
+    "total_signals_scanned": 1000,
+    "trades_approved": 912,
+    "trades_rejected_by_gates": 88,
+    "approval_rate_pct": 91.2,
+    "total_fees_paid": 3.28,
+    "total_slippage_cost": 3.4,
+    "total_friction_tax": 6.68
+  }
+}
