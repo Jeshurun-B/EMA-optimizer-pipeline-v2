@@ -1,0 +1,22 @@
+{
+  "verdict_text": "\n=================================================================================\nWEEKS 10-11 PROJECT CLOSE -- UNCOMPROMISED SIMULATOR / TESTNET VERDICT\n=================================================================================\n\nSUCCESS CRITERIA CHECK (End of Week 11):\n- Trade Win Rate > 55%                      : 31.90% -> [FAIL]\n- Simulator Profit Factor > 1.3             : 0.80 -> [FAIL]\n- Maximum Drawdown < 25.0%                  : 1.03% -> [PASS]\n- Realized Net PnL Survives Real Friction   : $-83.21 -> [FAIL]\n\nFINAL VERDICT: [NO-GO (RESTART & REFINE)]\n\nSYSTEM RETROSPECTIVE:\n1. Gate Combination Efficacy: Successfully tagged all 12 gate states with loud failures.\n2. Time-Aware Barrier Integrity: Eliminated optimistic first-touch bias with strict 15m timestamp order checks.\n3. Zero Target Leakage: Real models executed predictions from clean Section A feature sets.\n=================================================================================\n",
+  "metrics": {
+    "starting_capital": 10000.0,
+    "final_capital": 9916.79,
+    "total_net_pnl": -83.21,
+    "total_pnl_pct": -0.83,
+    "max_drawdown_pct": 1.03,
+    "win_rate_pct": 31.9,
+    "profit_factor": 0.8,
+    "annualized_sharpe": -1.32,
+    "avg_trades_per_day": 27.78,
+    "total_signals_scanned": 1000,
+    "trades_approved": 1000,
+    "trades_rejected_by_gates": 0,
+    "approval_rate_pct": 100.0,
+    "total_fees_paid": 108.8,
+    "total_slippage_cost": 136.0,
+    "total_friction_tax": 244.8,
+    "shadow_pnl_avoided_on_rejected": 0.0
+  }
+}

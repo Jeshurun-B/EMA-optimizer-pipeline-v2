@@ -1,0 +1,19 @@
+{
+  "starting_capital": 10000.0,
+  "final_capital": 9916.79,
+  "total_net_pnl": -83.21,
+  "total_pnl_pct": -0.83,
+  "max_drawdown_pct": 1.03,
+  "win_rate_pct": 31.9,
+  "profit_factor": 0.8,
+  "annualized_sharpe": -1.32,
+  "avg_trades_per_day": 27.78,
+  "total_signals_scanned": 1000,
+  "trades_approved": 1000,
+  "trades_rejected_by_gates": 0,
+  "approval_rate_pct": 100.0,
+  "total_fees_paid": 108.8,
+  "total_slippage_cost": 136.0,
+  "total_friction_tax": 244.8,
+  "shadow_pnl_avoided_on_rejected": 0.0
+}
